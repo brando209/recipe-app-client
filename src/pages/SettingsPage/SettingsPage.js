@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Settings(props) {
+export default function SettingsPage(props) {
     return (
         <div>Settings page</div>
     );

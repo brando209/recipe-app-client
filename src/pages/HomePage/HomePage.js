@@ -3,7 +3,7 @@ import Page from '../Page/Page';
 import RecipeCard from '../../components/app/RecipeCard/RecipeCard';
 import { useRecipeContext } from '../../contexts/RecipeContext/RecipeContext';
 
-export default function Home() {
+export default function HomePage() {
     const { data, loading, error } = useRecipeContext();
 
     return (

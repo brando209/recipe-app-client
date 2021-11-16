@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function NewRecipe(props) {
+export default function NewRecipePage(props) {
     return (
         <div>New recipe page</div>
     );

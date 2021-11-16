@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import Home from './pages/Home/Home';
-import Favorites from './pages/Favorites/Favorites';
-import NewRecipe from './pages/NewRecipe/NewRecipe';
-import Settings from './pages/Settings/Settings';
+import HomePage from './pages/HomePage/HomePage';
+import FavoritesPage from './pages/FavoritesPage/FavoritesPage';
+import NewRecipePage from './pages/NewRecipePage/NewRecipePage';
+import SettingsPage from './pages/SettingsPage/SettingsPage';
 import BottomNav from './components/app/BottomNav/BottomNav';
 
 import RecipeContextProvider from './contexts/RecipeContext/RecipeContext';
@@ -22,10 +22,10 @@ function App() {
 					</header>
 
 					<Routes>
-						<Route path="/" element={<Home />} />
-						<Route path="/favorites" element={<Favorites />} />
-						<Route path="/new" element={<NewRecipe />} />
-						<Route path="/settings" element={<Settings />} />
+						<Route path="/" element={<HomePage />} />
+						<Route path="/favorites" element={<FavoritesPage />} />
+						<Route path="/new" element={<NewRecipePage />} />
+						<Route path="/settings" element={<SettingsPage />} />
 					</Routes>
 
 					<BottomNav />
