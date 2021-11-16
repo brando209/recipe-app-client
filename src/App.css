@@ -1,3 +1,7 @@
+:root {
+  --bottom-bar-height: 10vh;
+}
+
 .App {
   text-align: center;
 }

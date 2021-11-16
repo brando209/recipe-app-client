@@ -1,16 +1,15 @@
 .bottom-bar {
-    --bar-height: 10vh;
     background-color: grey;
-    max-height: var(--bar-height);
+    max-height: var(--bottom-bar-height);
 }
 
 .bottom-bar > .bottom-bar-nav {
     width: 100%;
-    max-height: var(--bar-height);
+    max-height: var(--bottom-bar-height);
     justify-content: space-evenly;
 }
 
 .bottom-bar > .bottom-bar-nav > .nav-link {
-    max-height: var(--bar-height);
+    max-height: var(--bottom-bar-height);
     width: 25vw;
 }
