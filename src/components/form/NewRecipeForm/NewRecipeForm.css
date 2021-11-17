@@ -1,0 +1,7 @@
+input, select, textarea {
+    width: 100%;
+}
+
+.add-ingredient-btn {
+    margin-top: 10px;
+}
