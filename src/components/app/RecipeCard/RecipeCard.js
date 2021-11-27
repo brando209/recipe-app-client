@@ -1,16 +1,17 @@
 import React from 'react';
 import { Card, Row, Col } from 'react-bootstrap';
 import { Heart, HeartFill } from 'react-bootstrap-icons';
+import { useNavigate } from 'react-router';
 
 import './RecipeCard.css';
 
 export default function RecipeCard(props) {
-
+    const navigate = useNavigate();
     const { title, description, serves, prep, cook, ingredients, instructions, comments, id } = props;
 
     return (
         <Card className="recipe-card">
-            <Card.Body className="recipe-card-body">
+            <Card.Body className="recipe-card-body" onClick={() => navigate(`/recipe/${id}`)}>
                 <Row>
                     <Col className="recipe-card-body-left">
                         <Card.Title className="recipe-card-title">{title}</Card.Title>
@@ -22,7 +23,7 @@ export default function RecipeCard(props) {
                         </Card.Text>
                     </Col>
                     <Col className="recipe-card-body-right">
-                        <Card.Img className="recipe-card-img" src="https://source.unsplash.com/zcUgjyqEwe8" />
+                        <Card.Img className="recipe-card-img" src="" alt="" />
                     </Col>
                 </Row>
             </Card.Body>

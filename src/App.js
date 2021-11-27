@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage/HomePage';
 import FavoritesPage from './pages/FavoritesPage/FavoritesPage';
 import NewRecipePage from './pages/NewRecipePage/NewRecipePage';
 import SettingsPage from './pages/SettingsPage/SettingsPage';
+import RecipePage from './pages/RecipePage/RecipePage';
 import BottomNav from './components/app/BottomNav/BottomNav';
 
 import RecipeContextProvider from './contexts/RecipeContext/RecipeContext';
@@ -26,6 +27,7 @@ function App() {
 						<Route path="/favorites" element={<FavoritesPage />} />
 						<Route path="/new" element={<NewRecipePage />} />
 						<Route path="/settings" element={<SettingsPage />} />
+						<Route path="/recipe/:recipeId" element={<RecipePage />} />
 					</Routes>
 
 					<BottomNav />
