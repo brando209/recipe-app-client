@@ -1,0 +1,9 @@
+.list-container, .list-container > .list {
+    text-align: left;
+}
+
+.list-container > .list {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
