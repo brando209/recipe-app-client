@@ -1,0 +1,18 @@
+.suggestions-list, .no-suggestions {
+    width: 100%;
+    background-color: #d0e2fc;
+    box-shadow: 0 0 0 .25rem #d0e2fc;
+    border-radius: 0.25rem;
+}
+
+.suggestions-list {
+    list-style-type: none;
+}
+
+.suggestions-list li {
+    padding: 0 1rem;
+}
+
+.suggestions-list li.suggestion-active {
+    border: 1px solid black;
+};
