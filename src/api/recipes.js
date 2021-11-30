@@ -6,8 +6,7 @@ function createRecipe(recipeInfo) {
     return axios.post(recipeURL, recipeInfo);
 }
 
-function updateRecipe(recipeInfo) {
-    const { recipeId, ...updates } = recipeInfo;
+function updateRecipe(recipeId, updates) {
     return axios.patch(`${recipeURL}/${recipeId}`, updates);
 }
 

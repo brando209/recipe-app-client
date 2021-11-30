@@ -54,10 +54,20 @@ export default function RecipeContextProvider({ children }) {
         }
     }
 
+    const updateRecipe = async (recipeId, updates, callback) => {
+        try {
+            const recipe = await recipeApi.updateRecipe(recipeId, updates);
+            callback(recipe.data, null);
+        } catch(err) {
+            console.error("Error:", err);
+            callback(null, err);
+        }
+    }
+
     const filteredValue = applyFilter(filter);
     
     return (
-        <recipeContext.Provider value={{ loading, error, data: filteredValue, createRecipe, updateFilter, filter }}>
+        <recipeContext.Provider value={{ loading, error, data: filteredValue, createRecipe, updateRecipe, updateFilter, filter }}>
             {children}
         </recipeContext.Provider>
     )
