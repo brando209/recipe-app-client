@@ -1,0 +1,14 @@
+.top-bar{
+    max-height: 9vh;
+    background: rgb(213, 174, 174);
+}
+
+.top-bar .back-btn, .top-bar .show-filters-btn {
+    margin: 0 0.5rem;
+}
+
+.top-bar .top-bar-nav {
+    width: 100%;
+    padding: 0 0.5rem;
+    justify-content: space-between;
+}
