@@ -1,0 +1,16 @@
+.search-form {
+    display: flex;
+    align-self: flex-end;
+}
+
+.clear-btn {
+    background: #fff;
+}
+
+.clear-btn.hide {
+    display: none;
+}
+
+.clear-btn.show {
+    display: inline;
+}
