@@ -7,7 +7,10 @@ export const recipeContext = createContext({});
 export const useRecipeContext = () => useContext(recipeContext);
 
 export default function RecipeContextProvider({ children }) {
-    const { loading, error, value } = useResource('http://localhost:3005/api/recipes');
+    const { loading, error, value } = useResource(
+        'http://localhost:3005/api/recipes',
+        { headers: { authorization: `BEARER ${process.env.REACT_APP_USER_JWT}` } }    
+    );
     const [filter, setFilter] = useState({ ingredients: [], search: "" });
 
     const applyFilter = (filter) => {
