@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 export default function FavoritesPage(props) {
     const { data: recipes, updateRecipe, loading, error } = useRecipeContext();
 
-    const favoritedRecipes = recipes.filter(recipe => recipe.favorite);
+    const favoritedRecipes = recipes?.filter(recipe => recipe.favorite);
 
     const handleFavorite = (recipeId, isFavorite) => {
         updateRecipe(recipeId, { favorite: !isFavorite }, () => console.log("toggled favorite"));
