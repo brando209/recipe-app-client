@@ -5,16 +5,20 @@ import RecipeDetails from '../../components/app/RecipeDetails/RecipeDetails';
 import { useRecipeContext } from '../../contexts/RecipeContext/RecipeContext';
 
 export default function RecipePage(props) {
-    const { data: recipes, loading, error } = useRecipeContext();
+    const { data: recipes, updateRecipe, loading, error } = useRecipeContext();
     const { recipeId } = useParams();
 
     const recipe = recipes && recipes.find(rec => rec.id === Number(recipeId));
+
+    const handleFavorite = (recipeId, isFavorite) => {
+        updateRecipe(recipeId, { favorite: !isFavorite }, () => console.log("toggled favorite"));
+    }
 
     return (
         <Page>
             {loading && <div>Loading...</div>}
             {error && <pre>{JSON.stringify(error, null, 2)}</pre>}
-            {!loading && !error && <RecipeDetails recipe={recipe} />}
+            {!loading && !error && <RecipeDetails recipe={recipe} onFavorite={handleFavorite} />}
         </Page>
     )
 }

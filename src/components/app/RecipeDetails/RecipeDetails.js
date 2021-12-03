@@ -5,7 +5,7 @@ import List from '../../display/List/List';
 
 import './RecipeDetails.css';
 
-export default function RecipeDetails({ recipe }) {
+export default function RecipeDetails({ recipe, onFavorite }) {
     const {
         id,
         title,
@@ -16,11 +16,10 @@ export default function RecipeDetails({ recipe }) {
         serves,
         prep,
         cook,
-        favorite,
-        categories
+        favorite
     } = recipe;
 
-    console.log(ingredients, instructions)
+    const handleFavoriteClick = () => onFavorite(id, favorite);
 
     return (
         <>
@@ -28,8 +27,8 @@ export default function RecipeDetails({ recipe }) {
                 <Col as="h2" xs="8">
                     {title}
                     {favorite ?
-                        <HeartFill /> :
-                        <Heart />
+                        <HeartFill onClick={handleFavoriteClick} /> :
+                        <Heart onClick={handleFavoriteClick} />
                     }
                 </Col>
                 <Col>
