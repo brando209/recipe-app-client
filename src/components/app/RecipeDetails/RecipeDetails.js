@@ -1,11 +1,13 @@
 import React from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
-import { Heart, HeartFill } from 'react-bootstrap-icons';
+import { Heart, HeartFill, Trash } from 'react-bootstrap-icons';
+import { useDialogContext } from '../../../contexts/DialogContext/DialogContext';
 import List from '../../display/List/List';
 
 import './RecipeDetails.css';
 
-export default function RecipeDetails({ recipe, onFavorite }) {
+export default function RecipeDetails({ recipe, onFavorite, onDelete }) {
+    const { dialog, setDialog, setShow } = useDialogContext();
     const {
         id,
         title,
@@ -20,6 +22,14 @@ export default function RecipeDetails({ recipe, onFavorite }) {
     } = recipe;
 
     const handleFavoriteClick = () => onFavorite(id, favorite);
+    const handleDeleteClick = () => {
+        setDialog({
+            title: "Delete Recipe",
+            text: "You are about to delete this recipe. This action cannot be undone. Are you sure you would like to delete this recipe?",
+            footer: <><Button onClick={() => setShow(false)}>Cancel</Button><Button onClick={() => onDelete(id, () => setShow(false))}>Delete</Button></>
+        });
+        setShow(true);
+    }
 
     return (
         <>
@@ -31,10 +41,13 @@ export default function RecipeDetails({ recipe, onFavorite }) {
                         <Heart onClick={handleFavoriteClick} />
                     }
                 </Col>
-                <Col>
+                <Col xs={3}>
                     <Button variant="outline-primary">
                         Edit
                     </Button>
+                </Col>
+                <Col xs={1}>
+                    <Trash onClick={handleDeleteClick}/>
                 </Col>
             </Row>
 
