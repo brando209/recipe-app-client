@@ -47,7 +47,7 @@ export default function RecipeContextProvider({ children }) {
         setFilter(prev => ({ ...prev, ...filter}));
     }
     
-    const createRecipe = async (recipeInfo, callback) => {
+    const createRecipe = async (recipeInfo, callback = () => {}) => {
         try {
             //Make api call
             const recipe = await recipeApi.createRecipe(recipeInfo);
@@ -60,7 +60,7 @@ export default function RecipeContextProvider({ children }) {
         }
     }
 
-    const updateRecipe = async (recipeId, updates, callback) => {
+    const updateRecipe = async (recipeId, updates, callback = () => {}) => {
         try {
             //Make api call
             const recipe = await recipeApi.updateRecipe(recipeId, updates);
@@ -78,10 +78,28 @@ export default function RecipeContextProvider({ children }) {
         }
     }
 
+    const deleteRecipe = async (recipeId, callback = () => {}) => {
+        try {
+            //Make api call
+            await recipeApi.deleteRecipe(recipeId);
+            //Remove recipe from state
+            setValue(prevValue => {
+                const newValue = [...prevValue];
+                const deletedIndex = newValue.findIndex(value => value.id === recipeId);
+                if(deletedIndex > -1) newValue.splice(deletedIndex, 1);
+                return newValue;
+            })
+            callback(true, null);
+        } catch(err) {
+            console.error("Error:", err);
+            callback(null, err);
+        }
+    }
+
     const filteredValue = applyFilter(filter);
     
     return (
-        <recipeContext.Provider value={{ loading, error, data: filteredValue, createRecipe, updateRecipe, updateFilter, filter }}>
+        <recipeContext.Provider value={{ loading, error, data: filteredValue, createRecipe, updateRecipe, deleteRecipe, updateFilter, filter }}>
             {children}
         </recipeContext.Provider>
     )
