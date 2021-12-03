@@ -9,35 +9,39 @@ import RecipePage from './pages/RecipePage/RecipePage';
 import TopNav from './components/app/TopNav/TopNav';
 import BottomNav from './components/app/BottomNav/BottomNav';
 import FilterControlSidebar from './components/app/FilterControlSidebar/FilterControlSidebar';
+import Dialog from './components/display/Dialog/Dialog';
 
+import DialogContextProvider from './contexts/DialogContext/DialogContext';
 import RecipeContextProvider from './contexts/RecipeContext/RecipeContext';
 
 import './App.css';
 
 function App() {
 	const [isShown, toggleShow] = useToggle(false);
-	
+
 	return (
 		<div className="App">
-			<RecipeContextProvider>
-				<FilterControlSidebar 
-					show={isShown}
-					onClose={() => toggleShow(false)}
-				/>
-				<Router>
-					<TopNav onShowFilter={() => toggleShow(true)}/>
+			<DialogContextProvider>
+				<RecipeContextProvider>
+					<FilterControlSidebar
+						show={isShown}
+						onClose={() => toggleShow(false)}
+					/>
+					<Dialog />
+					<Router>
+						<TopNav onShowFilter={() => toggleShow(true)} />
+						<Routes>
+							<Route path="/" element={<HomePage />} />
+							<Route path="/favorites" element={<FavoritesPage />} />
+							<Route path="/new" element={<NewRecipePage />} />
+							<Route path="/settings" element={<SettingsPage />} />
+							<Route path="/recipe/:recipeId" element={<RecipePage />} />
+						</Routes>
 
-					<Routes>
-						<Route path="/" element={<HomePage />} />
-						<Route path="/favorites" element={<FavoritesPage />} />
-						<Route path="/new" element={<NewRecipePage />} />
-						<Route path="/settings" element={<SettingsPage />} />
-						<Route path="/recipe/:recipeId" element={<RecipePage />} />
-					</Routes>
-
-					<BottomNav />
-				</Router>
-			</RecipeContextProvider>
+						<BottomNav />
+					</Router>
+				</RecipeContextProvider>
+			</DialogContextProvider>
 		</div>
 	);
 }
