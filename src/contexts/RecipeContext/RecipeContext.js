@@ -7,7 +7,7 @@ export const recipeContext = createContext({});
 export const useRecipeContext = () => useContext(recipeContext);
 
 export default function RecipeContextProvider({ children }) {
-    const { loading, error, value } = useResource(
+    const { loading, error, value, setValue } = useResource(
         'http://localhost:3005/api/recipes',
         { headers: { authorization: `BEARER ${process.env.REACT_APP_USER_JWT}` } }    
     );
@@ -49,7 +49,10 @@ export default function RecipeContextProvider({ children }) {
     
     const createRecipe = async (recipeInfo, callback) => {
         try {
+            //Make api call
             const recipe = await recipeApi.createRecipe(recipeInfo);
+            //Update state with returned data
+            setValue(prevValue => ([...prevValue, recipe.data]));
             callback(recipe.data, null);
         } catch(err) {
             console.error("Error:", err);
@@ -59,7 +62,15 @@ export default function RecipeContextProvider({ children }) {
 
     const updateRecipe = async (recipeId, updates, callback) => {
         try {
+            //Make api call
             const recipe = await recipeApi.updateRecipe(recipeId, updates);
+            //Update state with returned data
+            setValue(prevValue => {
+                const newValue = [...prevValue];
+                const updatedIndex = newValue.findIndex(value => value.id === recipe.data.id);
+                if(updatedIndex > -1) newValue.splice(updatedIndex, 1, recipe.data);
+                return newValue;
+            })
             callback(recipe.data, null);
         } catch(err) {
             console.error("Error:", err);
