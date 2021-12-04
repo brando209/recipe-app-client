@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router';
 import { Row, Col, Button } from 'react-bootstrap';
 import { Heart, HeartFill, Trash } from 'react-bootstrap-icons';
 import { useDialogContext } from '../../../contexts/DialogContext/DialogContext';
@@ -7,21 +8,12 @@ import List from '../../display/List/List';
 import './RecipeDetails.css';
 
 export default function RecipeDetails({ recipe, onFavorite, onDelete }) {
-    const { dialog, setDialog, setShow } = useDialogContext();
-    const {
-        id,
-        title,
-        description,
-        ingredients,
-        instructions,
-        comments,
-        serves,
-        prep,
-        cook,
-        favorite
-    } = recipe;
+    const navigate = useNavigate();
+    const { setDialog, setShow } = useDialogContext();
+    const { id, title, description, ingredients, instructions, comments, serves, prep, cook, favorite } = recipe;
 
     const handleFavoriteClick = () => onFavorite(id, favorite);
+
     const handleDeleteClick = () => {
         setDialog({
             title: "Delete Recipe",
@@ -29,6 +21,10 @@ export default function RecipeDetails({ recipe, onFavorite, onDelete }) {
             footer: <><Button onClick={() => setShow(false)}>Cancel</Button><Button onClick={() => onDelete(id, () => setShow(false))}>Delete</Button></>
         });
         setShow(true);
+    }
+
+    const handleEditClick = () => {
+        navigate(`/recipe/${id}/edit`);
     }
 
     return (
@@ -42,7 +38,7 @@ export default function RecipeDetails({ recipe, onFavorite, onDelete }) {
                     }
                 </Col>
                 <Col xs={3}>
-                    <Button variant="outline-primary">
+                    <Button variant="outline-primary" onClick={handleEditClick}>
                         Edit
                     </Button>
                 </Col>

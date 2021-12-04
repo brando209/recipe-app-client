@@ -6,6 +6,7 @@ import FavoritesPage from './pages/FavoritesPage/FavoritesPage';
 import NewRecipePage from './pages/NewRecipePage/NewRecipePage';
 import SettingsPage from './pages/SettingsPage/SettingsPage';
 import RecipePage from './pages/RecipePage/RecipePage';
+import EditRecipePage from './pages/EditRecipePage/EditRecipePage';
 import TopNav from './components/app/TopNav/TopNav';
 import BottomNav from './components/app/BottomNav/BottomNav';
 import FilterControlSidebar from './components/app/FilterControlSidebar/FilterControlSidebar';
@@ -36,6 +37,7 @@ function App() {
 							<Route path="/new" element={<NewRecipePage />} />
 							<Route path="/settings" element={<SettingsPage />} />
 							<Route path="/recipe/:recipeId" element={<RecipePage />} />
+							<Route path="/recipe/:recipeId/edit" element={<EditRecipePage />} />
 						</Routes>
 
 						<BottomNav />
