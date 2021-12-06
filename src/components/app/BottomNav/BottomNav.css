@@ -3,13 +3,21 @@
     max-height: var(--bottom-bar-height);
 }
 
-.bottom-bar > .bottom-bar-nav {
+.bottom-bar.hide {
+    display: none;
+}
+
+.bottom-bar > .nav-links {
     width: 100%;
     max-height: var(--bottom-bar-height);
     justify-content: space-evenly;
 }
 
-.bottom-bar > .bottom-bar-nav > .nav-link {
+.bottom-bar > .nav-links > .nav-link {
     max-height: var(--bottom-bar-height);
     width: 25vw;
+}
+
+.bottom-bar > .nav-links > .nav-link > svg {
+    height: 2rem;
 }
