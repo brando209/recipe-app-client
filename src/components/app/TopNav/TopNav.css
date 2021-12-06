@@ -1,5 +1,10 @@
-.top-bar{
+.top-bar {
     max-height: 9vh;
+    height: 9vh;
+    background: rgb(209, 209, 209);
+}
+
+.top-bar:first-child {
     background: rgb(213, 174, 174);
 }
 
@@ -10,5 +15,22 @@
 .top-bar .top-bar-nav {
     width: 100%;
     padding: 0 0.5rem;
-    justify-content: space-between;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+/* 'margin-right: auto' because there is no 'justify-self: flex-start'
+    to align individual flex items along main axis  */
+.top-bar .top-bar-nav > .nav-item:first-child {
+    margin-right: auto;
+}
+
+.top-bar .top-bar-nav > .nav-links {
+    justify-content: space-around;
+    margin: 0 auto;
+    width: 50%;
+}
+
+.top-bar .top-bar-nav > .nav-links > .nav-link > svg {
+    height: 2rem;
 }

@@ -1,33 +1,59 @@
 import React from 'react';
 import { Button, Navbar, Nav } from 'react-bootstrap';
+import { useLocation, useNavigate } from 'react-router';
 import { useRecipeContext } from '../../../contexts/RecipeContext/RecipeContext';
-
+import useMediaQuery from '../../../hooks/useMediaQuery';
 import Search from '../../input/Search/Search';
+import NavLinks from '../NavLinks/NavLinks';
 
 import './TopNav.css';
 
 export default function TopNav({ onShowFilter }) {
     const { updateFilter } = useRecipeContext();
+    const isLargeScreen = useMediaQuery("(min-width: 1080px)");
+    const { pathname } = useLocation();
+    const navigate = useNavigate();
 
     return (
-        <Navbar className="top-bar" sticky="top">
-            <Nav className="top-bar-nav">
-                <>
+        <>
+            {(isLargeScreen) && <Navbar className="top-bar">
+                <Nav className="top-bar-nav">
+                    <NavLinks />
+                </Nav>
+            </Navbar>}
+            <Navbar className="top-bar" sticky="top">
+                <Nav className="top-bar-nav">
                     <Nav.Item>
                         <Button
-                            variant="secondary"
-                            className="show-filters-btn"
-                            onClick={onShowFilter}
+                            variant="outline-secondary"
+                            onClick={() => navigate(-1)}
                         >
-                            Filters
+                            Back
                         </Button>
                     </Nav.Item>
-                    <Search
-                        onSubmit={(value) => updateFilter({ search: value })}
-                        initialValue=""
-                    />
-                </>
-            </Nav>
-        </Navbar>
+
+                    {(pathname === '/' || pathname === '/favorites') &&
+                        <>
+                            <Nav.Item>
+                                <Button
+                                    variant="secondary"
+                                    className="show-filters-btn"
+                                    onClick={onShowFilter}
+                                >
+                                    Filters
+                                </Button>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <Search
+                                    onSubmit={(value) => updateFilter({ search: value })}
+                                    initialValue=""
+                                />
+
+                            </Nav.Item>
+                        </>
+                    }
+                </Nav>
+            </Navbar>
+        </>
     )
 }
