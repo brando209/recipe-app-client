@@ -68,14 +68,28 @@ export default function NewRecipeForm({ onSubmit }) {
                         name="instructions" label="Instructions:"
                         listItems={values.instructions}
                         initialItemValue=""
-                        renderItem={(item, index, arrayHelpers) => <Inputs.InstructionInput key={`instruction-${index}`} item={item} index={index} arrayHelpers={arrayHelpers} />}
+                        renderItem={(item, index, arrayHelpers) => (
+                            <Inputs.TextareaListInput 
+                                key={`instruction-${index}`} 
+                                name="instructions" 
+                                placeholder="Instruction"
+                                item={item} index={index} arrayHelpers={arrayHelpers} 
+                            />
+                        )}
                     />
 
                     <Inputs.InputList
                         name="comments" label="Comments:"
                         listItems={values.comments}
                         initialItemValue=""
-                        renderItem={(item, index, arrayHelpers) => <Inputs.CommentInput key={`comment-${index}`} item={item} index={index} arrayHelpers={arrayHelpers} />}
+                        renderItem={(item, index, arrayHelpers) => (
+                            <Inputs.TextareaListInput 
+                                key={`comment-${index}`} 
+                                name="comments"
+                                placeholder="Comment"
+                                item={item} index={index} arrayHelpers={arrayHelpers} 
+                            />
+                        )}
                     />
 
                     <Button type="submit" disabled={isSubmitting}>Submit</Button>

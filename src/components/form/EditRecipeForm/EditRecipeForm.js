@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 import { Row, Col, Button, ButtonGroup } from 'react-bootstrap';
 import { Formik, Form, Field } from 'formik';
 import { useDialogContext } from '../../../contexts/DialogContext/DialogContext';
-import { SelectInput, InputList, IngredientInput, InstructionInput, CommentInput } from '../../input';
+import { SelectInput, InputList, IngredientInput, TextareaListInput } from '../../input';
 
 export default function EditRecipeForm({ recipe, onEdit }) {
     const navigate = useNavigate();
@@ -91,7 +91,14 @@ export default function EditRecipeForm({ recipe, onEdit }) {
                             name="instructions" label="Instructions"
                             listItems={values.instructions}
                             initialItemValue=""
-                            renderItem={(item, index, arrayHelpers) => <InstructionInput key={`instruction-${index}`} item={item} index={index} arrayHelpers={arrayHelpers} />}
+                            renderItem={(item, index, arrayHelpers) => (
+                                <TextareaListInput
+                                    key={`instruction-${index}`}
+                                    name="instructions"
+                                    placeholder="Instruction"
+                                    item={item} index={index} arrayHelpers={arrayHelpers}
+                                />
+                            )}
                         />
                     </Row>
 
@@ -100,7 +107,14 @@ export default function EditRecipeForm({ recipe, onEdit }) {
                             name="comments" label="Comments:"
                             listItems={values.comments || []}
                             initialItemValue=""
-                            renderItem={(item, index, arrayHelpers) => <CommentInput key={`comment-${index}`} item={item} index={index} arrayHelpers={arrayHelpers} />}
+                            renderItem={(item, index, arrayHelpers) => (
+                                <TextareaListInput
+                                    key={`comment-${index}`}
+                                    name="comments"
+                                    placeholder="Comment"
+                                    item={item} index={index} arrayHelpers={arrayHelpers}
+                                />
+                            )}
                         />
                     </Row>
                 </Form>

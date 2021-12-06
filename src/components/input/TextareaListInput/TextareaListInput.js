@@ -2,12 +2,14 @@ import React from 'react';
 import { Field } from 'formik';
 import { Row, Col, Button } from 'react-bootstrap';
 
-export default function CommentInput({ index, arrayHelpers }) {
+import './TextareaListInput.css';
+
+export default function TextareaListInput({ name, index, arrayHelpers, placeholder }) {
     return (
-        <Row>
+        <Row className="textarea-list-input">
             <Col xs={10}>    
                 <Field 
-                    name={`comments.${index}`} as="textarea" placeholder={`Comment #${index+1}`} 
+                    name={`${name}.${index}`} as="textarea" placeholder={`${placeholder} #${index+1}`} 
                 />
             </Col>
             <Col xs={2}>
