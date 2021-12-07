@@ -1,0 +1,19 @@
+.ingredient-input {
+    margin: 0.25rem auto;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px 0;
+    background: rgb(223, 223, 223);
+}
+
+.ingredient-input > * > * {
+    margin: 2px auto;
+}
+
+.ingredient-input select {
+    width: 100%;
+}
+
+.ingredient-input button {
+    margin-top: 0.75rem;
+}

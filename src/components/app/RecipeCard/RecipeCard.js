@@ -20,7 +20,7 @@ export default function RecipeCard(props) {
                 <Row>
                     <Col className="recipe-card-body-left">
                         <Card.Title className="recipe-card-title">
-                            {title}
+                            {title}{" "}
                             {favorite ?
                                 <HeartFill onClick={handleFavoriteClick} /> :
                                 <Heart onClick={handleFavoriteClick} />

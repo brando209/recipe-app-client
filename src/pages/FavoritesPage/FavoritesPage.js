@@ -1,8 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { Row, Col } from 'react-bootstrap';
+
 import Page from '../Page/Page';
 import RecipeCard from '../../components/app/RecipeCard/RecipeCard';
 import { useRecipeContext } from '../../contexts/RecipeContext/RecipeContext';
-import { Link } from 'react-router-dom';
 
 export default function FavoritesPage(props) {
     const { data: recipes, updateRecipe, loading, error } = useRecipeContext();
@@ -10,17 +12,21 @@ export default function FavoritesPage(props) {
     const favoritedRecipes = recipes?.filter(recipe => recipe.favorite);
 
     const handleFavorite = (recipeId, isFavorite) => {
-        updateRecipe(recipeId, { favorite: !isFavorite }, () => console.log("toggled favorite"));
+        updateRecipe(recipeId, { favorite: !isFavorite });
     }
 
     return (
         <Page>
-            Favorites page
+            <h1>Favorites</h1>
             {loading && <p>Loading...</p>}
             {error && <pre>{JSON.stringify(error.message, null, 2)}</pre>}
-            {!error && !loading && favoritedRecipes.length > 0 && favoritedRecipes.map(recipe => (
-                <RecipeCard key={recipe.id} {...recipe} onFavorite={handleFavorite} />
-            ))}
+            {!error && !loading && favoritedRecipes.length > 0 && 
+                <Row>
+                    {favoritedRecipes.map(recipe => (
+                        <Col sm="12" md="6" key={recipe.id} className="recipe-card-container"><RecipeCard {...recipe} onFavorite={handleFavorite} /></Col>
+                    ))}
+                </Row>
+            }
             {!error && !loading && favoritedRecipes.length === 0 && 
                 <>
                     <p>You currently have no favorited recipes.</p>

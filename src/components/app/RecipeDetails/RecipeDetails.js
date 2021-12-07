@@ -30,19 +30,19 @@ export default function RecipeDetails({ recipe, onFavorite, onDelete }) {
     return (
         <>
             <Row className="recipe-detail-row">
-                <Col as="h2" xs="8">
-                    {title}
+                <Col as="h2" xs="8" lg="10">
+                    {title}{" "}
                     {favorite ?
                         <HeartFill onClick={handleFavoriteClick} /> :
                         <Heart onClick={handleFavoriteClick} />
                     }
                 </Col>
-                <Col xs={3}>
+                <Col xs="3" lg="1">
                     <Button variant="outline-primary" onClick={handleEditClick}>
                         Edit
                     </Button>
                 </Col>
-                <Col xs={1}>
+                <Col xs="1">
                     <Trash onClick={handleDeleteClick}/>
                 </Col>
             </Row>

@@ -3,9 +3,22 @@
     text-align: left;
 }
 
+.recipe-detail-row > .recipe-image-container {
+    text-align: right;
+}
+
 .recipe-detail-row > .recipe-image-container > img {
     width: 100%;
+    max-width: 300px;
     aspect-ratio: 1 / 1;
     object-fit: cover;
     object-position: center;
+}
+
+@media (min-width: 1080px) {
+    .recipe-detail-row, .list-container {
+        font-size: x-large;
+    }
+
+    
 }

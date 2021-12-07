@@ -1,10 +1,11 @@
 import React from 'react';
 import { Row, Button } from 'react-bootstrap';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form } from 'formik';
 
 import AutocompleteList from '../../input/AutocompleteList/AutocompleteList';
+import './FilterRecipesForm.css';
 
-function FilterRecipeForm({ initialFilter, onSubmit, ingredients }) {
+function FilterRecipesForm({ initialFilter, onSubmit, ingredients }) {
     const handleClearFilters = () => {
         onSubmit({
             ingredients: []
@@ -21,7 +22,7 @@ function FilterRecipeForm({ initialFilter, onSubmit, ingredients }) {
             }}
         >
             {(form) => (
-                <Form>
+                <Form className="filter-recipes-form">
                     <Row>
                         <h5>Ingredients</h5>
                         <AutocompleteList
@@ -46,4 +47,4 @@ function FilterRecipeForm({ initialFilter, onSubmit, ingredients }) {
 
 }
 
-export default FilterRecipeForm;
+export default FilterRecipesForm;

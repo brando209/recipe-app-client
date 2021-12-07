@@ -1,7 +1,10 @@
 import React from 'react';
+import Page from '../Page/Page';
 
 export default function SettingsPage(props) {
     return (
-        <div>Settings page</div>
+        <Page>
+            <h1>Settings</h1>
+        </Page>
     );
 }

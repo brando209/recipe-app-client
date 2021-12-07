@@ -1,3 +1,7 @@
+.autocomplete-container {
+    margin: 0 5px;
+}
+
 .suggestions-list, .no-suggestions {
     width: 100%;
     background-color: #d0e2fc;

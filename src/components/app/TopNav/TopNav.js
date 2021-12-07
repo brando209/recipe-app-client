@@ -10,7 +10,7 @@ import './TopNav.css';
 
 export default function TopNav({ onShowFilter }) {
     const { updateFilter } = useRecipeContext();
-    const isLargeScreen = useMediaQuery("(min-width: 1080px)");
+    const isLargeScreen = useMediaQuery("(min-width: 1081px)");
     const { pathname } = useLocation();
     const navigate = useNavigate();
 

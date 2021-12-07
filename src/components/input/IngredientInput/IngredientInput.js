@@ -3,9 +3,11 @@ import { Field } from 'formik';
 import { Row, Col, Button } from 'react-bootstrap';
 import { SelectInput } from '..';
 
+import './IngredientInput.css';
+
 export default function IngredientInput({ index, arrayHelpers }) {
     return (
-        <Row>
+        <Row className="ingredient-input">
             <Col xs={6}>    
                 <Field 
                     name={`ingredients.${index}.name`} type="input" placeholder={`Ingredient #${index+1}`}

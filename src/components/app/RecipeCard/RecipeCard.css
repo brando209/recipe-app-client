@@ -1,19 +1,22 @@
 .recipe-card {
-    height: 30vh;
-    background: rgb(167, 167, 167);
+    height: 15rem;
+    max-width: 600px;
+    background: rgba(220, 220, 220);
     overflow: hidden;
-}
-
-.recipe-card + .recipe-card {
-    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 .recipe-card-body {
     text-align: left;
 }
 
-.recipe-card-title {
-
+.recipe-card .recipe-card-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* number of lines to show */
+    line-clamp: 2; 
+    -webkit-box-orient: vertical;
 }
 
 .recipe-card-img {
@@ -24,10 +27,10 @@
     object-position: center;
 }
 
-.recipe-card-text {
 
-}
 
-.recipe-card-left, .recipe-card-right {
-    
+@media (min-width: 810px) {
+    .recipe-card-container:nth-child(2n-1) > div {
+        margin-left: auto;
+    }
 }

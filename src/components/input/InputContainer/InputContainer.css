@@ -1,3 +1,7 @@
 .input-container > :first-child {
     text-align: left;
 }
+
+.input-container > * {
+    margin: 0.25rem auto;
+}

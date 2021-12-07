@@ -1,3 +1,28 @@
+body {
+    background: rgb(167, 167, 167);
+}
+
 .page {
+    background: rgb(167, 167, 167);
+    margin: 0 auto;
     margin-bottom: calc(var(--bottom-bar-height) + 5px);
+    padding: 0 5rem;
+}
+
+@media (max-width: 640px) {
+    .page {
+        padding: 0 1rem;
+    }
+}
+
+@media (min-width: 641px) and (max-width: 1079px) {
+    .page {
+        padding: 0 5rem;
+    }
+}
+
+@media (min-width: 1080px) {
+    .page {
+        padding: 0 10rem;
+    }
 }
