@@ -9,20 +9,32 @@ body {
     padding: 0 5rem;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 700px) {
     .page {
         padding: 0 1rem;
     }
 }
 
-@media (min-width: 641px) and (max-width: 1079px) {
+@media (min-width: 701px) and (max-width: 1079px) {
     .page {
         padding: 0 5rem;
     }
+
 }
 
 @media (min-width: 1080px) {
     .page {
         padding: 0 10rem;
+    }
+
+    .page.new-recipe-page {
+        padding: 0 15rem;
+    }
+
+}
+
+@media (min-width: 1360px) {
+    .page.new-recipe-page {
+        padding: 0 20rem;
     }
 }

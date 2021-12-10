@@ -5,3 +5,9 @@
 .input-container > * {
     margin: 0.25rem auto;
 }
+
+@media (min-width: 400px) {
+    .input-container > :first-child {
+        text-align: right;
+    }
+}
