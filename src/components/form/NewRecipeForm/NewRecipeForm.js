@@ -19,21 +19,33 @@ const initialValues = {
     ingredients: [],
     instructions: [],
     comments: [],
-    categories: []
+    categories: [],
+    photo: null
 }
 
 export default function NewRecipeForm({ onSubmit }) {
     return (
         <Formik
             initialValues={initialValues}
-            onSubmit={(values, form) => {
-                form.setSubmitting(true);
-                onSubmit(values, () => {
-                    form.setSubmitting(false);
+            onSubmit={(values, { setSubmitting }) => {
+                console.log(values);
+                const formData = new FormData();
+                formData.append("title", values.title);
+                formData.append("description", values.description);
+                formData.append("serves", values.serves);
+                formData.append("prep", JSON.stringify(values.prep));
+                formData.append("cook", JSON.stringify(values.cook));
+                formData.append("ingredients", JSON.stringify(values.ingredients));
+                formData.append("instructions", JSON.stringify(values.instructions));
+                formData.append("comments", JSON.stringify(values.comments));
+                formData.append("photo", values.photo || "");
+                setSubmitting(true);
+                onSubmit(formData, () => {
+                    setSubmitting(false);
                 });
             }}
         >
-            {({ isSubmitting, values }) => (
+            {({ isSubmitting, values, setFieldValue }) => (
                 <Form>
                     <Inputs.InputContainer name="title" label="Title:">
                         <Field name="title" placeholder="Recipe Title" type="input" />
@@ -57,6 +69,18 @@ export default function NewRecipeForm({ onSubmit }) {
                         <Field name="cook.unit" as={Inputs.SelectInput} options={['min', 'hr']} />
                     </Inputs.InputContainer>
 
+                    <Inputs.InputContainer name="photo" label="Image:">
+                        <Field
+                            type="file"
+                            name="photo"
+                            value={undefined}
+                            onChange={e => {
+                                const file = e.target.files[0];
+                                setFieldValue('photo', file);
+                            }}
+                        />
+                    </Inputs.InputContainer>
+
                     <Inputs.InputList
                         name="ingredients" label="Ingredients:"
                         listItems={values.ingredients}
@@ -69,11 +93,11 @@ export default function NewRecipeForm({ onSubmit }) {
                         listItems={values.instructions}
                         initialItemValue=""
                         renderItem={(item, index, arrayHelpers) => (
-                            <Inputs.TextareaListInput 
-                                key={`instruction-${index}`} 
-                                name="instructions" 
+                            <Inputs.TextareaListInput
+                                key={`instruction-${index}`}
+                                name="instructions"
                                 placeholder="Instruction"
-                                item={item} index={index} arrayHelpers={arrayHelpers} 
+                                item={item} index={index} arrayHelpers={arrayHelpers}
                             />
                         )}
                     />
@@ -83,11 +107,11 @@ export default function NewRecipeForm({ onSubmit }) {
                         listItems={values.comments}
                         initialItemValue=""
                         renderItem={(item, index, arrayHelpers) => (
-                            <Inputs.TextareaListInput 
-                                key={`comment-${index}`} 
+                            <Inputs.TextareaListInput
+                                key={`comment-${index}`}
                                 name="comments"
                                 placeholder="Comment"
-                                item={item} index={index} arrayHelpers={arrayHelpers} 
+                                item={item} index={index} arrayHelpers={arrayHelpers}
                             />
                         )}
                     />
