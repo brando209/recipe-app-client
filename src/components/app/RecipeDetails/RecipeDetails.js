@@ -10,7 +10,7 @@ import './RecipeDetails.css';
 export default function RecipeDetails({ recipe, onFavorite, onDelete }) {
     const navigate = useNavigate();
     const { setDialog, setShow } = useDialogContext();
-    const { id, title, description, ingredients, instructions, comments, serves, prep, cook, favorite } = recipe;
+    const { id, title, description, ingredients, instructions, comments, serves, prep, cook, photo, favorite } = recipe;
 
     const handleFavoriteClick = () => onFavorite(id, favorite);
 
@@ -55,7 +55,7 @@ export default function RecipeDetails({ recipe, onFavorite, onDelete }) {
                     <p>{"Total Time: " + (prep.time + cook.time) + " " + cook.unit}</p>
                 </Col>
                 <Col className="recipe-image-container">
-                    <img src="" alt="" />
+                    <img src={photo.path ? `http://localhost:3005/${photo.path}` : ""} alt="" />
                 </Col>
             </Row>
 

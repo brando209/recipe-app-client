@@ -7,7 +7,7 @@ import './RecipeCard.css';
 
 export default function RecipeCard(props) {
     const navigate = useNavigate();
-    const { title, description, serves, prep, cook, favorite, id } = props;
+    const { title, description, serves, prep, cook, favorite, id, photo } = props;
 
     const handleFavoriteClick = (e) => {
         e.stopPropagation();
@@ -34,7 +34,7 @@ export default function RecipeCard(props) {
                         </Card.Text>
                     </Col>
                     <Col className="recipe-card-body-right">
-                        <Card.Img className="recipe-card-img" src="" alt="" />
+                        <Card.Img className="recipe-card-img" src={photo.path ? `http://localhost:3005/${photo.path}` : ""} alt="Photo Not found" />
                     </Col>
                 </Row>
             </Card.Body>

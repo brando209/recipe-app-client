@@ -2,12 +2,10 @@ import React from 'react';
 import { useNavigate } from 'react-router';
 import { Row, Col, Button, ButtonGroup } from 'react-bootstrap';
 import { Formik, Form, Field } from 'formik';
-import { useDialogContext } from '../../../contexts/DialogContext/DialogContext';
 import { SelectInput, InputList, IngredientInput, TextareaListInput } from '../../input';
 
 export default function EditRecipeForm({ recipe, onEdit }) {
     const navigate = useNavigate();
-    const { setDialog, setShow } = useDialogContext();
     const { id, favorite, ...initialValues } = recipe;
 
     const handleCancel = () => {
@@ -69,7 +67,7 @@ export default function EditRecipeForm({ recipe, onEdit }) {
                             </p>
                         </Col>
                         <Col className="recipe-image-container">
-                            <img src="" alt="" />
+                            <img src={initialValues.photo.path ? `http://localhost:3005/${initialValues.photo.path}` : ""} alt="Photo Not Found" />
                         </Col>
                     </Row>
 
