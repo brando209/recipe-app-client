@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Navbar, Nav } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router';
+import { useAuth } from '../../../contexts/AuthContext/AuthContext';
 import { useRecipeContext } from '../../../contexts/RecipeContext/RecipeContext';
 import useMediaQuery from '../../../hooks/useMediaQuery';
 import Search from '../../input/Search/Search';
@@ -13,6 +14,9 @@ export default function TopNav({ onShowFilter }) {
     const isLargeScreen = useMediaQuery("(min-width: 1081px)");
     const { pathname } = useLocation();
     const navigate = useNavigate();
+    const auth = useAuth();
+
+    if(!auth.user) return null;
 
     return (
         <>

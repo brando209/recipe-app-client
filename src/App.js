@@ -15,7 +15,7 @@ import Dialog from './components/display/Dialog/Dialog';
 
 import DialogContextProvider from './contexts/DialogContext/DialogContext';
 import RecipeContextProvider from './contexts/RecipeContext/RecipeContext';
-import { useAuth } from './contexts/AuthContext/AuthContext';
+import AuthContextProvider, { useAuth } from './contexts/AuthContext/AuthContext';
 
 import './App.css';
 
@@ -31,34 +31,35 @@ function PrivateRoute({ children }) {
 
 function App() {
 	const [isShown, toggleShow] = useToggle(false);
-	const auth = useAuth();
 
 	return (
 		<div className="App">
-			<DialogContextProvider>
-				<RecipeContextProvider>
-					<FilterControlSidebar
-						show={isShown}
-						onClose={() => toggleShow(false)}
-					/>
-					<Dialog />
-					<Router>
-						{auth.user && <TopNav onShowFilter={() => toggleShow(true)} />}
-						
-						<Routes>
-							<Route path="/login" element={<LoginPage />} />
-							<Route path="/" element={<PrivateRoute><HomePage /></PrivateRoute>} />
-							<Route path="/favorites" element={<PrivateRoute><FavoritesPage /></PrivateRoute>} />
-							<Route path="/new" element={<PrivateRoute><NewRecipePage /></PrivateRoute>} />
-							<Route path="/settings" element={<PrivateRoute><SettingsPage /></PrivateRoute>} />
-							<Route path="/recipe/:recipeId" element={<PrivateRoute><RecipePage /></PrivateRoute>} />
-							<Route path="/recipe/:recipeId/edit" element={<PrivateRoute><EditRecipePage /></PrivateRoute>} />
-						</Routes>
+			<AuthContextProvider>
+				<DialogContextProvider>
+					<RecipeContextProvider>
+						<FilterControlSidebar
+							show={isShown}
+							onClose={() => toggleShow(false)}
+						/>
+						<Dialog />
+						<Router>
+							<TopNav onShowFilter={() => toggleShow(true)} />
 
-						{auth.user && <BottomNav />}
-					</Router>
-				</RecipeContextProvider>
-			</DialogContextProvider>
+							<Routes>
+								<Route path="/login" element={<LoginPage />} />
+								<Route path="/" element={<PrivateRoute><HomePage /></PrivateRoute>} />
+								<Route path="/favorites" element={<PrivateRoute><FavoritesPage /></PrivateRoute>} />
+								<Route path="/new" element={<PrivateRoute><NewRecipePage /></PrivateRoute>} />
+								<Route path="/settings" element={<PrivateRoute><SettingsPage /></PrivateRoute>} />
+								<Route path="/recipe/:recipeId" element={<PrivateRoute><RecipePage /></PrivateRoute>} />
+								<Route path="/recipe/:recipeId/edit" element={<PrivateRoute><EditRecipePage /></PrivateRoute>} />
+							</Routes>
+
+							<BottomNav />
+						</Router>
+					</RecipeContextProvider>
+				</DialogContextProvider>
+			</AuthContextProvider>
 		</div>
 	);
 }
