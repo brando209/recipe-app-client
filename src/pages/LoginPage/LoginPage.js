@@ -16,7 +16,7 @@ export default function LoginPage(props) {
     )
 
     return (
-        <Page className="form-page">
+        <Page>
             <h3>Log In</h3>
             <LoginForm onSubmit={handleLogin} error={auth.error?.response.data}/>
         </Page>

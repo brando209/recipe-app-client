@@ -1,6 +1,7 @@
 .top-bar {
     max-height: 9vh;
     height: 9vh;
+    background: rgb(145, 144, 144);
 }
 
 .top-bar:first-child {

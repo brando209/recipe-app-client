@@ -17,7 +17,7 @@ export default function NewRecipePage(props) {
     }
 
     return (
-        <Page className="form-page">
+        <Page>
             <h1>New Recipe</h1>
             <NewRecipeForm onSubmit={handleCreateRecipe}/>    
         </Page>

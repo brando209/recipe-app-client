@@ -11,10 +11,10 @@ export default function InputList({ name, label, listItems, renderItem, initialI
             render={arrayHelpers => (
                 <div className="input-list">
                     <Row>
-                        <Col xs={6}>
+                        <Col xs={3} lg={4}>
                             <label htmlFor={name}>{label}</label>
                         </Col>
-                        <Col xs={6}>
+                        <Col xs={3} lg={1}>
                             <Button
                                 type="button"
                                 size="sm"

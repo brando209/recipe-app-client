@@ -24,17 +24,12 @@ body {
 
 @media (min-width: 1080px) {
     .page {
-        padding: 0 10rem;
-    }
-
-    .page.form-page {
         padding: 0 15rem;
     }
-
 }
 
 @media (min-width: 1360px) {
-    .page.form-page {
+    .page {
         padding: 0 20rem;
     }
 }
