@@ -1,8 +1,10 @@
 import React from 'react';
-import { Formik, Form, Field } from 'formik';
-import * as Inputs from '../../input';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Button } from 'react-bootstrap';
+import * as Inputs from '../../input';
 import Heart from '../../display/spinners/Heart/Heart';
+import recipeSchema from '../../../utility/validationSchema/recipeSchema';
+
 import './NewRecipeForm.css';
 
 const initialValues = {
@@ -44,30 +46,39 @@ export default function NewRecipeForm({ onSubmit }) {
                     setSubmitting(false);
                 });
             }}
+            validationSchema={recipeSchema}
         >
             {({ isSubmitting, values, setFieldValue }) => (
                 <Form>
                     <Inputs.InputContainer name="title" label="Title:">
                         <Field name="title" placeholder="Recipe Title" type="input" />
                     </Inputs.InputContainer>
+                    <ErrorMessage name="title" component="div" className="form-error-message" />
 
                     <Inputs.InputContainer name="description" label="Description:">
                         <Field name="description" placeholder="Recipe Description" as="textarea" />
                     </Inputs.InputContainer>
+                    <ErrorMessage name="description" component="div" className="form-error-message" />
+
 
                     <Inputs.InputContainer name="serves" label="Serves:">
                         <Field name="serves" placeholder="Serves" type="number" />
                     </Inputs.InputContainer>
+                    <ErrorMessage name="serves" component="div" className="form-error-message" />
+
 
                     <Inputs.InputContainer name="prep" label="Prep:">
                         <Field name="prep.time" type="number" />
                         <Field name="prep.unit" as={Inputs.SelectInput} options={['min', 'hr']} variant="secondary" />
                     </Inputs.InputContainer>
+                    <ErrorMessage name="prep.time" component="div" className="form-error-message" />
 
                     <Inputs.InputContainer name="cook" label="Cook:">
                         <Field name="cook.time" type="number" />
                         <Field name="cook.unit" as={Inputs.SelectInput} options={['min', 'hr']} variant="secondary"/>
                     </Inputs.InputContainer>
+                    <ErrorMessage name="cook.time" component="div" className="form-error-message" />
+
 
                     <Inputs.InputContainer name="photo" label="Image:">
                         <Field
@@ -87,6 +98,8 @@ export default function NewRecipeForm({ onSubmit }) {
                         initialItemValue={{ name: "", amount: "", measurement: "", size: "" }}
                         renderItem={(item, index, arrayHelpers) => <Inputs.IngredientInput key={`ingredient-${index}`} item={item} index={index} arrayHelpers={arrayHelpers} />}
                     />
+                    <ErrorMessage name="ingredients" component="div" className="form-error-message" />
+
 
                     <Inputs.InputList
                         name="instructions" label="Instructions:"
@@ -101,6 +114,8 @@ export default function NewRecipeForm({ onSubmit }) {
                             />
                         )}
                     />
+                    <ErrorMessage name="instructions" component="div" className="form-error-message" />
+
 
                     <Inputs.InputList
                         name="comments" label="Comments:"
