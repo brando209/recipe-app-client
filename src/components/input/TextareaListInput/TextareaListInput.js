@@ -13,7 +13,7 @@ export default function TextareaListInput({ name, index, arrayHelpers, placehold
                 />
             </Col>
             <Col xs={2}>
-                <Button onClick={() => arrayHelpers.remove(index)}>-</Button>
+                <Button variant="secondary" onClick={() => arrayHelpers.remove(index)}>-</Button>
             </Col>
         </Row>
     )

@@ -1,11 +1,10 @@
 .top-bar {
     max-height: 9vh;
     height: 9vh;
-    background: rgb(209, 209, 209);
 }
 
 .top-bar:first-child {
-    background: rgb(186, 163, 163);
+    background: rgb(221, 147, 147);
 }
 
 .top-bar .back-btn, .top-bar .show-filters-btn {

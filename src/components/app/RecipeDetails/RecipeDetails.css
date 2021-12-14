@@ -15,10 +15,16 @@
     object-position: center;
 }
 
+.favorite-btn {
+    color: rgb(245, 85, 85);
+}
+
+.delete-btn {
+    font-size: x-large;
+}
+
 @media (min-width: 1080px) {
     .recipe-detail-row, .list-container {
         font-size: x-large;
     }
-
-    
 }

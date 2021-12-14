@@ -1,6 +1,6 @@
 import React from 'react';
 import { Formik, Field, Form } from 'formik';
-import { Row, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import * as Inputs from '../../input';
 
 import './LoginForm.css';
@@ -26,10 +26,9 @@ function LoginForm({ onSubmit, ...props }) {
 
                     {props.error && <div className="form-error">{props.error}</div>}
 
-                    <Button variant="primary" type="submit" disabled={isSubmitting}>
+                    <Button type="submit" variant="secondary" disabled={isSubmitting}>
                         Submit
                     </Button>
-
                 </Form>
             )}
         </Formik>

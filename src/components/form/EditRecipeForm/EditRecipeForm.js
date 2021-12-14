@@ -67,7 +67,7 @@ export default function EditRecipeForm({ recipe, onEdit }) {
                             </p>
                         </Col>
                         <Col className="recipe-image-container">
-                            <img src={initialValues.photo.path ? `http://localhost:3005/${initialValues.photo.path}` : ""} alt="Photo Not Found" />
+                            <img src={initialValues.photo.path ? `http://localhost:3005/${initialValues.photo.path}` : ""} alt="" />
                         </Col>
                     </Row>
 

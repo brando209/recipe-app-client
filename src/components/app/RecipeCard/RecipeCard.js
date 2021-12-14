@@ -21,10 +21,12 @@ export default function RecipeCard(props) {
                     <Col className="recipe-card-body-left">
                         <Card.Title className="recipe-card-title">
                             {title}{" "}
-                            {favorite ?
-                                <HeartFill onClick={handleFavoriteClick} /> :
-                                <Heart onClick={handleFavoriteClick} />
-                            }
+                            <span className="favorite-btn">
+                                {favorite ?
+                                    <HeartFill onClick={handleFavoriteClick} /> :
+                                    <Heart onClick={handleFavoriteClick} />
+                                }
+                            </span>
                         </Card.Title>
                         <Card.Subtitle className="mb-2 text-muted">Serves: {serves}</Card.Subtitle>
                         <Card.Subtitle className="mb-2 text-muted">Prep time: {prep.time + " " + prep.unit}</Card.Subtitle>
@@ -34,7 +36,7 @@ export default function RecipeCard(props) {
                         </Card.Text>
                     </Col>
                     <Col className="recipe-card-body-right">
-                        <Card.Img className="recipe-card-img" src={photo.path ? `http://localhost:3005/${photo.path}` : ""} alt="Photo Not found" />
+                        <Card.Img className="recipe-card-img" src={photo.path ? `http://localhost:3005/${photo.path}` : ""} alt="" />
                     </Col>
                 </Row>
             </Card.Body>

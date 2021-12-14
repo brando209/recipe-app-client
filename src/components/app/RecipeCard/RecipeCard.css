@@ -1,5 +1,5 @@
 .recipe-card {
-    height: 15rem;
+    height: 13rem;
     max-width: 600px;
     background: rgba(220, 220, 220);
     overflow: hidden;
@@ -8,6 +8,10 @@
 
 .recipe-card-body {
     text-align: left;
+}
+
+.recipe-card-body .recipe-card-title > .favorite-btn {
+    color: rgb(245, 85, 85);
 }
 
 .recipe-card .recipe-card-text {

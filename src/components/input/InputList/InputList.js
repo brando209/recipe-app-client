@@ -18,6 +18,7 @@ export default function InputList({ name, label, listItems, renderItem, initialI
                             <Button
                                 type="button"
                                 size="sm"
+                                variant="secondary"
                                 onClick={() => arrayHelpers.push(initialItemValue)}
                             >
                                 Add

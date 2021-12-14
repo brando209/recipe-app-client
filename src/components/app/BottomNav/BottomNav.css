@@ -1,5 +1,5 @@
 .bottom-bar {
-    background-color: grey;
+    background-color: rgb(221, 147, 147);; 
     max-height: var(--bottom-bar-height);
 }
 

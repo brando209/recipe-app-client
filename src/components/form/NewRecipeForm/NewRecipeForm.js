@@ -61,12 +61,12 @@ export default function NewRecipeForm({ onSubmit }) {
 
                     <Inputs.InputContainer name="prep" label="Prep:">
                         <Field name="prep.time" type="number" />
-                        <Field name="prep.unit" as={Inputs.SelectInput} options={['min', 'hr']} />
+                        <Field name="prep.unit" as={Inputs.SelectInput} options={['min', 'hr']} variant="secondary" />
                     </Inputs.InputContainer>
 
                     <Inputs.InputContainer name="cook" label="Cook:">
                         <Field name="cook.time" type="number" />
-                        <Field name="cook.unit" as={Inputs.SelectInput} options={['min', 'hr']} />
+                        <Field name="cook.unit" as={Inputs.SelectInput} options={['min', 'hr']} variant="secondary"/>
                     </Inputs.InputContainer>
 
                     <Inputs.InputContainer name="photo" label="Image:">
@@ -116,7 +116,7 @@ export default function NewRecipeForm({ onSubmit }) {
                         )}
                     />
 
-                    <Button type="submit" disabled={isSubmitting}>
+                    <Button type="submit" disabled={isSubmitting} variant="secondary">
                         {isSubmitting ? 
                             <div>
                                 <Heart />
