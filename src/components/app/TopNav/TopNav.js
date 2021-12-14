@@ -10,7 +10,7 @@ import NavLinks from '../NavLinks/NavLinks';
 import './TopNav.css';
 
 export default function TopNav({ onShowFilter }) {
-    const { updateFilter } = useRecipeContext();
+    const { filter, updateFilter } = useRecipeContext();
     const isLargeScreen = useMediaQuery("(min-width: 1081px)");
     const { pathname } = useLocation();
     const navigate = useNavigate();
@@ -50,7 +50,7 @@ export default function TopNav({ onShowFilter }) {
                             <Nav.Item>
                                 <Search
                                     onSubmit={(value) => updateFilter({ search: value })}
-                                    initialValue=""
+                                    initialValue={filter.search}
                                 />
 
                             </Nav.Item>
