@@ -10,7 +10,7 @@ import './NewRecipeForm.css';
 const initialValues = {
     title: "",
     description: "",
-    serves: 1,
+    serves: "",
     prep: {
         time: "",
         unit: "min"
@@ -62,19 +62,19 @@ export default function NewRecipeForm({ onSubmit }) {
 
 
                     <Inputs.InputContainer name="serves" label="Serves:">
-                        <Field name="serves" placeholder="Serves" type="number" />
+                        <Field name="serves" placeholder="Serves" type="number" min={1} />
                     </Inputs.InputContainer>
                     <ErrorMessage name="serves" component="div" className="form-error-message" />
 
 
                     <Inputs.InputContainer name="prep" label="Prep:">
-                        <Field name="prep.time" type="number" />
+                        <Field name="prep.time" type="number" min={1}/>
                         <Field name="prep.unit" as={Inputs.SelectInput} options={['min', 'hr']} variant="secondary" />
                     </Inputs.InputContainer>
                     <ErrorMessage name="prep.time" component="div" className="form-error-message" />
 
                     <Inputs.InputContainer name="cook" label="Cook:">
-                        <Field name="cook.time" type="number" />
+                        <Field name="cook.time" type="number" min={1}/>
                         <Field name="cook.unit" as={Inputs.SelectInput} options={['min', 'hr']} variant="secondary"/>
                     </Inputs.InputContainer>
                     <ErrorMessage name="cook.time" component="div" className="form-error-message" />
@@ -99,7 +99,6 @@ export default function NewRecipeForm({ onSubmit }) {
                         renderItem={(item, index, arrayHelpers) => <Inputs.IngredientInput key={`ingredient-${index}`} item={item} index={index} arrayHelpers={arrayHelpers} />}
                     />
                     <ErrorMessage name="ingredients" component="div" className="form-error-message" />
-
 
                     <Inputs.InputList
                         name="instructions" label="Instructions:"

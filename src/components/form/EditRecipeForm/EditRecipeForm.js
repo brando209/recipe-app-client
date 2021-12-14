@@ -56,13 +56,13 @@ export default function EditRecipeForm({ recipe, onEdit }) {
 
                     <Row className="recipe-detail-row">
                         <Col xs="5">
-                            <p>Serves: <Field name="serves" placeholder="Serves" type="number" /></p>
+                            <p>Serves: <Field name="serves" placeholder="Serves" type="number"  min={1} /></p>
                             <p>Prep Time:
-                                <Field name="prep.time" type="number" />
+                                <Field name="prep.time" type="number"  min={1} />
                                 <Field name="prep.unit" as={SelectInput} options={['min', 'hr']} />
                             </p>
                             <p>Cook Time:
-                                <Field name="cook.time" type="number" />
+                                <Field name="cook.time" type="number"  min={1} />
                                 <Field name="cook.unit" as={SelectInput} options={['min', 'hr']} />
                             </p>
                         </Col>

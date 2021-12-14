@@ -13,7 +13,7 @@ export default function IngredientInput({ index, arrayHelpers }) {
                     name={`ingredients.${index}.name`} type="input" placeholder={`Ingredient #${index+1}`}
                 />
                 <Field 
-                    name={`ingredients.${index}.amount`} type="number" placeholder="Amount" 
+                    name={`ingredients.${index}.amount`} type="number" placeholder="Amount" min={0}
                 />
             </Col>
             <Col xs={4}>
