@@ -1,15 +1,18 @@
 import React, { createContext, useContext, useState } from 'react';
 import useResource from '../../hooks/useResource';
 import recipeApi from '../../api/recipes';
+import { useAuth } from '../AuthContext/AuthContext';
 
 export const recipeContext = createContext({});
 
 export const useRecipeContext = () => useContext(recipeContext);
 
 export default function RecipeContextProvider({ children }) {
+    const auth = useAuth();
     const { loading, error, value, setValue } = useResource(
         'http://localhost:3005/api/recipes',
-        { headers: { authorization: `BEARER ${process.env.REACT_APP_USER_JWT}` } }    
+        { headers: { authorization: `BEARER ${auth.user?.token}` } },
+        [auth.user?.token]
     );
     const [filter, setFilter] = useState({ ingredients: [], search: "" });
 

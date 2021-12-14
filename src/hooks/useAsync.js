@@ -10,7 +10,7 @@ export default function useAsync(callback, dependencies = []) {
     setError(null);
     setValue(null);
     callback()
-      .then(setValue)
+      .then(setValue) 
       .catch(setError)
       .finally(() => setLoading(false));
   }, dependencies);
@@ -19,5 +19,5 @@ export default function useAsync(callback, dependencies = []) {
     callbackMemoized();
   }, [callbackMemoized]);
 
-  return { loading, error, value, setValue }
+  return { loading, error, value, setLoading, setError, setValue }
 }

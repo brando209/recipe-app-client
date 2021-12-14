@@ -27,14 +27,14 @@ body {
         padding: 0 10rem;
     }
 
-    .page.new-recipe-page {
+    .page.form-page {
         padding: 0 15rem;
     }
 
 }
 
 @media (min-width: 1360px) {
-    .page.new-recipe-page {
+    .page.form-page {
         padding: 0 20rem;
     }
 }

@@ -8,7 +8,6 @@ const DEFAULT_OPTIONS = {
 export default function useResource(path, options = {}, dependencies = []) {
     return useAsync(() => {
         return axios.get(path, { ...DEFAULT_OPTIONS, ...options }).then(res => {
-            console.log(res);
             if(res.status === 200) return res.data;
         })
     }, dependencies);
