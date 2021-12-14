@@ -1,7 +1,7 @@
 import React, { createContext, useContext } from 'react';
 import useResource from '../../hooks/useResource';
 import authApi from '../../api/auth';
-import { getLocalAuthToken, setLocalAuthToken } from '../../utility/localStorage/authStorage';
+import { getLocalAuthToken, setLocalAuthToken, removeLocalAuthToken } from '../../utility/localStorage/authStorage';
 
 export const authContext = createContext({});
 
@@ -30,8 +30,13 @@ export default function AuthContextProvider({ children }) {
         setLoading(false);
     }
 
+    const logout = () => {
+        setValue(null);
+        removeLocalAuthToken();
+    }
+
     return (
-        <authContext.Provider value={{ loading, error, user: value, login }}>
+        <authContext.Provider value={{ loading, error, user: value, login, logout }}>
             {children}
         </authContext.Provider>
     )
