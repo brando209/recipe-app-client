@@ -7,6 +7,8 @@ export const recipeContext = createContext({});
 
 export const useRecipeContext = () => useContext(recipeContext);
 
+const authHeader = (token) => ({ Authorization: `BEARER ${token}`});
+
 export default function RecipeContextProvider({ children }) {
     const auth = useAuth();
     const { loading, error, value, setValue } = useResource(
@@ -53,7 +55,7 @@ export default function RecipeContextProvider({ children }) {
     const createRecipe = async (recipeInfo, callback = () => {}) => {
         try {
             //Make api call
-            const recipe = await recipeApi.createRecipe(recipeInfo);
+            const recipe = await recipeApi.createRecipe(recipeInfo, authHeader(auth.user.token));
             //Update state with returned data
             setValue(prevValue => ([...prevValue, recipe.data]));
             callback(recipe.data, null);
@@ -66,7 +68,7 @@ export default function RecipeContextProvider({ children }) {
     const updateRecipe = async (recipeId, updates, callback = () => {}) => {
         try {
             //Make api call
-            const recipe = await recipeApi.updateRecipe(recipeId, updates);
+            const recipe = await recipeApi.updateRecipe(recipeId, updates, authHeader(auth.user.token));
             //Update state with returned data
             setValue(prevValue => {
                 const newValue = [...prevValue];
@@ -84,7 +86,7 @@ export default function RecipeContextProvider({ children }) {
     const deleteRecipe = async (recipeId, callback = () => {}) => {
         try {
             //Make api call
-            await recipeApi.deleteRecipe(recipeId);
+            await recipeApi.deleteRecipe(recipeId, authHeader(auth.user.token));
             //Remove recipe from state
             setValue(prevValue => {
                 const newValue = [...prevValue];

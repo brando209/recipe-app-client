@@ -2,17 +2,15 @@ import axios from 'axios';
 
 const recipeURL = "http://localhost:3005/api/recipes"
 
-const headers = { authorization: `BEARER ${process.env.REACT_APP_USER_JWT}` }
-
-function createRecipe(recipeInfo) {
+function createRecipe(recipeInfo, headers) {
     return axios.post(recipeURL, recipeInfo, { headers });
 }
 
-function updateRecipe(recipeId, updates) {
+function updateRecipe(recipeId, updates, headers) {
     return axios.patch(`${recipeURL}/${recipeId}`, updates, { headers });
 }
 
-function deleteRecipe(recipeId) {
+function deleteRecipe(recipeId, headers) {
     return axios.delete(`${recipeURL}/${recipeId}`, { headers });
 }
 
