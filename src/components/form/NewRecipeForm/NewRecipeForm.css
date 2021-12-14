@@ -1,3 +1,9 @@
 input, textarea {
     width: 100%;
 }
+
+button[type="submit"] > div {
+    display: flex;
+    flex-direction: row;
+    width: 150px;
+}

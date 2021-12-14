@@ -2,6 +2,7 @@ import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Inputs from '../../input';
 import { Button } from 'react-bootstrap';
+import Heart from '../../display/spinners/Heart/Heart';
 import './NewRecipeForm.css';
 
 const initialValues = {
@@ -28,7 +29,6 @@ export default function NewRecipeForm({ onSubmit }) {
         <Formik
             initialValues={initialValues}
             onSubmit={(values, { setSubmitting }) => {
-                console.log(values);
                 const formData = new FormData();
                 formData.append("title", values.title);
                 formData.append("description", values.description);
@@ -116,7 +116,15 @@ export default function NewRecipeForm({ onSubmit }) {
                         )}
                     />
 
-                    <Button type="submit" disabled={isSubmitting}>Submit</Button>
+                    <Button type="submit" disabled={isSubmitting}>
+                        {isSubmitting ? 
+                            <div>
+                                <Heart />
+                                <div>Submitting...</div>
+                            </div>
+                        : "Submit"
+                        }
+                    </Button>
                 </Form>
             )}
         </Formik>
