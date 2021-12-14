@@ -13,7 +13,6 @@ export default function InputContainer({ name, label, children }) {
                 children.map((child, index) => <Col key={index} className="mx-2">{child}</Col>) : 
                 <Col className="mx-2">{children}</Col>
             }
-            <ErrorMessage name={name} component="div" className="form-error-message" />
         </Row>
     );
 }
