@@ -15,7 +15,7 @@ function LoginForm({ onSubmit, ...props }) {
             }}
         >
             {({ isSubmitting }) => (
-                <Form className="form">
+                <Form className="login-form">
                     <Inputs.InputContainer name="userName" label="Username">
                         <Field name="userName" type="input" placeholder="Enter your username" />
                     </Inputs.InputContainer>

@@ -4,7 +4,7 @@ body {
 
 .page {
     background: rgb(167, 167, 167);
-    margin: 0 auto;
+    margin: 1vh auto;
     margin-bottom: calc(var(--bottom-bar-height) + 5px);
     padding: 0 5rem;
 }

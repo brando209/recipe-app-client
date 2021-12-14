@@ -2,6 +2,10 @@ input, textarea {
     width: 100%;
 }
 
-.form {
-    margin: 1vh auto;
+.login-form {
+    margin: 5vh auto;
+}
+
+.form-error {
+    color: red;
 }

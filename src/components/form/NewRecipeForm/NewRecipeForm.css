@@ -7,3 +7,7 @@ button[type="submit"] > div {
     flex-direction: row;
     width: 150px;
 }
+
+.form-error-message {
+    color: red;
+}
