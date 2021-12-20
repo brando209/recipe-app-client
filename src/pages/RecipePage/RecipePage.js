@@ -11,7 +11,7 @@ export default function RecipePage(props) {
     const recipe = recipes && recipes?.find(rec => rec.id === Number(recipeId));
 
     const handleFavorite = (recipeId, isFavorite) => {
-        updateRecipe(recipeId, { favorite: !isFavorite }, () => console.log("toggled favorite"));
+        updateRecipe(recipeId, { favorite: !isFavorite });
     }
 
     const handleDelete = (recipeId, callback) => {
