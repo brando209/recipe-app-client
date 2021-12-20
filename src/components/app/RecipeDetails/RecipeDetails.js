@@ -18,7 +18,12 @@ export default function RecipeDetails({ recipe, onFavorite, onDelete }) {
         setDialog({
             title: "Delete Recipe",
             text: "You are about to delete this recipe. This action cannot be undone. Are you sure you would like to delete this recipe?",
-            footer: <><Button onClick={() => setShow(false)}>Cancel</Button><Button onClick={() => onDelete(id, () => setShow(false))}>Delete</Button></>
+            footer: (
+                <>
+                    <Button variant="secondary" onClick={() => setShow(false)}>Cancel</Button>
+                    <Button variant="secondary" onClick={() => onDelete(id, () => setShow(false))}>Delete</Button>
+                </>
+            )
         });
         setShow(true);
     }
@@ -40,7 +45,7 @@ export default function RecipeDetails({ recipe, onFavorite, onDelete }) {
                     </span>
                 </Col>
                 <Col xs="3" lg="1">
-                    <Button variant="outline-primary" onClick={handleEditClick}>
+                    <Button variant="outline-secondary" onClick={handleEditClick}>
                         Edit
                     </Button>
                 </Col>

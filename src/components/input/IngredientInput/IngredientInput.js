@@ -1,6 +1,7 @@
 import React from 'react';
 import { Field } from 'formik';
 import { Row, Col, Button } from 'react-bootstrap';
+import { Trash } from 'react-bootstrap-icons';
 import { SelectInput } from '..';
 
 import './IngredientInput.css';
@@ -29,7 +30,9 @@ export default function IngredientInput({ index, arrayHelpers }) {
                 />
             </Col>
             <Col xs={2}>
-                <Button className="add-ingredient-btn" variant="secondary" onClick={() => arrayHelpers.remove(index)}>-</Button>
+                <Button className="add-ingredient-btn" variant="secondary" onClick={() => arrayHelpers.remove(index)}>
+                    <Trash />
+                </Button>
             </Col>
         </Row>
     )

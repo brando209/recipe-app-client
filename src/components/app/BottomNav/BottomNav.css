@@ -1,6 +1,8 @@
 .bottom-bar {
-    background-color: rgb(221, 147, 147);; 
+    background-color: var(--color-red);
     max-height: var(--bottom-bar-height);
+    box-shadow: 0 4px 0px 0 rgba(0, 0, 0, 0.2);
+    border-top: 1px solid #5c636a;
 }
 
 .bottom-bar.hide {
@@ -15,7 +17,14 @@
 
 .bottom-bar > .nav-links > .nav-link {
     max-height: var(--bottom-bar-height);
+    color: #5c636a;
     width: 25vw;
+}
+
+.bottom-bar > .nav-links > .nav-link:hover,
+.bottom-bar > .nav-links > .nav-link:active,
+.bottom-bar > .nav-links > .nav-link:focus {
+    color: #5c636a;
 }
 
 .bottom-bar > .nav-links > .nav-link > svg {

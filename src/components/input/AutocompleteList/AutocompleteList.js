@@ -1,6 +1,7 @@
 import React from 'react';
-import { Row, Col, Button } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import { FieldArray } from 'formik';
+import { Trash } from 'react-bootstrap-icons';
 import Autocomplete from '../Autocomplete/Autocomplete';
 import './AutocompleteList.css';
 
@@ -11,10 +12,10 @@ function AutocompleteList({ name, listItems, suggestions, onChange }) {
 
     return (
         <>
-            <Autocomplete 
-                suggestions={suggestions} 
+            <Autocomplete
+                suggestions={suggestions}
                 placeholder="Enter an ingredient to add to list"
-                onSubmit={handleSubmit} 
+                onSubmit={handleSubmit}
             />
             <FieldArray
                 name={name}
@@ -23,16 +24,13 @@ function AutocompleteList({ name, listItems, suggestions, onChange }) {
                         {listItems.map((item, index) => (
                             <Row as="li" key={index}>
                                 <Col xs={1}>
-                                    <Button 
-                                        size="sm"
-                                        variant="outline-secondary" 
+                                    <Trash
                                         onClick={() => {
                                             arrayHelpers.remove(index)
-                                        }}>
-                                        -
-                                    </Button>
+                                        }} 
+                                    />
                                 </Col>
-                                <Col> 
+                                <Col>
                                     {item.name}
                                 </Col>
                             </Row>

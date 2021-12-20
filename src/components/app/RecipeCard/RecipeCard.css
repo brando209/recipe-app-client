@@ -1,9 +1,11 @@
 .recipe-card {
     height: 13rem;
     max-width: 600px;
-    background: rgba(220, 220, 220);
+    background: var(--color-white);
     overflow: hidden;
     margin-bottom: 1rem;
+
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .recipe-card-body {

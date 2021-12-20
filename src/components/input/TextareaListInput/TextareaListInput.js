@@ -1,6 +1,7 @@
 import React from 'react';
 import { Field } from 'formik';
 import { Row, Col, Button } from 'react-bootstrap';
+import { Trash } from 'react-bootstrap-icons';
 
 import './TextareaListInput.css';
 
@@ -13,7 +14,9 @@ export default function TextareaListInput({ name, index, arrayHelpers, placehold
                 />
             </Col>
             <Col xs={2}>
-                <Button variant="secondary" onClick={() => arrayHelpers.remove(index)}>-</Button>
+                <Button variant="secondary" onClick={() => arrayHelpers.remove(index)}>
+                    <Trash />
+                </Button>
             </Col>
         </Row>
     )

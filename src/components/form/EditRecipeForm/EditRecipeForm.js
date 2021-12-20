@@ -48,8 +48,8 @@ export default function EditRecipeForm({ recipe, onEdit }) {
                         </Col>
                         <Col xs="4">
                             <ButtonGroup>
-                                <Button variant="outline-primary" onClick={handleCancel}>Cancel</Button>
-                                <Button type="submit" disabled={isSubmitting}>Save</Button>
+                                <Button variant="outline-secondary" onClick={handleCancel}>Cancel</Button>
+                                <Button variant="secondary" type="submit" disabled={isSubmitting}>Save</Button>
                             </ButtonGroup>
                         </Col>
                     </Row>
@@ -59,11 +59,11 @@ export default function EditRecipeForm({ recipe, onEdit }) {
                             <p>Serves: <Field name="serves" placeholder="Serves" type="number"  min={1} /></p>
                             <p>Prep Time:
                                 <Field name="prep.time" type="number"  min={1} />
-                                <Field name="prep.unit" as={SelectInput} options={['min', 'hr']} />
+                                <Field name="prep.unit" as={SelectInput} options={['min', 'hr']} variant="secondary" />
                             </p>
                             <p>Cook Time:
                                 <Field name="cook.time" type="number"  min={1} />
-                                <Field name="cook.unit" as={SelectInput} options={['min', 'hr']} />
+                                <Field name="cook.unit" as={SelectInput} options={['min', 'hr']} variant="secondary" />
                             </p>
                         </Col>
                         <Col className="recipe-image-container">

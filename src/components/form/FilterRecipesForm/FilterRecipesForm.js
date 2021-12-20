@@ -36,8 +36,8 @@ function FilterRecipesForm({ initialFilter, onSubmit, ingredients }) {
                     </Row>
 
                     <Row>
-                        <Button variant="outline-primary" className="clear-filters-btn" onClick={handleClearFilters}>Clear</Button>
-                        <Button className="apply-filters-btn" type="submit">Apply</Button>
+                        <Button variant="outline-secondary" className="clear-filters-btn" onClick={handleClearFilters}>Clear</Button>
+                        <Button variant="secondary" className="apply-filters-btn" type="submit">Apply</Button>
                     </Row>
 
                 </Form>

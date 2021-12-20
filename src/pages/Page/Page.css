@@ -1,9 +1,9 @@
 body {
-    background: rgb(167, 167, 167);
+    background: var(--color-grey);
 }
 
 .page {
-    background: rgb(167, 167, 167);
+    background: var(--color-grey);
     margin: 1vh auto;
     margin-bottom: calc(var(--bottom-bar-height) + 5px);
     padding: 0 5rem;
