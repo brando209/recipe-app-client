@@ -12,7 +12,7 @@ const authHeader = (token) => ({ Authorization: `BEARER ${token}`});
 export default function RecipeContextProvider({ children }) {
     const auth = useAuth();
     const { loading, error, value, setValue } = useResource(
-        'http://localhost:3005/api/recipes',
+        '/api/recipes',
         { headers: { authorization: `BEARER ${auth.user?.token}` } },
         [auth.user?.token]
     );

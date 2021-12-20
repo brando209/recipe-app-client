@@ -7,7 +7,7 @@ import FilterRecipesForm from '../../form/FilterRecipesForm/FilterRecipesForm';
 
 function FilterControlSidebar({ show, onClose }) {
     const { filter, updateFilter } = useRecipeContext();
-    const { value: ingredients} = useResource('http://localhost:3005/api/ingredients');
+    const { value: ingredients} = useResource('/api/ingredients');
 
     const handleApplyFilter = (filter) => {
         updateFilter(filter);

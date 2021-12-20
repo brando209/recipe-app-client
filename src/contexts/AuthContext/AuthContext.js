@@ -11,7 +11,7 @@ const currentToken = getLocalAuthToken();
 
 export default function AuthContextProvider({ children }) {
     const { loading, error, value, setLoading, setError, setValue } = useResource(
-        'http://localhost:3005/api/auth/login',
+        '/api/auth/login',
         { headers: { authorization: `BEARER ${currentToken}` } },
         [currentToken]
     );

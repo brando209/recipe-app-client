@@ -1,17 +1,15 @@
 import axios from 'axios';
 
-const recipeURL = "http://localhost:3005/api/recipes"
-
 function createRecipe(recipeInfo, headers) {
-    return axios.post(recipeURL, recipeInfo, { headers });
+    return axios.post("/api/recipes", recipeInfo, { headers });
 }
 
 function updateRecipe(recipeId, updates, headers) {
-    return axios.patch(`${recipeURL}/${recipeId}`, updates, { headers });
+    return axios.patch(`/api/recipes/${recipeId}`, updates, { headers });
 }
 
 function deleteRecipe(recipeId, headers) {
-    return axios.delete(`${recipeURL}/${recipeId}`, { headers });
+    return axios.delete(`/api/recipes/${recipeId}`, { headers });
 }
 
 export default {
