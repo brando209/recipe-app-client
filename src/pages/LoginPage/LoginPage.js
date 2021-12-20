@@ -6,19 +6,18 @@ import { Navigate } from 'react-router-dom';
 
 export default function LoginPage(props) {
     const auth = useAuth();
+    
     const handleLogin = async (credentials, callback) => {
         await auth.login(credentials);
         callback();
     }
 
-    if(!auth.loading && auth.user) return (
-        <Navigate to="/" />
-    )
+    if(!auth.loading && auth.user) return <Navigate to="/" />
 
     return (
         <Page>
             <h3>Log In</h3>
-            <LoginForm onSubmit={handleLogin} error={auth.error?.response.data}/>
+            <LoginForm onSubmit={handleLogin} error={auth.error?.response?.data}/>
         </Page>
     )
 }
