@@ -9,7 +9,7 @@ export default function useAsync(callback, dependencies = []) {
     setLoading(true);
     setError(null);
     setValue(null);
-    callback()
+    callback && typeof callback === "function" && callback()
       .then(setValue) 
       .catch(setError)
       .finally(() => setLoading(false));
