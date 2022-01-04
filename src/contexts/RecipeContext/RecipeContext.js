@@ -14,6 +14,7 @@ export default function RecipeContextProvider({ children }) {
     const { loading, error, value, setValue } = useResource(
         '/api/recipes',
         { headers: { authorization: `BEARER ${auth.user?.token}` } },
+        true,
         [auth.user?.token]
     );
     const [filter, setFilter] = useState({ ingredients: [], search: "" });

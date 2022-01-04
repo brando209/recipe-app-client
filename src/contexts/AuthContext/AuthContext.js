@@ -13,6 +13,7 @@ export default function AuthContextProvider({ children }) {
     const { loading, error, value, setLoading, setError, setValue } = useResource(
         '/api/auth/login',
         { headers: { authorization: `BEARER ${currentToken}` } },
+        true,
         [currentToken]
     );
 
