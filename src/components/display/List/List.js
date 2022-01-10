@@ -5,13 +5,19 @@ function List({
     heading,
     listItems,
     renderItem,
-    style,
+    listStyle,
     type = "ul",
     direction = "vertical"
 }) {
     const listItemComponents = listItems && listItems.map((item, index) => (
         <li key={index}>{typeof renderItem === "function" ? renderItem(item) : item}</li>
     ));
+
+    const style = {
+        ...listStyle,
+        display: "flex",
+        flexDirection: `${direction === "horizontal" ? "row" : "column"}`
+    }
 
     return (
         <div className="list-container">
