@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
-import { Row, Col, Button } from 'react-bootstrap';
+import { Row, Col, Button, Badge } from 'react-bootstrap';
 import { Heart, HeartFill, Trash } from 'react-bootstrap-icons';
 import { useDialogContext } from '../../../contexts/DialogContext/DialogContext';
 import List from '../../display/List/List';
@@ -10,7 +10,7 @@ import './RecipeDetails.css';
 export default function RecipeDetails({ recipe, onFavorite, onDelete }) {
     const navigate = useNavigate();
     const { setDialog, setShow } = useDialogContext();
-    const { id, title, description, ingredients, instructions, comments, serves, prep, cook, photo, favorite } = recipe;
+    const { id, title, description, ingredients, instructions, comments, categories, serves, prep, cook, photo, favorite } = recipe;
 
     const handleFavoriteClick = () => onFavorite(id, favorite);
 
@@ -68,6 +68,17 @@ export default function RecipeDetails({ recipe, onFavorite, onDelete }) {
 
             <Row className="recipe-detail-row">
                 <p>{description}</p>
+            </Row>
+
+            <Row>
+                <List
+                    type="ul"
+                    heading="Categories"
+                    listStyle={{ listStyleType: "none", padding: "0", margin: "0 0 5px 0" }}
+                    direction="horizontal"
+                    listItems={categories}
+                    renderItem={(category) => <Badge className="m-1">{category.name}</Badge>}
+                />
             </Row>
 
             <Row>
