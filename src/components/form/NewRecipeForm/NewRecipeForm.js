@@ -40,6 +40,7 @@ export default function NewRecipeForm({ onSubmit }) {
                 formData.append("ingredients", JSON.stringify(values.ingredients));
                 formData.append("instructions", JSON.stringify(values.instructions));
                 formData.append("comments", JSON.stringify(values.comments));
+                formData.append("categories", JSON.stringify(values.categories));
                 formData.append("photo", values.photo || "");
                 setSubmitting(true);
                 onSubmit(formData, () => {
@@ -91,6 +92,14 @@ export default function NewRecipeForm({ onSubmit }) {
                             }}
                         />
                     </Inputs.InputContainer>
+
+                    <Inputs.InputList
+                        name="categories" label="Categories:"
+                        listItems={values.categories}
+                        initialItemValue={{ name: "", type: "" }}
+                        renderItem={(item, index, arrayHelpers) => <Inputs.CategoryInput key={`category-${index}`} item={item} index={index} arrayHelpers={arrayHelpers} />}
+                    />
+                    <ErrorMessage name="categories" component="div" className="form-error-message" />
 
                     <Inputs.InputList
                         name="ingredients" label="Ingredients:"

@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router';
 import { Row, Col, Button, ButtonGroup } from 'react-bootstrap';
 import { Formik, Form, Field } from 'formik';
-import { SelectInput, InputList, IngredientInput, TextareaListInput } from '../../input';
+import { SelectInput, InputList, IngredientInput, TextareaListInput, CategoryInput } from '../../input';
 
 export default function EditRecipeForm({ recipe, onEdit }) {
     const navigate = useNavigate();
@@ -15,8 +15,9 @@ export default function EditRecipeForm({ recipe, onEdit }) {
     const handleSubmit = (values) => {
         //Convert ingredients array to object before submitting
         //TODO: This would best be done within context to keep business logic seperate from components.
-        //however we need initial values for ingredients to determine if any have been removed
+        //however we need initial values for ingredients and categories to determine if any have been removed
         const ingredientsObject = {};
+        const categoriesObject = {};
 
         //Look thru initialValues.ingredients to determine which ingredients have been removed
         for(let ingredient of initialValues.ingredients) {
@@ -32,7 +33,21 @@ export default function EditRecipeForm({ recipe, onEdit }) {
             ingredientsObject[name] = ingredientValues;
         }
 
-        onEdit(id, { ...values, ingredients: ingredientsObject }, () => navigate(-1));
+        //Look thru initialValues.categories to determine which categories have been removed
+        for (let category of initialValues.categories) {
+            //If category is removed set to null
+            if (values.categories.findIndex(cat => cat.name === category.name) === -1) {
+                categoriesObject[category.name] = null;
+            }
+        }
+
+        for (let category of values.categories) {
+            if (category.id) delete category.id;
+            const { name, type } = category;
+            categoriesObject[name] = { type };
+        }
+
+        onEdit(id, { ...values, ingredients: ingredientsObject, categories: categoriesObject }, () => navigate(-1));
     }
 
     return (
@@ -73,6 +88,15 @@ export default function EditRecipeForm({ recipe, onEdit }) {
 
                     <Row className="recipe-detail-row">
                         <Field name="description" placeholder="Recipe Description" as="textarea" />
+                    </Row>
+
+                    <Row>
+                        <InputList
+                            name="categories" label="Categories:"
+                            listItems={values.categories}
+                            initialItemValue={{ name: "", type: "" }}
+                            renderItem={(item, index, arrayHelpers) => <CategoryInput key={`category-${index}`} item={item} index={index} arrayHelpers={arrayHelpers} />}
+                        />
                     </Row>
 
                     <Row>
