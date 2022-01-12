@@ -8,6 +8,7 @@ import FilterRecipesForm from '../../form/FilterRecipesForm/FilterRecipesForm';
 function FilterControlSidebar({ show, onClose }) {
     const { filter, updateFilter } = useRecipeContext();
     const { value: ingredients} = useResource('/api/ingredients');
+    const { value: categories} = useResource('/api/categories');
 
     const handleApplyFilter = (filter) => {
         updateFilter(filter);
@@ -20,6 +21,7 @@ function FilterControlSidebar({ show, onClose }) {
                 initialFilter={filter}
                 onSubmit={handleApplyFilter}
                 ingredients={ingredients}
+                categories={categories}
             />
         </SlideinSidebar>
     )

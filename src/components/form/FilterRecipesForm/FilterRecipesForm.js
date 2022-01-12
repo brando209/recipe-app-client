@@ -5,10 +5,11 @@ import { Formik, Form } from 'formik';
 import AutocompleteList from '../../input/AutocompleteList/AutocompleteList';
 import './FilterRecipesForm.css';
 
-function FilterRecipesForm({ initialFilter, onSubmit, ingredients }) {
+function FilterRecipesForm({ initialFilter, onSubmit, ingredients, categories }) {
     const handleClearFilters = () => {
         onSubmit({
-            ingredients: []
+            ingredients: [],
+            categories: []
         });
     }
 
@@ -17,7 +18,8 @@ function FilterRecipesForm({ initialFilter, onSubmit, ingredients }) {
             initialValues={initialFilter}
             onSubmit={(values) => {
                 onSubmit({
-                    ingredients: values.ingredients
+                    ingredients: values.ingredients,
+                    categories: values.categories
                 });
             }}
         >
@@ -27,10 +29,24 @@ function FilterRecipesForm({ initialFilter, onSubmit, ingredients }) {
                         <h5>Ingredients</h5>
                         <AutocompleteList
                             name="ingredients"
+                            placeholder={"Enter an ingredient to add to list"}
                             suggestions={ingredients}
                             listItems={form.values.ingredients}
                             onChange={(value) => {
                                 form.setFieldValue('ingredients', [...form.values.ingredients, value]);
+                            }}
+                        />
+                    </Row>
+
+                    <Row>
+                        <h5>Categories</h5>
+                        <AutocompleteList
+                            name="categories"
+                            placeholder={"Enter a category to add to list"}
+                            suggestions={categories}
+                            listItems={form.values.categories}
+                            onChange={(value) => {
+                                form.setFieldValue('categories', [...form.values.categories, value]);
                             }}
                         />
                     </Row>
