@@ -5,7 +5,7 @@ import { Trash } from 'react-bootstrap-icons';
 import Autocomplete from '../Autocomplete/Autocomplete';
 import './AutocompleteList.css';
 
-function AutocompleteList({ name, listItems, suggestions, onChange }) {
+function AutocompleteList({ name, listItems, suggestions, placeholder, onChange }) {
     const handleSubmit = (values) => {
         onChange && onChange(values);
     }
@@ -14,7 +14,7 @@ function AutocompleteList({ name, listItems, suggestions, onChange }) {
         <>
             <Autocomplete
                 suggestions={suggestions}
-                placeholder="Enter an ingredient to add to list"
+                placeholder={placeholder}
                 onSubmit={handleSubmit}
             />
             <FieldArray
