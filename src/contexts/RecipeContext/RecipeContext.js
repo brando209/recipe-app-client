@@ -17,10 +17,10 @@ export default function RecipeContextProvider({ children }) {
         true,
         [auth.user?.token]
     );
-    const [filter, setFilter] = useState({ ingredients: [], search: "" });
+    const [filter, setFilter] = useState({ ingredients: [], categories: [], search: "" });
 
     const applyFilter = (filter) => {
-        const { ingredients, search } = filter;
+        const { ingredients, categories, search } = filter;
 
         let result = value;
 
@@ -29,6 +29,16 @@ export default function RecipeContextProvider({ children }) {
             for(let ingredient of ingredients) {
                 result = result?.filter(recipe => {
                     const index = recipe.ingredients.findIndex(ing => ing.id === ingredient.id)
+                    return index > -1;
+                });
+            }
+        }
+
+        //Filter by categories, result will include recipes that have all categories
+        if(categories) {
+            for(let category of categories) {
+                result = result?.filter(recipe => {
+                    const index = recipe.categories.findIndex(cat => cat.id === category.id)
                     return index > -1;
                 });
             }
@@ -43,6 +53,7 @@ export default function RecipeContextProvider({ children }) {
                 || recipe.ingredients.map(ing => ing.name).join(" ").toLowerCase().includes(searchText)
                 || recipe.instructions.join(" ").toLowerCase().includes(searchText)
                 || recipe.comments?.join(" ").toLowerCase().includes(searchText)
+                || recipe.categories.map(cat => cat.name).join(" ").toLowerCase().includes(searchText)
             ));
         }
 
