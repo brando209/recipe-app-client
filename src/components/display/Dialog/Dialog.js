@@ -13,6 +13,7 @@ export default function Dialog(props) {
 
             <Modal.Body>
                 <p>{dialog.text}</p>
+                {dialog.body}
             </Modal.Body>
 
             <Modal.Footer>

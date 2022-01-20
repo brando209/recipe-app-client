@@ -10,6 +10,7 @@ export default function DialogContextProvider({ children }) {
     const [dialog, setDialog] = useState({
         title: "Dialog Box",
         text: "Dialog body text",
+        body: <div>Body component</div>,
         footer: <Button>Close</Button>,
     })
 
