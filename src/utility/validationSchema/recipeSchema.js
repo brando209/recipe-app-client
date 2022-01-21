@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 const recipeSchema = Yup.object().shape({
     title: Yup.string()
         .min(3, 'Too Short!')
-        .max(32, 'Too Long!')
+        .max(96, 'Too Long!')
         .required('Please provide a title.'),
     description: Yup.string().required("Please provide a description."),
     prep: Yup.object({
