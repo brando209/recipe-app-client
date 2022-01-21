@@ -24,7 +24,14 @@ export default function IngredientInput({ index, arrayHelpers }) {
                     variant="secondary"
                 />
                 <Field
-                    as={SelectInput} options={['teaspoon','tablespoon','cup','ounce','pound','gram']}
+                    as={SelectInput} options={[
+                        'teaspoon', 'tablespoon', 'cup',
+                        'ounce', 'pound', 'milligram', 'gram', 'kilogram',
+                        'liter', 'milliliter', 'quart', 'pint', 'gallon',
+                        'pinch', 'piece',
+                        'slice', 'stick', 'clove',
+                        'can', 'box', 'bag', 'package'
+                    ]}
                     name={`ingredients.${index}.measurement`} placeholder="unit"
                     variant="secondary"
                 />
