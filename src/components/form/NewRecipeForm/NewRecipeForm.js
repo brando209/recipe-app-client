@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Button } from 'react-bootstrap';
 import * as Inputs from '../../input';
@@ -7,29 +7,28 @@ import recipeSchema from '../../../utility/validationSchema/recipeSchema';
 
 import './NewRecipeForm.css';
 
-const initialValues = {
-    title: "",
-    description: "",
-    serves: "",
-    prep: {
-        time: "",
-        unit: "min"
-    },
-    cook: {
-        time: "",
-        unit: "min"
-    },
-    ingredients: [],
-    instructions: [],
-    comments: [],
-    categories: [],
-    photo: null
-}
+export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) {
+    //This state is used when the user selects an image file from device
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [selectedImage, setSelectedImage] = useState(null);
 
-export default function NewRecipeForm({ onSubmit }) {
+    //When a file is selected, convert file to dataurl for display
+    useEffect(() => {
+        const fileReader = new FileReader();
+        const handleShowImage = (evt) => {
+            setSelectedImage(evt.target.result);
+        }
+        fileReader.addEventListener("load", handleShowImage, false);
+
+        if (selectedFile) fileReader.readAsDataURL(selectedFile);
+
+        return () => fileReader.removeEventListener("load", handleShowImage);
+    }, [selectedFile]);
+
     return (
         <Formik
             initialValues={initialValues}
+            enableReinitialize={true}
             onSubmit={(values, { setSubmitting }) => {
                 const formData = new FormData();
                 formData.append("title", values.title);
@@ -69,17 +68,20 @@ export default function NewRecipeForm({ onSubmit }) {
 
 
                     <Inputs.InputContainer name="prep" label="Prep:">
-                        <Field name="prep.time" type="number" min={1}/>
+                        <Field name="prep.time" type="number" min={1} />
                         <Field name="prep.unit" as={Inputs.SelectInput} options={['min', 'hr']} variant="secondary" />
                     </Inputs.InputContainer>
                     <ErrorMessage name="prep.time" component="div" className="form-error-message" />
 
                     <Inputs.InputContainer name="cook" label="Cook:">
-                        <Field name="cook.time" type="number" min={1}/>
-                        <Field name="cook.unit" as={Inputs.SelectInput} options={['min', 'hr']} variant="secondary"/>
+                        <Field name="cook.time" type="number" min={1} />
+                        <Field name="cook.unit" as={Inputs.SelectInput} options={['min', 'hr']} variant="secondary" />
                     </Inputs.InputContainer>
                     <ErrorMessage name="cook.time" component="div" className="form-error-message" />
 
+                    {values.photo && <div className='recipe-image-container'>
+                        <img src={values.photo && typeof values.photo === "string" ? values.photo : selectedImage} alt="" />
+                    </div>}
 
                     <Inputs.InputContainer name="photo" label="Image:">
                         <Field
@@ -89,6 +91,7 @@ export default function NewRecipeForm({ onSubmit }) {
                             onChange={e => {
                                 const file = e.target.files[0];
                                 setFieldValue('photo', file);
+                                setSelectedFile(file);
                             }}
                         />
                     </Inputs.InputContainer>
@@ -139,13 +142,13 @@ export default function NewRecipeForm({ onSubmit }) {
                         )}
                     />
 
-                    <Button type="submit" disabled={isSubmitting} variant="secondary">
-                        {isSubmitting ? 
+                    <Button type="submit" disabled={isSubmitting || isImporting} variant="secondary">
+                        {isSubmitting ?
                             <div>
                                 <Heart />
                                 <div>Submitting...</div>
                             </div>
-                        : "Submit"
+                            : "Submit"
                         }
                     </Button>
                 </Form>

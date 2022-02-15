@@ -11,3 +11,12 @@ button[type="submit"] > div {
 .form-error-message {
     color: red;
 }
+
+/* TODO: DRY: This was copied from RecipeDetails.css  */
+.recipe-image-container > img {
+    width: 100%;
+    max-width: 300px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    object-position: center;
+}
