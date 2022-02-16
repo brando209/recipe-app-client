@@ -4,6 +4,13 @@
   --color-blue: #6c8a9b;
   --color-white: #f9f5ef;
   --color-grey: #e6e6e4;
+  --breakpoint-xs: '320px';
+  --breakpoint-sm: '375px';
+  --breakpoint-md: '425px';
+  --breakpoint-lg: '768px';
+  --breakpoint-xl: '1024px';
+  --breakpoint-xxl: '1440px';
+  --breakpoint-desktop: '2560px';
 }
 
 .App {

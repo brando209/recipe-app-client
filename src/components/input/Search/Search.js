@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button, Form, FormControl } from 'react-bootstrap';
-import './Search.css';
+import { Search as SearchIcon } from 'react-bootstrap-icons';
+import styled from 'styled-components';
 
 function Search({ onSubmit, initialValue }) {
     const inputRef = useRef(null);
@@ -35,7 +36,7 @@ function Search({ onSubmit, initialValue }) {
     }
 
     return (
-        <Form className="search-form" onSubmit={handleSubmit}>
+        <StyledSearch onSubmit={handleSubmit}>
             <FormControl
                 type="search"
                 placeholder="Search"
@@ -45,10 +46,31 @@ function Search({ onSubmit, initialValue }) {
                 onChange={handleInputChange}
                 ref={inputRef}
             />
-            <Button className={`clear-btn ${showClearBtn ? "show" : "hide"}`} variant="outline-secondary" onClick={handleClear}>x</Button>
-            <Button variant="secondary" type="submit" className="mx-2">Search</Button>
-        </Form>
+            <Button className={`clear-btn ${showClearBtn ? "show" : ""}`} variant="outline-secondary" onClick={handleClear}>x</Button>
+            <Button variant="secondary" type="submit" className="ms-2"><SearchIcon width={10} height={10} /></Button>
+        </StyledSearch>
     )
 }
+
+const StyledSearch = styled(Form)`
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: right;
+
+    .search-bar {
+        max-width: 300px;   
+    }
+
+    .clear-btn {
+        display: none;
+        background: white;
+    }
+
+    .clear-btn.show {
+        display: inline;
+    }
+
+`
 
 export default Search;

@@ -1,11 +1,16 @@
-import React from 'react';
-import Container from 'react-bootstrap/Container';
-import './Page.css';
+import styled from 'styled-components';
 
-export default function Page({ children, className = "", ...props }) {
+export default function Page({ children, ...props }) {
     return (
-        <Container className={`page ${className}`} {...props} fluid >
+        <PageContainer {...props}>
             { children }
-        </Container>
+        </PageContainer>
     );
 }
+
+const PageContainer = styled.div`
+    background: var(--color-grey);
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+`

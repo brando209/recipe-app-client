@@ -1,9 +1,6 @@
-import React from 'react';
 import { Formik, Field, Form } from 'formik';
 import { Button } from 'react-bootstrap';
 import * as Inputs from '../../input';
-
-import './LoginForm.css';
 
 function LoginForm({ onSubmit, ...props }) {
     return (
@@ -15,7 +12,7 @@ function LoginForm({ onSubmit, ...props }) {
             }}
         >
             {({ isSubmitting }) => (
-                <Form className="login-form">
+                <Form>
                     <Inputs.InputContainer name="userName" label="Username">
                         <Field name="userName" type="input" placeholder="Enter your username" />
                     </Inputs.InputContainer>

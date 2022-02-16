@@ -1,8 +1,9 @@
-import React from 'react';
-import LoginForm from '../../components/form/LoginForm/LoginForm';
-import Page from '../Page/Page';
-import { useAuth } from '../../contexts/AuthContext/AuthContext';
+import styled from 'styled-components';
 import { Navigate } from 'react-router-dom';
+
+import Page from '../Page/Page';
+import LoginForm from '../../components/form/LoginForm/LoginForm';
+import { useAuth } from '../../contexts/AuthContext/AuthContext';
 
 export default function LoginPage(props) {
     const auth = useAuth();
@@ -15,9 +16,16 @@ export default function LoginPage(props) {
     if(!auth.loading && auth.user) return <Navigate to="/" />
 
     return (
-        <Page>
-            <h3>Log In</h3>
+        <LoginPageContainer>
+            <h1>Log In</h1>
             <LoginForm onSubmit={handleLogin} error={auth.error?.response?.data}/>
-        </Page>
+        </LoginPageContainer>
     )
 }
+
+const LoginPageContainer = styled(Page)`
+    padding: 2rem;
+    > h1 {
+        margin-top: 4rem;
+    }
+`

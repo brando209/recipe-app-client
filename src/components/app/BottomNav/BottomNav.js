@@ -1,20 +1,27 @@
-import React from 'react';
+import styled from 'styled-components';
 import Navbar from 'react-bootstrap/Navbar';
 import NavLinks from '../NavLinks/NavLinks';
-import useMediaQuery from '../../../hooks/useMediaQuery';
 import { useAuth } from '../../../contexts/AuthContext/AuthContext';
 
-import './BottomNav.css';
 
 export default function BottomNav(props) {
-    const shouldDisplay = useMediaQuery("(max-width: 1080px)");
     const auth = useAuth();
 
     if(!auth.user) return null;
 
     return (
-        <Navbar className={`bottom-bar ${shouldDisplay ? "" : "hide"}`} fixed="bottom">
+        <StyledBottomNav fixed="bottom">
             <NavLinks />
-        </Navbar>
+        </StyledBottomNav>
     )
 }
+
+const StyledBottomNav = styled(Navbar)`
+    background-color: var(--color-red);
+    border-top: 1px solid #5c636a;
+
+    @media (min-width: 1024px) {
+        display: none;
+    }
+
+`
