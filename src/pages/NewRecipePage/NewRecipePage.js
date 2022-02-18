@@ -7,7 +7,7 @@ import { useRecipeContext } from '../../contexts/RecipeContext/RecipeContext';
 import { useDialogContext } from '../../contexts/DialogContext/DialogContext';
 import { useAuth } from '../../contexts/AuthContext/AuthContext';
 import useResource from '../../hooks/useResource';
-import Heart from '../../components/display/spinners/Heart/Heart';
+import LoadingHeart from '../../components/display/buttons/LoadingHeart/LoadingHeart';
 
 const initialValues = {
     title: "",
@@ -77,21 +77,19 @@ export default function NewRecipePage(props) {
     return (
         <Page>
             <h1>New Recipe</h1>
-            <Button disabled={importing} variant="secondary" onClick={() => handleImportClick()}>
-                {importing ?
-                    <div style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        width: "150px"
-                    }}>
-                        <Heart />
-                        <div>Importing...</div>
-                    </div>
-                    : "Import"
-                }
-            </Button>
-            <NewRecipeForm onSubmit={handleCreateRecipe} initialValues={importedRecipe || initialValues} isImporting={importing} error={error} />
+            <LoadingHeart 
+                variant="secondary" 
+                isLoading={importing}
+                defaultText="Import"
+                loadingText="Importing..."
+                onClick={handleImportClick} 
+            />
+            <NewRecipeForm 
+                onSubmit={handleCreateRecipe} 
+                initialValues={importedRecipe || initialValues} 
+                isImporting={importing} 
+                error={error} 
+            />
         </Page>
-
     );
 }

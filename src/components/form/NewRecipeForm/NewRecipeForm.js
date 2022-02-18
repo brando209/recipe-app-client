@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { Button } from 'react-bootstrap';
 import * as Inputs from '../../input';
-import Heart from '../../display/spinners/Heart/Heart';
 import recipeSchema from '../../../utility/validationSchema/recipeSchema';
 
-import './NewRecipeForm.css';
+import LoadingHeart from '../../display/buttons/LoadingHeart/LoadingHeart';
 
 export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) {
     //This state is used when the user selects an image file from device
@@ -42,38 +40,38 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
                 formData.append("categories", JSON.stringify(values.categories));
                 formData.append("photo", values.photo || "");
                 setSubmitting(true);
-                onSubmit(formData, () => {
-                    setSubmitting(false);
-                });
+                // onSubmit(formData, () => {
+                //     setSubmitting(false);
+                // });
             }}
-            validationSchema={recipeSchema}
+            // validationSchema={recipeSchema}
         >
             {({ isSubmitting, values, setFieldValue }) => (
                 <Form>
-                    <Inputs.InputContainer name="title" label="Title:">
+                    <Inputs.InputContainer name="title" label="Title">
                         <Field name="title" placeholder="Recipe Title" type="input" />
                     </Inputs.InputContainer>
                     <ErrorMessage name="title" component="div" className="form-error-message" />
 
-                    <Inputs.InputContainer name="description" label="Description:">
+                    <Inputs.InputContainer name="description" label="Description">
                         <Field name="description" placeholder="Recipe Description" as="textarea" />
                     </Inputs.InputContainer>
                     <ErrorMessage name="description" component="div" className="form-error-message" />
 
 
-                    <Inputs.InputContainer name="serves" label="Serves:">
+                    <Inputs.InputContainer name="serves" label="Serves">
                         <Field name="serves" placeholder="Serves" type="number" min={1} />
                     </Inputs.InputContainer>
                     <ErrorMessage name="serves" component="div" className="form-error-message" />
 
 
-                    <Inputs.InputContainer name="prep" label="Prep:">
+                    <Inputs.InputContainer name="prep" label="Prep">
                         <Field name="prep.time" type="number" min={1} />
                         <Field name="prep.unit" as={Inputs.SelectInput} options={['min', 'hr']} variant="secondary" />
                     </Inputs.InputContainer>
                     <ErrorMessage name="prep.time" component="div" className="form-error-message" />
 
-                    <Inputs.InputContainer name="cook" label="Cook:">
+                    <Inputs.InputContainer name="cook" label="Cook">
                         <Field name="cook.time" type="number" min={1} />
                         <Field name="cook.unit" as={Inputs.SelectInput} options={['min', 'hr']} variant="secondary" />
                     </Inputs.InputContainer>
@@ -83,7 +81,7 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
                         <img src={values.photo && typeof values.photo === "string" ? values.photo : selectedImage} alt="" />
                     </div>}
 
-                    <Inputs.InputContainer name="photo" label="Image:">
+                    <Inputs.InputContainer name="photo" label="Image">
                         <Field
                             type="file"
                             name="photo"
@@ -97,7 +95,7 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
                     </Inputs.InputContainer>
 
                     <Inputs.InputList
-                        name="categories" label="Categories:"
+                        name="categories" label="Categories"
                         listItems={values.categories}
                         initialItemValue={{ name: "", type: "" }}
                         renderItem={(item, index, arrayHelpers) => <Inputs.CategoryInput key={`category-${index}`} item={item} index={index} arrayHelpers={arrayHelpers} />}
@@ -105,7 +103,7 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
                     <ErrorMessage name="categories" component="div" className="form-error-message" />
 
                     <Inputs.InputList
-                        name="ingredients" label="Ingredients:"
+                        name="ingredients" label="Ingredients"
                         listItems={values.ingredients}
                         initialItemValue={{ name: "", amount: "", measurement: "", size: "" }}
                         renderItem={(item, index, arrayHelpers) => <Inputs.IngredientInput key={`ingredient-${index}`} item={item} index={index} arrayHelpers={arrayHelpers} />}
@@ -113,7 +111,7 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
                     <ErrorMessage name="ingredients" component="div" className="form-error-message" />
 
                     <Inputs.InputList
-                        name="instructions" label="Instructions:"
+                        name="instructions" label="Instructions"
                         listItems={values.instructions}
                         initialItemValue=""
                         renderItem={(item, index, arrayHelpers) => (
@@ -127,9 +125,8 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
                     />
                     <ErrorMessage name="instructions" component="div" className="form-error-message" />
 
-
                     <Inputs.InputList
-                        name="comments" label="Comments:"
+                        name="comments" label="Comments"
                         listItems={values.comments}
                         initialItemValue=""
                         renderItem={(item, index, arrayHelpers) => (
@@ -142,15 +139,12 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
                         )}
                     />
 
-                    <Button type="submit" disabled={isSubmitting || isImporting} variant="secondary">
-                        {isSubmitting ?
-                            <div>
-                                <Heart />
-                                <div>Submitting...</div>
-                            </div>
-                            : "Submit"
-                        }
-                    </Button>
+                    <LoadingHeart
+                        type="submit"
+                        variant="secondary"
+                        isLoading={isSubmitting || isImporting} 
+                        defaultText="Submit" loadingText="Submitting..." 
+                    />
                 </Form>
             )}
         </Formik>
