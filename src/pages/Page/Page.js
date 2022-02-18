@@ -12,6 +12,6 @@ const PageContainer = styled.div`
     background: var(--color-grey);
     width: 100%;
     margin: 0 auto;
-    padding: 0;
+    padding: 0.5rem;
     margin-bottom: 5rem;
 `
