@@ -28,7 +28,7 @@ const StyledInputContainer = styled.div`
         justify-content: flex-start;
         max-width: 450px;
         
-        > input, > textarea, > div > input, > div > select, > div > textarea {
+        > input, > select,  > textarea, > div > input, > div > select, > div > textarea {
             width: 100%;
         }
         

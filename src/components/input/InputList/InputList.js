@@ -73,4 +73,16 @@ const ListContainer = styled.div`
     display: flex;
     flex-direction: column;
     flex-basis: 100%;
+    
+    @media (min-width: 428px) {
+        padding-left: 6rem;
+    }
+
+    @media (min-width: 768px) {
+        padding-left: 8rem;
+    }
+
+    @media (min-width: 1024px) {
+        padding-left: 15%;
+    }
 `

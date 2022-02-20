@@ -32,6 +32,7 @@ const StyledCategoryInput = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    gap: 5px;
     width: 100%;
     max-width: 450px;
     margin: 0.25rem auto;
@@ -39,20 +40,12 @@ const StyledCategoryInput = styled.div`
     > button {
         flex: 0.1;
         line-height: 1rem;
+        max-width: 100px;
     }
 
     @media (min-width: 428px) {
         justify-content: flex-end;
-        padding-left: 5rem;
         width: 90%;
-    }
-
-    @media (min-width: 768px) {
-        padding-left: 7rem;
-    }
-
-    @media (min-width: 1024px) {
-        margin-left: 40vw;
     }
 `
 
