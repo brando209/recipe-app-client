@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { Field } from 'formik';
-import { Row, Col, Button } from 'react-bootstrap';
-import { Trash } from 'react-bootstrap-icons';
+import { XSquare } from 'react-bootstrap-icons';
 
 export default function TextareaListInput({ name, index, arrayHelpers, placeholder }) {
     return (
@@ -12,9 +11,7 @@ export default function TextareaListInput({ name, index, arrayHelpers, placehold
                 />
             </div>
             <div>
-                <Button variant="secondary" size="sm" onClick={() => arrayHelpers.remove(index)}>
-                    <Trash />
-                </Button>
+                <XSquare onClick={() => arrayHelpers.remove(index)}/>
             </div>
         </StyledTextareaListInput>
     )
@@ -28,6 +25,14 @@ const StyledTextareaListInput = styled.div`
     width: 100%;
     padding: 0.5rem;
     margin: 0.25rem auto;
+
+    > div > svg {
+        color: var(--color-red);
+    }
+
+    > div > svg:hover {
+        cursor: pointer;
+    }
 
     > div:first-child {
         flex: 0.9;

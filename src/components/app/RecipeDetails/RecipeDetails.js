@@ -141,7 +141,7 @@ const RecipeDetailsTop = styled.div`
     
     @media (min-width: 428px) {
         > div:first-child {
-            flex: 0.7;
+            flex: 0.8;
         }   
     }
 `

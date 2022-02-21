@@ -160,6 +160,10 @@ const EditRecipeFormTop = styled.div`
         margin-right: 1rem;
         gap: 1rem;
 
+        > input {
+            width: 100%;
+        }
+
         > svg {
             min-height: 1.5rem;
             min-width: 1.5rem;

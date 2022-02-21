@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { Field } from 'formik';
-import { Button } from 'react-bootstrap';
-import { Trash } from 'react-bootstrap-icons';
+import { XSquare } from 'react-bootstrap-icons';
 import { SelectInput } from '..';
 
 export default function IngredientInput({ index, arrayHelpers }) {
@@ -35,9 +34,7 @@ export default function IngredientInput({ index, arrayHelpers }) {
                 />
             </IngredientInputMiddle>
             <IngredientInputRight>
-                <Button className="add-ingredient-btn" variant="secondary" size="sm" onClick={() => arrayHelpers.remove(index)}>
-                    <Trash />
-                </Button>
+                <XSquare onClick={() => arrayHelpers.remove(index)}/>
             </IngredientInputRight>
             <IngredientInputBottom>
                 <Field name={`ingredients.${index}.comment`} type="input" placeholder={"Additional info"}/>
@@ -53,10 +50,10 @@ const StyledIngredientInput =styled.div`
     flex-wrap: wrap;
     gap: 5px;
     margin: 0.25rem auto;
-    border: 1px solid black;
+    border: 2px solid var(--color-red);
     border-radius: 5px;
     padding: 0.5rem;
-    background: rgb(223, 223, 223);
+    background-color: var(--color-white);    
     max-width: 450px;
     width: 100%;
 
@@ -88,8 +85,12 @@ const IngredientInputMiddle =styled.div`
 `
 const IngredientInputRight =styled.div`
     flex: 0.1;
-    > button {
+    > svg {
         line-height: 1rem;
+        color: var(--color-red)
+    }
+    > svg:hover {
+        cursor: pointer;
     }
 `
 const IngredientInputBottom =styled.div`
