@@ -4,6 +4,7 @@ import * as Inputs from '../../input';
 import recipeSchema from '../../../utility/validationSchema/recipeSchema';
 
 import LoadingHeart from '../../display/buttons/LoadingHeart/LoadingHeart';
+import styled from 'styled-components';
 
 export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) {
     //This state is used when the user selects an image file from device
@@ -77,9 +78,7 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
                     </Inputs.InputContainer>
                     <ErrorMessage name="cook.time" component="div" className="form-error-message" />
 
-                    {values.photo && <div className='recipe-image-container'>
-                        <img src={values.photo && typeof values.photo === "string" ? values.photo : selectedImage} alt="" />
-                    </div>}
+                    {values.photo && <StyledImage src={values.photo && typeof values.photo === "string" ? values.photo : selectedImage} alt="" />}
 
                     <Inputs.InputContainer name="photo" label="Image">
                         <Field
@@ -150,3 +149,20 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
         </Formik>
     )
 }
+
+const StyledImage = styled.img`
+    width: 90%;
+    min-height: 150px;
+    max-height: 12rem;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 5px;
+    margin: 0.25rem;
+    border: 2px solid var(--color-red);
+
+    @media (min-width: 428px) {
+        width: 80%;
+        margin-left: 20%; 
+    }
+`
