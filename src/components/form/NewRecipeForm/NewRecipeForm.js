@@ -52,31 +52,31 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
                     <Inputs.InputContainer name="title" label="Title">
                         <Field name="title" placeholder="Recipe Title" type="input" />
                     </Inputs.InputContainer>
-                    <ErrorMessage name="title" component="div" className="form-error-message" />
+                    <FormError name="title" component="div" className="form-error-message" />
 
                     <Inputs.InputContainer name="description" label="Description">
                         <Field name="description" placeholder="Recipe Description" as="textarea" />
                     </Inputs.InputContainer>
-                    <ErrorMessage name="description" component="div" className="form-error-message" />
+                    <FormError name="description" component="div" className="form-error-message" />
 
 
                     <Inputs.InputContainer name="serves" label="Serves">
                         <Field name="serves" placeholder="Serves" type="number" min={1} />
                     </Inputs.InputContainer>
-                    <ErrorMessage name="serves" component="div" className="form-error-message" />
+                    <FormError name="serves" component="div" className="form-error-message" />
 
 
                     <Inputs.InputContainer name="prep" label="Prep">
                         <Field name="prep.time" type="number" min={1} />
                         <Field name="prep.unit" as={Inputs.SelectInput} options={['min', 'hr']} variant="secondary" />
                     </Inputs.InputContainer>
-                    <ErrorMessage name="prep.time" component="div" className="form-error-message" />
+                    <FormError name="prep.time" component="div" className="form-error-message" />
 
                     <Inputs.InputContainer name="cook" label="Cook">
                         <Field name="cook.time" type="number" min={1} />
                         <Field name="cook.unit" as={Inputs.SelectInput} options={['min', 'hr']} variant="secondary" />
                     </Inputs.InputContainer>
-                    <ErrorMessage name="cook.time" component="div" className="form-error-message" />
+                    <FormError name="cook.time" component="div" className="form-error-message" />
 
                     {values.photo && <StyledImage src={values.photo && typeof values.photo === "string" ? values.photo : selectedImage} alt="" />}
 
@@ -99,7 +99,7 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
                         initialItemValue={{ name: "", type: "" }}
                         renderItem={(item, index, arrayHelpers) => <Inputs.CategoryInput key={`category-${index}`} item={item} index={index} arrayHelpers={arrayHelpers} />}
                     />
-                    <ErrorMessage name="categories" component="div" className="form-error-message" />
+                    <FormError name="categories" component="div" className="form-error-message" />
 
                     <Inputs.InputList
                         name="ingredients" label="Ingredients"
@@ -107,7 +107,7 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
                         initialItemValue={{ name: "", quantity: "", unit: "", size: "", comment: "" }}
                         renderItem={(item, index, arrayHelpers) => <Inputs.IngredientInput key={`ingredient-${index}`} item={item} index={index} arrayHelpers={arrayHelpers} />}
                     />
-                    <ErrorMessage name="ingredients" component="div" className="form-error-message" />
+                    <FormError name="ingredients" component="div" className="form-error-message" />
 
                     <Inputs.InputList
                         name="instructions" label="Instructions"
@@ -122,7 +122,7 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
                             />
                         )}
                     />
-                    <ErrorMessage name="instructions" component="div" className="form-error-message" />
+                    <FormError name="instructions" component="div" className="form-error-message" />
 
                     <Inputs.InputList
                         name="comments" label="Comments"
@@ -165,4 +165,8 @@ const StyledImage = styled.img`
         width: 80%;
         margin-left: 20%; 
     }
+`
+
+const FormError = styled(ErrorMessage)`
+    color: red;
 `
