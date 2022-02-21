@@ -1,11 +1,9 @@
-import React from 'react';
+import styled from 'styled-components';
 import { useNavigate } from 'react-router';
 import { Row, Col, Button, Badge } from 'react-bootstrap';
-import { Heart, HeartFill, Trash } from 'react-bootstrap-icons';
+import { Heart, HeartFill, Trash, PencilSquare } from 'react-bootstrap-icons';
 import { useDialogContext } from '../../../contexts/DialogContext/DialogContext';
 import List from '../../display/List/List';
-
-import './RecipeDetails.css';
 
 export default function RecipeDetails({ recipe, onFavorite, onDelete }) {
     const navigate = useNavigate();
@@ -33,77 +31,168 @@ export default function RecipeDetails({ recipe, onFavorite, onDelete }) {
     }
 
     return (
-        <>
-            <Row className="recipe-detail-row">
-                <Col as="h2" xs="8" lg="10">
-                    {title}{" "}
-                    <span className="favorite-btn">
-                        {favorite ?
-                            <HeartFill onClick={handleFavoriteClick} /> :
-                            <Heart onClick={handleFavoriteClick} />
-                        }
-                    </span>
-                </Col>
-                <Col xs="3" lg="1">
-                    <Button variant="outline-secondary" onClick={handleEditClick}>
-                        Edit
-                    </Button>
-                </Col>
-                <Col xs="1" className="delete-btn">
+        <StyledRecipeDetails>
+            <RecipeDetailsTop>
+                <div>
+                    <h1>{title}</h1>
+                    {favorite ?
+                        <HeartFill onClick={handleFavoriteClick} /> :
+                        <Heart onClick={handleFavoriteClick} />
+                    }
+                </div>
+                <div>
+                    <PencilSquare onClick={handleEditClick} />
                     <Trash onClick={handleDeleteClick} />
-                </Col>
-            </Row>
+                </div>
+            </RecipeDetailsTop>
 
-            <Row className="recipe-detail-row">
-                <Col xs="5">
-                    <p>{"Serves: " + serves}</p>
-                    <p>{"Prep Time: " + prep.time + " " + prep.unit}</p>
-                    <p>{"Cook Time: " + cook.time + " " + cook.unit}</p>
-                    <p>{"Total Time: " + (prep.time + cook.time) + " " + cook.unit}</p>
-                </Col>
-                <Col className="recipe-image-container">
-                    <img src={photo.path ? `http://localhost:3005/${photo.path}` : ""} alt="" />
-                </Col>
-            </Row>
-
-            <Row className="recipe-detail-row">
+            <RecipeDetailsMiddle>
+                <img src={photo.path ? `/${photo.path}` : ""} alt="" />
+                <div>
+                    <p>
+                        <label>Serves:&nbsp;</label>
+                        {serves}
+                    </p>
+                    <p>
+                        <label>Prep&nbsp;Time:&nbsp;</label>
+                        {prep.time}&nbsp;{prep.unit}
+                    </p>
+                    <p>
+                        <label>Cook&nbsp;Time:&nbsp;</label>
+                        {cook.time}&nbsp;{cook.unit}
+                    </p>
+                    <p>
+                        <label>Total&nbsp;Time:&nbsp;</label>
+                        {(prep.time + cook.time)}&nbsp;{cook.unit}</p>
+                </div>
                 <p>{description}</p>
-            </Row>
+            </RecipeDetailsMiddle>
 
-            <Row>
-                <List
-                    type="ul"
-                    heading="Categories"
-                    listStyle={{ listStyleType: "none", padding: "0", margin: "0 0 5px 0" }}
-                    direction="horizontal"
-                    listItems={categories}
-                    renderItem={(category) => <Badge className="m-1">{category.name}</Badge>}
-                />
-            </Row>
+            <RecipeDetailsBottom>
+                {categories &&
+                    <List
+                        type="ul"
+                        heading="Categories"
+                        listStyle={{ listStyleType: "none", padding: "0", margin: "0 0 5px 0" }}
+                        direction="horizontal"
+                        listItems={categories}
+                        renderItem={(category) => <Badge className="m-1">{category.name}</Badge>}
+                    />
+                }   
 
-            <Row>
                 <List
                     type="ul"
                     heading="Ingredients"
                     listItems={ingredients}
-                    renderItem={(ingredient) => `${ingredient.amount ? ingredient.amount : ""} ${ingredient.measurement ? ingredient.measurement : ""} ${ingredient.name}${(ingredient.size ? ", " + ingredient.size : "")}`}
+                    renderItem={(ingredient) => `${ingredient.quantity ? ingredient.quantity : ""} ${ingredient.unit ? ingredient.unit : ""} ${ingredient.name}${(ingredient.size ? ", " + ingredient.size : "")} ${ingredient.comment ? "(" + ingredient.comment + ")" : ""}`}
                 />
-            </Row>
 
-            <Row>
                 <List
                     type="ol"
                     heading="Instructions"
                     listItems={instructions}
                 />
-            </Row>
 
-            <Row>
-                <List
-                    heading="Additional Comments"
-                    listItems={comments}
-                />
-            </Row>
-        </>
+                {comments &&
+                    <List
+                        heading="Additional Comments"
+                        listItems={comments}
+                    />
+                }
+            </RecipeDetailsBottom>
+        </StyledRecipeDetails>
     )
 }
+
+const StyledRecipeDetails = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin: 1rem auto;
+`
+
+const RecipeDetailsTop = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    > div {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end; 
+        align-items: flex-start;
+        margin-right: 1rem;
+        gap: 1rem;
+
+        > svg {
+            min-height: 1.5rem;
+            min-width: 1.5rem;
+        }
+
+        > svg:hover {
+            cursor: pointer;
+        }
+    }
+
+    > div:first-child {
+        > svg {
+            color: var(--color-red);
+        }
+    }
+    
+    @media (min-width: 428px) {
+        > div:first-child {
+            flex: 0.7;
+        }   
+    }
+`
+
+const RecipeDetailsMiddle = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    > img {
+        width: 100%;
+        min-height: 150px;
+        max-height: 12rem;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 5px;
+        margin: 0.25rem;
+        border: 2px solid var(--color-red);
+    }
+
+    > div {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+        width: 100%;
+        
+        > p {
+            flex: 1;
+            margin: 0.25rem;
+            padding: 0.125rem;
+            border: 2px solid var(--color-red);
+            border-radius: 5px;
+            font-weight: 200;
+            background-color: var(--color-white);
+
+            > label {
+                font-weight: 400;
+                display: inline;
+            }
+        }
+    }
+
+    > p {
+        text-align: left;
+        padding: 0.5rem;
+        order: 3;
+    }
+`
+const RecipeDetailsBottom = styled.div`
+
+`

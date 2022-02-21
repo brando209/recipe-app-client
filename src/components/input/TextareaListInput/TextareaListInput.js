@@ -8,7 +8,7 @@ export default function TextareaListInput({ name, index, arrayHelpers, placehold
         <StyledTextareaListInput>
             <div>    
                 <Field 
-                    name={`${name}.${index}`} as="textarea" placeholder={`${placeholder} #${index+1}`} 
+                    name={`${name}.${index}`} as="textarea" placeholder={`${placeholder} #${index+1}`} rows="3"
                 />
             </div>
             <div>

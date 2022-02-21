@@ -51,8 +51,8 @@ function App() {
 								<Route path="/favorites" element={<PrivateRoute><FavoritesPage /></PrivateRoute>} />
 								<Route path="/new" element={<PrivateRoute><NewRecipePage /></PrivateRoute>} />
 								<Route path="/settings" element={<PrivateRoute><SettingsPage /></PrivateRoute>} />
-								{/* <Route path="/recipe/:recipeId" element={<PrivateRoute><RecipePage /></PrivateRoute>} /> */}
-								{/* <Route path="/recipe/:recipeId/edit" element={<PrivateRoute><EditRecipePage /></PrivateRoute>} /> */}
+								<Route path="/recipe/:recipeId" element={<PrivateRoute><RecipePage /></PrivateRoute>} />
+								<Route path="/recipe/:recipeId/edit" element={<PrivateRoute><EditRecipePage /></PrivateRoute>} />
 							</Routes>
 
 							<BottomNav />

@@ -1,6 +1,7 @@
-import React from 'react';
+import styled from 'styled-components';
 import { useNavigate } from 'react-router';
-import { Row, Col, Button, ButtonGroup } from 'react-bootstrap';
+import { Save, XSquare } from 'react-bootstrap-icons';
+
 import { Formik, Form, Field } from 'formik';
 import { SelectInput, InputList, IngredientInput, TextareaListInput, CategoryInput } from '../../input';
 
@@ -20,15 +21,15 @@ export default function EditRecipeForm({ recipe, onEdit }) {
         const categoriesObject = {};
 
         //Look thru initialValues.ingredients to determine which ingredients have been removed
-        for(let ingredient of initialValues.ingredients) {
+        for (let ingredient of initialValues.ingredients) {
             //If ingredient is removed set to null
-            if(values.ingredients.findIndex(ing => ing.id === ingredient.id) === -1) {
+            if (values.ingredients.findIndex(ing => ing.id === ingredient.id) === -1) {
                 ingredientsObject[ingredient.name] = null;
             }
         }
 
-        for(let ingredient of values.ingredients) {
-            if(ingredient.id) delete ingredient.id;
+        for (let ingredient of values.ingredients) {
+            if (ingredient.id) delete ingredient.id;
             const { name, ...ingredientValues } = ingredient;
             ingredientsObject[name] = ingredientValues;
         }
@@ -55,60 +56,57 @@ export default function EditRecipeForm({ recipe, onEdit }) {
             initialValues={initialValues}
             onSubmit={handleSubmit}
         >
-            {({ isSubmitting, values }) => (
-                <Form>
-                    <Row className="recipe-detail-row">
-                        <Col as="h2" xs="7">
+            {({ isSubmitting, values, handleSubmit }) => (
+                <StyledEditRecipeForm>
+                    <EditRecipeFormTop>
+                        <div>
                             <Field name="title" placeholder="Recipe Title" type="input" />
-                        </Col>
-                        <Col xs="4">
-                            <ButtonGroup>
-                                <Button variant="outline-secondary" onClick={handleCancel}>Cancel</Button>
-                                <Button variant="secondary" type="submit" disabled={isSubmitting}>Save</Button>
-                            </ButtonGroup>
-                        </Col>
-                    </Row>
+                        </div>
+                        <div>
+                            <Save onClick={isSubmitting ? null : handleSubmit} />
+                            <XSquare onClick={handleCancel} />
+                        </div>
+                    </EditRecipeFormTop>
 
-                    <Row className="recipe-detail-row">
-                        <Col xs="5">
-                            <p>Serves: <Field name="serves" placeholder="Serves" type="number"  min={1} /></p>
-                            <p>Prep Time:
-                                <Field name="prep.time" type="number"  min={1} />
+                    <EditRecipeFormMiddle>
+                        <img src={values.photo.path ? `/${values.photo.path}` : ""} alt="" />
+                        <div>
+                            <p>
+                                <label>Serves:&nbsp;</label>
+                                <Field name="serves" placeholder="Serves" type="number" min={1} />
+                            </p>
+                            <p>
+                                <label>Prep&nbsp;Time:&nbsp;</label>
+                                <Field name="prep.time" type="number" min={1} />
                                 <Field name="prep.unit" as={SelectInput} options={['min', 'hr']} variant="secondary" />
                             </p>
-                            <p>Cook Time:
-                                <Field name="cook.time" type="number"  min={1} />
+                            <p>
+                                <label>Cook&nbsp;Time:&nbsp;</label>
+                                <Field name="cook.time" type="number" min={1} />
                                 <Field name="cook.unit" as={SelectInput} options={['min', 'hr']} variant="secondary" />
                             </p>
-                        </Col>
-                        <Col className="recipe-image-container">
-                            <img src={initialValues.photo.path ? `http://localhost:3005/${initialValues.photo.path}` : ""} alt="" />
-                        </Col>
-                    </Row>
+                            <p>
+                                <label>Total&nbsp;Time:&nbsp;</label>
+                                {(values.prep.time + values.cook.time)}&nbsp;{values.cook.unit}</p>
+                        </div>
+                        <Field name="description" placeholder="Recipe Description" as="textarea" rows="4" />
+                    </EditRecipeFormMiddle>
 
-                    <Row className="recipe-detail-row">
-                        <Field name="description" placeholder="Recipe Description" as="textarea" />
-                    </Row>
-
-                    <Row>
+                    <EditRecipeFormBottom>
                         <InputList
-                            name="categories" label="Categories:"
+                            name="categories" label="Categories"
                             listItems={values.categories}
                             initialItemValue={{ name: "", type: "" }}
                             renderItem={(item, index, arrayHelpers) => <CategoryInput key={`category-${index}`} item={item} index={index} arrayHelpers={arrayHelpers} />}
                         />
-                    </Row>
 
-                    <Row>
                         <InputList
                             name="ingredients" label="Ingredients"
                             listItems={values.ingredients}
-                            initialItemValue={{ name: "", amount: "", measurement: "", size: "" }}
+                            initialItemValue={{ name: "", quantity: "", unit: "", size: "", comment: "" }}
                             renderItem={(item, index, arrayHelpers) => <IngredientInput key={`ingredient-${index}`} item={item} index={index} arrayHelpers={arrayHelpers} />}
                         />
-                    </Row>
 
-                    <Row>
                         <InputList
                             name="instructions" label="Instructions"
                             listItems={values.instructions}
@@ -122,11 +120,9 @@ export default function EditRecipeForm({ recipe, onEdit }) {
                                 />
                             )}
                         />
-                    </Row>
 
-                    <Row>
                         <InputList
-                            name="comments" label="Comments:"
+                            name="comments" label="Comments"
                             listItems={values.comments || []}
                             initialItemValue=""
                             renderItem={(item, index, arrayHelpers) => (
@@ -138,9 +134,107 @@ export default function EditRecipeForm({ recipe, onEdit }) {
                                 />
                             )}
                         />
-                    </Row>
-                </Form>
+                    </EditRecipeFormBottom>
+                </StyledEditRecipeForm>
             )}
         </Formik>
     )
 }
+
+const StyledEditRecipeForm = styled(Form)`
+    display: flex;
+    flex-direction: column;
+    margin: 1rem auto;
+`
+
+const EditRecipeFormTop = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    > div {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end; 
+        align-items: flex-start;
+        margin-right: 1rem;
+        gap: 1rem;
+
+        > svg {
+            min-height: 1.5rem;
+            min-width: 1.5rem;
+        }
+
+        > svg:hover {
+            cursor: pointer;
+        }
+
+        > svg:first-child {
+            color: green;
+        }
+
+        > svg:last-child {
+            color: var(--color-red);
+        }
+    }
+    
+    @media (min-width: 428px) {
+        > div:first-child {
+            flex: 0.7;
+        }   
+    }
+`
+
+const EditRecipeFormMiddle = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    input, select {
+        width: 80%;
+    }
+
+    textarea {
+        width: 95%;
+        margin: 0.25rem auto;
+    }
+
+    > img {
+        width: 100%;
+        min-height: 150px;
+        max-height: 12rem;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 5px;
+        margin: 0.25rem;
+        border: 2px solid var(--color-red);
+    }
+
+    > div {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+        width: 100%;
+        
+        > p {
+            flex: 1;
+            margin: 0.25rem;
+            padding: 0.25rem 0;
+            border: 2px solid var(--color-red);
+            border-radius: 5px;
+            font-weight: 200;
+            background-color: var(--color-white);
+
+            > label {
+                font-weight: 400;
+                display: inline;
+            }
+        }
+    }
+`
+const EditRecipeFormBottom = styled.div`
+
+`
