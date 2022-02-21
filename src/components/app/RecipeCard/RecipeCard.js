@@ -100,6 +100,10 @@ const CardBodyLeft = styled.div`
         line-clamp: 2; 
     }
 
+    .favorite-btn {
+        color: var(--color-red);
+    }
+
     @media (min-width: 375px) {
         .recipe-info {
             font-size: medium;
