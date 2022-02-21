@@ -1,5 +1,4 @@
-import React from 'react';
-import './List.css';
+import styled from 'styled-components';
 
 function List({ 
     heading,
@@ -20,23 +19,33 @@ function List({
     }
 
     return (
-        <div className="list-container">
+        <StyledList>
             <h3>{heading}</h3>
-            <div className="list">
-                {(listItems && listItems.length > 0) ?
-                    (type === "ul") ?
-                        <ul style={style}>
-                            {listItemComponents}
-                        </ul> :
-                        <ol style={style}>
-                            {listItemComponents}
-                        </ol>
-                    :
-                    <p>This list is currently empty</p>
-                }
-            </div>
-        </div>
+            {(listItems && listItems.length > 0) ?
+                (type === "ul") ?
+                    <ul style={style}>
+                        {listItemComponents}
+                    </ul> :
+                    <ol style={style}>
+                        {listItemComponents}
+                    </ol>
+                :
+                <p>This list is currently empty</p>
+            }
+        </StyledList>
     )
 }
 
 export default List;
+
+const StyledList = styled.div`
+    > h3, > ul, > ol {
+        text-align: left;
+    }
+
+    > ul, > ol {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+`
