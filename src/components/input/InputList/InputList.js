@@ -2,7 +2,7 @@ import { FieldArray } from 'formik';
 import { Button } from 'react-bootstrap';
 import styled from 'styled-components';
 
-export default function InputList({ name, label, listItems, renderItem, initialItemValue, buttonPlacement="top", buttonText="Add", buttonVariant="secondary" }) {
+export default function InputList({ name, label, listItems, renderItem, initialItemValue, buttonPlacement="top left", buttonText="Add", buttonVariant="secondary" }) {
     return (
         <FieldArray
             name={name}
@@ -49,10 +49,10 @@ const StyledInputList = styled.div`
     
     .add-btn-container {
         max-width: 450px;
-        text-align: left;
+        text-align: ${({ buttonPlacement }) => (['left', 'center', 'right'].includes(buttonPlacement.split(" ")[1]) ? buttonPlacement.split(" ")[1] : "left")};
         margin-left: 0.25rem;
         flex: 1;
-        order: ${({ buttonPlacement }) => (buttonPlacement === "bottom" ? 3 : 1)};
+        order: ${({ buttonPlacement }) => (buttonPlacement.split(" ")[0] === "bottom" ? 3 : 1)};
     }
 
     @media (min-width: 428px) {
