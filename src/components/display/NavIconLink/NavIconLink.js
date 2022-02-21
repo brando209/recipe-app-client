@@ -22,12 +22,15 @@ const StyledNavIconLink = styled(Nav.Item)`
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 30px;
+    scroll-snap-align: start;
+    min-width: 25%;
     color: #5c636a;
     text-decoration: none;
 
     .text {
         opacity: ${props => props.textOnHover ? 0 : 1};
+        white-space: normal;
+        width: 75%;
     }
 
     :hover {
@@ -38,5 +41,12 @@ const StyledNavIconLink = styled(Nav.Item)`
             opacity: 1;
         }
     }
-    
+
+    @media (min-width: 428px) {
+        min-width: 20%;
+    }
+
+    @media (min-width: 768px) {
+        min-width: 15%;
+    }
 `
