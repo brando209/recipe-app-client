@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Field } from 'formik';
-import { Row, Col, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { Trash } from 'react-bootstrap-icons';
 import { SelectInput } from '..';
 
@@ -12,7 +12,7 @@ export default function IngredientInput({ index, arrayHelpers }) {
                     name={`ingredients.${index}.name`} type="input" placeholder={`Ingredient #${index + 1}`}
                 />
                 <Field
-                    name={`ingredients.${index}.amount`} type="number" placeholder="Amount" min={0} step={0.01}
+                    name={`ingredients.${index}.quantity`} type="number" placeholder="Amount" min={0} step={0.01}
                 />
             </IngredientInputLeft>
             <IngredientInputMiddle>
@@ -30,7 +30,7 @@ export default function IngredientInput({ index, arrayHelpers }) {
                         'slice', 'stick', 'clove',
                         'can', 'box', 'bag', 'package'
                     ]}
-                    name={`ingredients.${index}.measurement`} placeholder="unit"
+                    name={`ingredients.${index}.unit`} placeholder="unit"
                     variant="secondary"
                 />
             </IngredientInputMiddle>

@@ -40,11 +40,11 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
                 formData.append("categories", JSON.stringify(values.categories));
                 formData.append("photo", values.photo || "");
                 setSubmitting(true);
-                // onSubmit(formData, () => {
-                //     setSubmitting(false);
-                // });
+                onSubmit(formData, () => {
+                    setSubmitting(false);
+                });
             }}
-            // validationSchema={recipeSchema}
+            validationSchema={recipeSchema}
         >
             {({ isSubmitting, values, setFieldValue }) => (
                 <Form>
@@ -105,7 +105,7 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
                     <Inputs.InputList
                         name="ingredients" label="Ingredients"
                         listItems={values.ingredients}
-                        initialItemValue={{ name: "", amount: "", measurement: "", size: "" }}
+                        initialItemValue={{ name: "", quantity: "", unit: "", size: "", comment: "" }}
                         renderItem={(item, index, arrayHelpers) => <Inputs.IngredientInput key={`ingredient-${index}`} item={item} index={index} arrayHelpers={arrayHelpers} />}
                     />
                     <ErrorMessage name="ingredients" component="div" className="form-error-message" />
