@@ -3,9 +3,9 @@ import styled from 'styled-components';
 export default function InputContainer({ name, label, children }) {
     return (
         <StyledInputContainer numElements={children?.length}>
-            <span>
+            {label && <span>
                 <label htmlFor={name}>{label}</label>{": "}
-            </span>
+            </span>}
             <div>
                 {children.length > 0 ? children.map(child => <div>{child}</div>) : children}
             </div>
@@ -53,7 +53,7 @@ const StyledInputContainer = styled.div`
             justify-content: flex-end;
         }
         > div {
-            flex: 0.7;
+            flex: 1;
             margin-left: 2rem;
         }
     }

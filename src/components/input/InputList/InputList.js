@@ -2,23 +2,23 @@ import { FieldArray } from 'formik';
 import { Button } from 'react-bootstrap';
 import styled from 'styled-components';
 
-export default function InputList({ name, label, listItems, renderItem, initialItemValue }) {
+export default function InputList({ name, label, listItems, renderItem, initialItemValue, buttonPlacement="top", buttonText="Add", buttonVariant="secondary" }) {
     return (
         <FieldArray
             name={name}
             render={arrayHelpers => (
-                <StyledInputList>
-                    <span className="label-container">
+                <StyledInputList buttonPlacement={buttonPlacement}>
+                    {label && <span className="label-container">
                         <label htmlFor={name}>{label}</label>{": "}
-                    </span>
+                    </span>}
                     <div className="add-btn-container">
                         <Button
                             type="button"
                             size="sm"
-                            variant="secondary"
+                            variant={buttonVariant}
                             onClick={() => arrayHelpers.push(initialItemValue)}
                         >
-                            Add
+                            {buttonText}
                         </Button>
                     </div>
                     <ListContainer>
@@ -43,14 +43,16 @@ const StyledInputList = styled.div`
         display: flex;
         justify-content: flex-start;
         font-weight: bold;
-        flex: 0.3;
+        flex: 0.4;
+        order: 0;
     }
     
     .add-btn-container {
         max-width: 450px;
         text-align: left;
         margin-left: 0.25rem;
-        flex: 0.7;
+        flex: 1;
+        order: ${({ buttonPlacement }) => (buttonPlacement === "bottom" ? 3 : 1)};
     }
 
     @media (min-width: 428px) {
@@ -59,6 +61,7 @@ const StyledInputList = styled.div`
         }
         .label-container {
             justify-content: flex-end;
+            flex: 0.3;
         }
     }
 
@@ -73,6 +76,7 @@ const ListContainer = styled.div`
     display: flex;
     flex-direction: column;
     flex-basis: 100%;
+    order: 2;
     
     @media (min-width: 428px) {
         padding-left: 6rem;
