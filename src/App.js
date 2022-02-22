@@ -8,6 +8,7 @@ import SettingsPage from './pages/SettingsPage/SettingsPage';
 import RecipePage from './pages/RecipePage/RecipePage';
 import EditRecipePage from './pages/EditRecipePage/EditRecipePage';
 import LoginPage from './pages/LoginPage/LoginPage';
+import GroceryListPage from './pages/GroceryListPage/GroceryListPage';
 import TopNav from './components/app/TopNav/TopNav';
 import BottomNav from './components/app/BottomNav/BottomNav';
 import FilterControlSidebar from './components/app/FilterControlSidebar/FilterControlSidebar';
@@ -51,6 +52,7 @@ function App() {
 								<Route path="/favorites" element={<PrivateRoute><FavoritesPage /></PrivateRoute>} />
 								<Route path="/new" element={<PrivateRoute><NewRecipePage /></PrivateRoute>} />
 								<Route path="/settings" element={<PrivateRoute><SettingsPage /></PrivateRoute>} />
+								<Route path="/grocery" element={<PrivateRoute><GroceryListPage /></PrivateRoute>} />
 								<Route path="/recipe/:recipeId" element={<PrivateRoute><RecipePage /></PrivateRoute>} />
 								<Route path="/recipe/:recipeId/edit" element={<PrivateRoute><EditRecipePage /></PrivateRoute>} />
 							</Routes>
