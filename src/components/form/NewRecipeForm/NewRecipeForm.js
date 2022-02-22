@@ -48,7 +48,7 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
             validationSchema={recipeSchema}
         >
             {({ isSubmitting, values, setFieldValue }) => (
-                <Form>
+                <StyledNewRecipeForm>
                     <Inputs.InputContainer name="title" label="Title">
                         <Field name="title" placeholder="Recipe Title" type="input" />
                     </Inputs.InputContainer>
@@ -138,35 +138,68 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
                         )}
                     />
 
-                    <LoadingHeart
+                    <StyledLoadingHeart
                         type="submit"
                         variant="secondary"
                         isLoading={isSubmitting || isImporting} 
                         defaultText="Submit" loadingText="Submitting..." 
                     />
-                </Form>
+                </StyledNewRecipeForm>
             )}
         </Formik>
     )
 }
 
+const StyledLoadingHeart = styled(LoadingHeart)``
 const StyledImage = styled.img`
-    width: 90%;
+    width: 100%;
     min-height: 150px;
     max-height: 12rem;
     aspect-ratio: 1 / 1;
     object-fit: cover;
     object-position: center;
     border-radius: 5px;
-    margin: 0.25rem;
     border: 2px solid var(--color-red);
-
-    @media (min-width: 428px) {
-        width: 80%;
-        margin-left: 20%; 
-    }
+    margin: 0 auto;
 `
 
+const StyledNewRecipeForm = styled(Form)`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0 auto;
+    width: 100%;
+
+    >:nth-child(n) {
+        width: 100%;
+    }
+
+    >:last-child {
+        width: initial;
+    }
+
+    @media (min-width: 428px) {
+        width: 95%; 
+
+        ${StyledImage} {
+            margin: 0;
+            margin-left: auto;
+            width: 70%;
+        }
+    }
+
+    @media (min-width: 768px) {
+        width: 90%; 
+    }
+
+    @media (min-width: 1024px) {
+        width: 70%;
+    }
+
+    ${StyledLoadingHeart} {
+        margin: 0 auto;
+    }
+`
 const FormError = styled(ErrorMessage)`
     color: red;
 `
