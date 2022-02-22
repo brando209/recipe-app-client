@@ -46,9 +46,8 @@ const GroceryListItem = styled.div`
     > input:first-child {
         flex: 1;
         height: 2rem;
-        color: red;
-        background-color: red;
     }
+
     > input:first-child:hover {
         cursor: pointer;
     }
@@ -61,6 +60,7 @@ const GroceryListItem = styled.div`
         color: var(--color-red);
         font-size: 2rem;
     }
+    
     > svg:hover {
         cursor: pointer;
     }
