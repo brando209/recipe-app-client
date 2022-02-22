@@ -59,24 +59,20 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
                     </Inputs.InputContainer>
                     <FormError name="description" component="div" className="form-error-message" />
 
-
-                    <Inputs.InputContainer name="serves" label="Serves">
-                        <Field name="serves" placeholder="Serves" type="number" min={1} />
-                    </Inputs.InputContainer>
-                    <FormError name="serves" component="div" className="form-error-message" />
-
-
                     <Inputs.InputContainer name="prep" label="Prep">
-                        <Field name="prep.time" type="number" min={1} />
-                        <Field name="prep.unit" as={Inputs.SelectInput} options={['min', 'hr']} variant="secondary" />
+                        <Inputs.TimeInput name="prep" />
                     </Inputs.InputContainer>
                     <FormError name="prep.time" component="div" className="form-error-message" />
 
                     <Inputs.InputContainer name="cook" label="Cook">
-                        <Field name="cook.time" type="number" min={1} />
-                        <Field name="cook.unit" as={Inputs.SelectInput} options={['min', 'hr']} variant="secondary" />
+                        <Inputs.TimeInput name="cook" />
                     </Inputs.InputContainer>
                     <FormError name="cook.time" component="div" className="form-error-message" />
+
+                    <Inputs.InputContainer name="serves" label="Serves">
+                        <Field name="serves" placeholder="Serves" type="number" min={1} className="serving-input" />
+                    </Inputs.InputContainer>
+                    <FormError name="serves" component="div" className="form-error-message" />
 
                     {values.photo && <StyledImage src={values.photo && typeof values.photo === "string" ? values.photo : selectedImage} alt="" />}
 
@@ -176,6 +172,10 @@ const StyledNewRecipeForm = styled(Form)`
 
     >:last-child {
         width: initial;
+    }
+
+    .serving-input {
+        max-width: 350px;
     }
 
     @media (min-width: 428px) {
