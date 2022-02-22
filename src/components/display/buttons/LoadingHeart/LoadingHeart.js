@@ -20,8 +20,6 @@ function LoadingHeart({ isLoading, defaultText, loadingText, ...props }) {
 export default LoadingHeart
 
 const StyledLoadingHeart = styled(Button)`
-    justify-content: center;
-
     > div {
         display: flex;
         flex-direction: row;
