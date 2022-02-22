@@ -56,14 +56,6 @@ const StyledIngredientInput =styled.div`
     background-color: var(--color-white);    
     max-width: 450px;
     width: 100%;
-
-    @media (min-width: 428px) {
-        width: 90%;
-    }
-
-    @media (min-width: 768px) {
-        width: 80%;
-    }
 `
 
 const IngredientInputLeft =styled.div`
