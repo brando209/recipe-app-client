@@ -7,7 +7,7 @@ export default function InputContainer({ name, label, children }) {
                 <label htmlFor={name}>{label}</label>{": "}
             </span>}
             <div>
-                {children.length > 0 ? children.map(child => <div>{child}</div>) : children}
+                {children}
             </div>
         </StyledInputContainer>
     );
@@ -23,25 +23,9 @@ const StyledInputContainer = styled.div`
         justify-content: flex-start;
     }
     > div {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-        
-        > input, > select,  > textarea, > div > input, > div > select, > div > textarea {
+        text-align: left;
+        > input, > select, > textarea {
             width: 100%;
-        }
-        
-        > div { /* If there are multiple children, each will be in a div with this target */
-            flex: ${props => 1 / props.numElements};
-            margin: 0 0.25rem;
-
-            :first-child {
-                margin-left: 0; 
-            }
-
-            :last-child {
-                margin-right: 0;
-            }
         }
     }
 
