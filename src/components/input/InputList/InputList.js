@@ -54,7 +54,7 @@ const StyledInputList = styled.div`
     }
 
     .label-container + .add-btn-container {
-        margin-left: 1rem;
+        margin-left: 2rem;
     }
 
     @media (min-width: 428px) {
