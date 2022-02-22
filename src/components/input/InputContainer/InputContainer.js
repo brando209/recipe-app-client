@@ -33,14 +33,14 @@ const StyledInputContainer = styled.div`
         
         > div { /* If there are multiple children, each will be in a div with this target */
             flex: ${props => 1 / props.numElements};
-            padding: 0 0.25rem;
+            margin: 0 0.25rem;
 
             :first-child {
-                padding-left: 0; 
+                margin-left: 0; 
             }
 
             :last-child {
-                padding-right: 0;
+                margin-right: 0;
             }
         }
     }
