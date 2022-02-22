@@ -48,16 +48,16 @@ const StyledInputList = styled.div`
     }
     
     .add-btn-container {
-        text-align: ${({ buttonPlacement }) => (['left', 'center', 'right'].includes(buttonPlacement.split(" ")[1]) ? buttonPlacement.split(" ")[1] : "left")};
-        margin-left: 0.25rem;
         flex: 1;
+        text-align: ${({ buttonPlacement }) => (['left', 'center', 'right'].includes(buttonPlacement.split(" ")[1]) ? buttonPlacement.split(" ")[1] : "left")};
         order: ${({ buttonPlacement }) => (buttonPlacement.split(" ")[0] === "bottom" ? 3 : 1)};
     }
 
+    .label-container + .add-btn-container {
+        margin-left: 1rem;
+    }
+
     @media (min-width: 428px) {
-        .add-btn-container {
-            margin-left: 2rem;
-        }
         .label-container {
             justify-content: flex-end;
             flex: 0.3;
@@ -76,16 +76,4 @@ const ListContainer = styled.div`
     flex-direction: column;
     flex-basis: 100%;
     order: 2;
-    
-    @media (min-width: 428px) {
-        padding-left: 6rem;
-    }
-
-    @media (min-width: 768px) {
-        padding-left: 8rem;
-    }
-
-    @media (min-width: 1024px) {
-        padding-left: 15%;
-    }
 `
