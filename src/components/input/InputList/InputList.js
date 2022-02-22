@@ -48,7 +48,6 @@ const StyledInputList = styled.div`
     }
     
     .add-btn-container {
-        max-width: 450px;
         text-align: ${({ buttonPlacement }) => (['left', 'center', 'right'].includes(buttonPlacement.split(" ")[1]) ? buttonPlacement.split(" ")[1] : "left")};
         margin-left: 0.25rem;
         flex: 1;
