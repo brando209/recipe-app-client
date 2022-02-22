@@ -50,12 +50,12 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
             {({ isSubmitting, values, setFieldValue }) => (
                 <StyledNewRecipeForm>
                     <Inputs.InputContainer name="title" label="Title">
-                        <Field name="title" placeholder="Recipe Title" type="input" />
+                        <Field name="title" placeholder="Recipe Title" type="input" className="title-input" />
                     </Inputs.InputContainer>
                     <FormError name="title" component="div" className="form-error-message" />
 
                     <Inputs.InputContainer name="description" label="Description">
-                        <Field name="description" placeholder="Recipe Description" as="textarea" />
+                        <Field name="description" placeholder="Recipe Description" as="textarea" className="description-input" />
                     </Inputs.InputContainer>
                     <FormError name="description" component="div" className="form-error-message" />
 
@@ -174,6 +174,9 @@ const StyledNewRecipeForm = styled(Form)`
         width: initial;
     }
 
+    .title-input, .description-input {
+        max-width: 500px;
+    }
     .serving-input {
         max-width: 350px;
     }
