@@ -35,14 +35,16 @@ const getPrevMonthInfo = (currentYear, currentMonth) => {
 
 const calendar = new cal.Calendar();
 
-const today = new Date();
+const now = new Date();
+const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
 function Calendar({
 	year = today.getFullYear(),
 	month = today.getMonth(),
-	day = today.getDay(),
 	view = "month",
 	size = "small",
+	selectedDate = today,
+	onDayClick,
 	events,
 	onEventMove,
 	onEventAdd,
@@ -52,8 +54,8 @@ function Calendar({
 	const [date, setDate] = useState({
 		year: year,
 		month: month,
-		week: 0,
-		day: day,
+		week: null,
+		day: selectedDate.getDay(),
 		numWeeks: null,
 		prevNumWeeks: null
 	});
@@ -61,19 +63,38 @@ function Calendar({
 
 	useEffect(() => {
 		const monthDates = calendar.monthDates(date.year, date.month, (d) => ({
-			dayNumber: (' ' + d.getDate()).slice(-2),
+			dayNumber: d.getDate().toString().slice(-2),
 			ISODate: d.toISOString(),
 			date: d
 		}));
 		const monthDays = calendar.monthDays(date.year, date.month);
 		const prevMonthInfo = getPrevMonthInfo(date.year, date.month);
 		const prevMonthDays = calendar.monthDays(prevMonthInfo.year, prevMonthInfo.month);
+		
+		const numWeeks = monthDays.length;
+		const firstDay = monthDays[0].findIndex(day => day === 1);
+		const lastDay = monthDays[numWeeks - 1].findIndex(day => day === 0) > 0 ? monthDays[numWeeks - 1].findIndex(day => day === 0) - 1 : 6;
+		const prevNumWeeks = prevMonthDays.length;
+
 		setMonthData({ dates: monthDates, days: monthDays });
-		setDate(prev => ({ ...prev, numWeeks: monthDays.length, prevNumWeeks: prevMonthDays.length}));
+		setDate(prev => ({ ...prev, numWeeks, firstDay, lastDay, prevNumWeeks }));
 	}, [date.year, date.month]);
 
 	useEffect(() => {
+		setDate(prev => {
+			const week = Math.ceil((prev.firstDay + selectedDate.getDate()) / 7) - 1;
+			return { 
+				...prev,
+				month: selectedDate.getMonth(),
+				week: week,
+				day: selectedDate.getDay()
+			}
+		});
+	}, [selectedDate]);
+
+	useEffect(() => {
 		const dayElements = document.querySelectorAll(".calendar-day");
+
 		const handleDragEnter = (e) => {
 			e.target.classList.add("drag-on");
 			e.preventDefault();
@@ -172,6 +193,17 @@ function Calendar({
 				return { ...prev, year: prev.year + 1, month: 0, week: 0 }
 			});
 		}
+		const showNextDay = () => {
+			setDate(prev => {
+				if(prev.week < prev.numWeeks - 1) {
+					if(prev.day < 6) return { ...prev, day: prev.day + 1 };
+					return { ...prev, week: prev.week + 1, day: 0 }
+				}
+				if(prev.day < prev.lastDay) return { ...prev, day: prev.day + 1 }
+				if(prev.month < 11) return { ...prev, month: prev.month + 1, week: 0, day: (prev.day + 1) % 7 }
+				return { ...prev, year: prev.year + 1, month: 0, week: 0, day: (prev.day + 1) % 7 }
+			});
+		}
 		switch (view) {
 			case 'month':
 				showNextMonth();
@@ -180,6 +212,7 @@ function Calendar({
 				showNextWeek();
 				break;
 			case 'day':
+				showNextDay();
 				break;
 			default: break;
 		}
@@ -199,7 +232,17 @@ function Calendar({
 				return { ...prev, year: prev.year - 1, month: 11, week: prev.prevNumWeeks - 1 }
 			})
 		}
-
+		const showPrevDay = () => {
+			setDate(prev => {
+				if(prev.week > 0) {
+					if(prev.day > 0) return { ...prev, day: prev.day - 1 }
+					return { ...prev, week: prev.week - 1, day: 6 }
+				}
+				if(prev.day > prev.firstDay) return { ...prev, day: prev.day - 1 };
+				if(prev.month > 0) return { ...prev, month: prev.month - 1, week: prev.prevNumWeeks - 1, day: (prev.day - 1) % 7 }
+				return { ...prev, year: prev.year - 1, month: 11, week: prev.prevNumWeeks - 1, day: (prev.day - 1) % 7 }
+			});
+		}
 		switch (view) {
 			case 'month':
 				showPrevMonth();
@@ -208,6 +251,7 @@ function Calendar({
 				showPrevWeek();
 				break;
 			case 'day':
+				showPrevDay();
 				break;
 			default: break;
 		}
@@ -256,8 +300,15 @@ function Calendar({
 				<button type="button" className="control" id="prev" onClick={showPrev}>&lt;</button>
 				<button type="button" className="control" id="next" onClick={showNext}>&gt;</button>
 			</CalendarHeader>
-			<CalendarDaysOfWeek>
-				{daysOfWeek.map((day, index) => <div key={index}>{day[size]}</div>)}
+			<CalendarDaysOfWeek view={view}>
+				{daysOfWeek.map((day, index) => (
+					<div 
+						key={index} 
+						className={(view === "day" && index !== date.day) ? "hidden" : ""}
+					>
+						{day[size]}
+					</div>
+				))}
 			</CalendarDaysOfWeek>
 			<CalendarDates view={view}>
 				{monthData.dates?.map((week, weekIdx) => {
@@ -270,7 +321,9 @@ function Calendar({
 								date={day.date}
 								events={events.filter(evt => evt.date.getMonth() === day.date.getMonth() && evt.date.getDate() === day.date.getDate())}
 								inCurrentMonth={monthData.days[weekIdx][dayIdx] > 0}
-								outOfView={view === "week" && weekIdx !== date.week}
+								outOfView={(view === "week" && weekIdx !== date.week) || (view === "day" && !(weekIdx === date.week && dayIdx === date.day))}
+								selected={day.ISODate === selectedDate.toISOString()}
+								onClick={onDayClick}
 								eventRender={eventRender}
 								eventContainerClass={eventContainerClass}
 							/>
@@ -288,12 +341,14 @@ function CalendarDay({
 	date,
 	inCurrentMonth,
 	outOfView,
+	selected,
+	onClick,
 	events,
 	eventRender,
 	eventContainerClass
 }) {
 	return (
-		<StyledCalendarDay className={`calendar-day ${inCurrentMonth ? 'current-month' : ""} ${outOfView ? 'hidden' : ""}`}>
+		<StyledCalendarDay className={`calendar-day ${inCurrentMonth ? 'current-month' : ""} ${outOfView ? 'hidden' : ""} ${selected ? "selected" : ""}`} id={ISODate} onClick={e => onClick(e.currentTarget.id)}>
 			<time dateTime={ISODate} date={date} />
 			<span className='day-number'>{dayNumber}</span>
 			<div className={`events-container ${eventContainerClass}`}>
@@ -330,6 +385,10 @@ const StyledCalendarDay = styled.div`
 		display: none;
 	}
 
+	&.selected {
+		outline: 1px solid blue;
+	}
+
 	.day-number {
 		font-weight: 200;
 		padding-right: 0.25rem;
@@ -346,7 +405,6 @@ const StyledCalendarDay = styled.div`
 		> div {
 			border: 1px solid black;
 			border-radius: 5px;
-			font-size: 0.75rem;
 			
 			:hover {
 				cursor: pointer;
@@ -398,19 +456,23 @@ const CalendarHeader = styled.div`
 
 const CalendarDaysOfWeek = styled.div`
 	display: grid;
-	grid-template-columns: repeat(7, 1fr);
+	grid-template-columns: ${({ view }) => (view === "day" ? "1fr" : "repeat(7, 1fr)")};
 	min-height: 2rem;
+
+	> div.hidden {
+		display: none;
+	}
 `
 
 const CalendarDates = styled.div`
 	display: grid;
-	grid-template-columns: repeat(7, 1fr);
+	grid-template-columns: ${({ view }) => (view === "day" ? "1fr" : "repeat(7, 1fr)")};
 	column-gap: 2px;
 	row-gap: 2px;
 	min-height: 2rem;
 
 	${StyledCalendarDay} {
-		height: ${({ view }) => (view === "week" ? '10rem' : '5rem')};
+		height: ${({ view }) => (view === "month" ? '5rem' : '20rem')};
 	}
 `
 
