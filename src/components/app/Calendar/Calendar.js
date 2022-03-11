@@ -411,7 +411,7 @@ const StyledCalendarDay = styled.div`
 			border-radius: 5px;
 			
 			:hover {
-				cursor: pointer;
+				cursor: grab;
 			}
 		}
 
