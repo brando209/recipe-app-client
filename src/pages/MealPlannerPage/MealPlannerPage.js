@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Button, ButtonGroup } from "react-bootstrap";
 import { Trash } from "react-bootstrap-icons";
 import { useRecipeContext } from "../../contexts/RecipeContext/RecipeContext";
+import { useAppContext } from "../../contexts/AppContext/AppContext";
 import Calendar from "../../components/app/Calendar/Calendar"
 import Page from "../Page/Page";
 import useResource from "../../hooks/useResource";
@@ -13,6 +14,7 @@ const today = new Date();
 
 function MealPlannerPage() {
     const auth = useAuth();
+    const { showNavbar, hideNavbar } = useAppContext();
     const { data: recipes, loading } = useRecipeContext();
     const { value: plannedMeals, setValue: setPlannedMeals } = useResource(
         '/api/planner/meal',
@@ -156,8 +158,14 @@ function MealPlannerPage() {
         setCalendar(prev => ({ ...prev, view: "day", selectedDate: clickedDay }));
     }
 
-    const handleShowEventTrashcan = () => {
-        document.querySelector('.recipe-trash-dropzone').classList.add('show')
+    const handleRecipePickup = () => {
+        document.querySelector('.recipe-trash-dropzone').classList.add('show');
+        hideNavbar();
+    }
+
+    const handleRecipePickupEnd = () => {
+        document.querySelector('.recipe-trash-dropzone').classList.remove('show');
+        showNavbar();
     }
 
     return (
@@ -180,9 +188,10 @@ function MealPlannerPage() {
                 size="medium"
                 events={calendar.plannedMeals}
                 onDayClick={handleDayClick}
-                onEventPickup={handleShowEventTrashcan}
+                onEventPickup={handleRecipePickup}
                 onEventMove={handleMovePlannedRecipe}
                 onEventAdd={handleAddPlannedRecipe}
+                onEventPickupEnd={handleRecipePickupEnd}
                 eventRender={event => (<StyledPlannedRecipe>{event.title}</StyledPlannedRecipe>)}
                 eventContainerClass="planned-recipes-container"
             />
