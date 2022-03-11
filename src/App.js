@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import useToggle from './hooks/useToggle';
 import HomePage from './pages/HomePage/HomePage';
 import FavoritesPage from './pages/FavoritesPage/FavoritesPage';
 import NewRecipePage from './pages/NewRecipePage/NewRecipePage';
@@ -15,7 +14,7 @@ import BottomNav from './components/app/BottomNav/BottomNav';
 import FilterControlSidebar from './components/app/FilterControlSidebar/FilterControlSidebar';
 import Dialog from './components/display/Dialog/Dialog';
 
-import DialogContextProvider from './contexts/DialogContext/DialogContext';
+import AppContextProvider from './contexts/AppContext/AppContext';
 import RecipeContextProvider from './contexts/RecipeContext/RecipeContext';
 import AuthContextProvider, { useAuth } from './contexts/AuthContext/AuthContext';
 
@@ -32,20 +31,15 @@ function PrivateRoute({ children }) {
 }
 
 function App() {
-	const [isShown, toggleShow] = useToggle(false);
-
 	return (
 		<div className="App">
-			<AuthContextProvider>
-				<DialogContextProvider>
+			<AppContextProvider>
+				<AuthContextProvider>
 					<RecipeContextProvider>
-						<FilterControlSidebar
-							show={isShown}
-							onClose={() => toggleShow(false)}
-						/>
+						<FilterControlSidebar />
 						<Dialog />
 						<Router>
-							<TopNav onShowFilter={() => toggleShow(true)} />
+							<TopNav />
 
 							<Routes>
 								<Route path="/login" element={<LoginPage />} />
@@ -62,8 +56,8 @@ function App() {
 							<BottomNav />
 						</Router>
 					</RecipeContextProvider>
-				</DialogContextProvider>
-			</AuthContextProvider>
+				</AuthContextProvider>
+			</AppContextProvider>
 		</div>
 	);
 }

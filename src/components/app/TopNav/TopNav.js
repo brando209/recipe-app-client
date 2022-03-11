@@ -3,10 +3,12 @@ import { Button, Navbar, Nav } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router';
 import { useAuth } from '../../../contexts/AuthContext/AuthContext';
 import { useRecipeContext } from '../../../contexts/RecipeContext/RecipeContext';
+import { useAppContext } from '../../../contexts/AppContext/AppContext';
 import Search from '../../input/Search/Search';
 import NavLinks from '../NavLinks/NavLinks';
 
 export default function TopNav({ onShowFilter }) {
+    const { showSidebar } = useAppContext();
     const { filter, updateFilter } = useRecipeContext();
     const { pathname } = useLocation();
     const navigate = useNavigate();
@@ -34,7 +36,7 @@ export default function TopNav({ onShowFilter }) {
                     <Button
                         variant="secondary"
                         className="show-filters-btn"
-                        onClick={onShowFilter}
+                        onClick={() => showSidebar()}
                     >
                         Filters
                     </Button>

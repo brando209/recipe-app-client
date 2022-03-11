@@ -2,14 +2,14 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router';
 import { Row, Col, Button, Badge } from 'react-bootstrap';
 import { Heart, HeartFill, Trash, PencilSquare } from 'react-bootstrap-icons';
-import { useDialogContext } from '../../../contexts/DialogContext/DialogContext';
+import { useAppContext } from '../../../contexts/AppContext/AppContext';
 import List from '../../display/List/List';
 
 export default function RecipeDetails({ recipe, onFavorite, onDelete }) {
     const navigate = useNavigate();
-    const { setDialog, setShow } = useDialogContext();
+    const { setDialog, showDialog, hideDialog } = useAppContext();
     const { id, title, description, ingredients, instructions, comments, categories, serves, prep, cook, photo, favorite } = recipe;
-
+    
     const handleFavoriteClick = () => onFavorite(id, favorite);
 
     const handleDeleteClick = () => {
@@ -18,12 +18,12 @@ export default function RecipeDetails({ recipe, onFavorite, onDelete }) {
             text: "You are about to delete this recipe. This action cannot be undone. Are you sure you would like to delete this recipe?",
             footer: (
                 <>
-                    <Button variant="secondary" onClick={() => setShow(false)}>Cancel</Button>
-                    <Button variant="secondary" onClick={() => onDelete(id, () => setShow(false))}>Delete</Button>
+                    <Button variant="secondary" onClick={() => hideDialog()}>Cancel</Button>
+                    <Button variant="danger" onClick={() => onDelete(id, () => hideDialog())}>Delete</Button>
                 </>
             )
         });
-        setShow(true);
+        showDialog();
     }
 
     const handleEditClick = () => {

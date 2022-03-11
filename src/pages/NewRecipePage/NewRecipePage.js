@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router';
 import Page from '../Page/Page';
 import NewRecipeForm from '../../components/form/NewRecipeForm/NewRecipeForm';
 import { useRecipeContext } from '../../contexts/RecipeContext/RecipeContext';
-import { useDialogContext } from '../../contexts/DialogContext/DialogContext';
+import { useAppContext } from '../../contexts/AppContext/AppContext';
 import { useAuth } from '../../contexts/AuthContext/AuthContext';
 import useResource from '../../hooks/useResource';
 import LoadingHeart from '../../components/display/buttons/LoadingHeart/LoadingHeart';
@@ -37,7 +37,7 @@ export default function NewRecipePage(props) {
         true,
         [importUrl]
     );
-    const { setDialog, setShow } = useDialogContext();
+    const { setDialog, showDialog, hideDialog } = useAppContext();
     const { createRecipe } = useRecipeContext();
     const navigate = useNavigate();
 
@@ -52,7 +52,7 @@ export default function NewRecipePage(props) {
     const handleImport = (e) => {
         e.preventDefault();
         setImportUrl(`/api/recipes/import?importUrl=${e.target.lastChild.value}`);
-        setShow(false);
+        hideDialog();
     }
 
     const handleImportClick = () => {
@@ -66,12 +66,12 @@ export default function NewRecipePage(props) {
             ),
             footer: (
                 <>
-                    <Button variant="secondary" onClick={() => setShow(false)}>Cancel</Button>
-                    <Button variant="secondary" type="submit" form="import-form">Import</Button>
+                    <Button variant="secondary" onClick={() => hideDialog()}>Cancel</Button>
+                    <Button variant="success" type="submit" form="import-form">Import</Button>
                 </>
             )
         });
-        setShow(true);
+        showDialog();
     }
 
     return (

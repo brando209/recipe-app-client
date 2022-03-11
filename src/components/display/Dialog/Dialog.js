@@ -1,12 +1,12 @@
 import React from 'react';
 import { Modal } from 'react-bootstrap';
-import { useDialogContext } from '../../../contexts/DialogContext/DialogContext';
+import { useAppContext } from '../../../contexts/AppContext/AppContext';
 
 export default function Dialog(props) {
-    const { dialog, show, setShow } = useDialogContext();
+    const { dialog, hideDialog } = useAppContext();
 
     return (
-        <Modal show={show} onHide={() => setShow(false)}>
+        <Modal show={dialog.show} onHide={() => hideDialog()}>
             <Modal.Header closeButton>
                 <Modal.Title>{dialog.title}</Modal.Title>
             </Modal.Header>
