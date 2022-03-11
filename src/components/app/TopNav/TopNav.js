@@ -12,6 +12,8 @@ export default function TopNav({ onShowFilter }) {
     const navigate = useNavigate();
     const auth = useAuth();
 
+    const showSearchAndFilter = pathname === "/" || pathname === "/favorites";
+
     if (!auth.user) return null;
 
     return (
@@ -28,7 +30,7 @@ export default function TopNav({ onShowFilter }) {
 
                 <NavLinks className="largeScreenOnly" minWidth="50vw" maxWidth="60vw" textOnHover={true} />
 
-                <Nav.Item>
+                <Nav.Item className={`${showSearchAndFilter ? "" : "hide"}`}>
                     <Button
                         variant="secondary"
                         className="show-filters-btn"
@@ -38,7 +40,7 @@ export default function TopNav({ onShowFilter }) {
                     </Button>
                 </Nav.Item>
 
-                <Nav.Item className="nav-search">
+                <Nav.Item className={`nav-search ${showSearchAndFilter ? "" : "hide"}`}>
                     <Search
                         onSubmit={(value) => updateFilter({ search: value })}
                         initialValue={filter.search}
@@ -68,6 +70,15 @@ const StyledTopNav = styled(Navbar)`
     }
     
     .largeScreenOnly {
+        display: none;
+    }
+
+    .hide {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .nav-search.hide {
         display: none;
     }
 
