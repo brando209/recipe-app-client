@@ -49,6 +49,7 @@ function Calendar({
 	onEventPickup,
 	onEventMove,
 	onEventAdd,
+	onEventPickupEnd,
 	eventRender,
 	eventContainerClass,
 }) {
@@ -166,6 +167,9 @@ function Calendar({
 			document.querySelectorAll(".events-container").forEach(element => {
 				element.style.pointerEvents = "revert";
 			});
+
+			onEventPickupEnd && onEventPickupEnd();
+
 			e.preventDefault();
 		}
 
