@@ -12,7 +12,7 @@ export default function BottomNav(props) {
     if(!auth.user) return null;
 
     return (
-        <StyledBottomNav fixed="bottom" show={navbar.show}>
+        <StyledBottomNav fixed="bottom" $show={navbar.show}>
             <NavLinks />
         </StyledBottomNav>
     )
@@ -22,7 +22,7 @@ const StyledBottomNav = styled(Navbar)`
     background-color: var(--color-red);
     border-top: 1px solid #5c636a;
 
-    display: ${({ show }) => show ? "initial" : "none" };
+    display: ${({ $show }) => $show ? "initial" : "none" };
 
     @media (min-width: 1024px) {
         display: none;

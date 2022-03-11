@@ -6,7 +6,7 @@ export default function NavIconLink({ to, text = "", IconComponent, IconFillComp
     const { pathname } = useLocation();
 
     return (
-        <StyledNavIconLink as={Link} to={to} textOnHover={textOnHover} {...props}>
+        <StyledNavIconLink as={Link} to={to} $textOnHover={textOnHover} {...props}>
             {pathname === to ?
                 <IconFillComponent size={25} /> :
                 <IconComponent size={25} />
@@ -28,7 +28,7 @@ const StyledNavIconLink = styled(Nav.Item)`
     text-decoration: none;
 
     .text {
-        opacity: ${props => props.textOnHover ? 0 : 1};
+        opacity: ${({ $textOnHover }) => $textOnHover ? 0 : 1};
         white-space: normal;
         width: 75%;
     }
