@@ -46,6 +46,7 @@ function Calendar({
 	selectedDate = today,
 	onDayClick,
 	events,
+	onEventPickup,
 	onEventMove,
 	onEventAdd,
 	eventRender,
@@ -156,6 +157,8 @@ function Calendar({
 			document.querySelectorAll(".events-container").forEach(element => {
 				element.style.pointerEvents = "none";
 			});
+
+			onEventPickup && onEventPickup();
 		}
 
 		const handleDragEnd = (e) => {
@@ -319,7 +322,7 @@ function Calendar({
 								dayNumber={day.dayNumber}
 								ISODate={day.ISODate}
 								date={day.date}
-								events={events.filter(evt => evt.date.getMonth() === day.date.getMonth() && evt.date.getDate() === day.date.getDate())}
+								events={events && events.filter(evt => evt && evt.date.getMonth() === day.date.getMonth() && evt.date.getDate() === day.date.getDate())}
 								inCurrentMonth={monthData.days[weekIdx][dayIdx] > 0}
 								outOfView={(view === "week" && weekIdx !== date.week) || (view === "day" && !(weekIdx === date.week && dayIdx === date.day))}
 								selected={day.ISODate === selectedDate.toISOString()}
@@ -348,11 +351,11 @@ function CalendarDay({
 	eventContainerClass
 }) {
 	return (
-		<StyledCalendarDay className={`calendar-day ${inCurrentMonth ? 'current-month' : ""} ${outOfView ? 'hidden' : ""} ${selected ? "selected" : ""}`} id={ISODate} onClick={e => onClick(e.currentTarget.id)}>
+		<StyledCalendarDay className={`calendar-day ${inCurrentMonth ? 'current-month' : ""} ${outOfView ? 'hidden' : ""} ${selected ? "selected" : ""}`} id={ISODate} onClick={e => onClick({ date: e.currentTarget.id, events })}>
 			<time dateTime={ISODate} date={date} />
 			<span className='day-number'>{dayNumber}</span>
 			<div className={`events-container ${eventContainerClass}`}>
-				{events.map(event => eventRender && <div className='calendar-event' key={event.id} id={event.id} draggable='true'>{eventRender(event)}</div>)}
+				{events && events.map(event => eventRender && <div className='calendar-event' key={event.id} id={event.id} draggable='true'>{eventRender(event)}</div>)}
 			</div>
 		</StyledCalendarDay>
 	)
@@ -386,7 +389,7 @@ const StyledCalendarDay = styled.div`
 	}
 
 	&.selected {
-		outline: 1px solid blue;
+		outline: 2px solid grey;
 	}
 
 	.day-number {
@@ -402,6 +405,7 @@ const StyledCalendarDay = styled.div`
 	.events-container {
 		overflow-y: scroll;
 		width: 100%;
+		font-size: 0.5rem;
 		> div {
 			border: 1px solid black;
 			border-radius: 5px;
@@ -418,7 +422,8 @@ const StyledCalendar = styled.div`
 	display: flex;
 	flex-direction: column;
 
-	border: 1px solid black;
+	border: 1px solid grey;
+	box-shadow: 1px 3px 5px grey;
 	border-radius: 0.5rem;
 	margin: 0 auto;
 	min-height: 12rem;
@@ -431,14 +436,15 @@ const CalendarHeader = styled.div`
 	margin: 0.25rem auto;
 	padding-bottom: 0.25rem;
 	width: 100%;
-	border-bottom: 1px solid black;
+	border-bottom: 1px solid grey;
 
 	> h3 {
 		order: 1;
 	}
 	
 	button {
-		border: 1px solid black;
+		border: 1px solid grey;
+		color: grey;
 		border-radius: 5px;
 		padding: 0 1rem;
 		margin: 0 0.5rem;
