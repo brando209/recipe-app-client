@@ -5,8 +5,7 @@ import { useRecipeContext } from '../../contexts/RecipeContext/RecipeContext';
 export default function FavoritesPage(props) {
     const { data: recipes, updateRecipe, loading, error } = useRecipeContext();
 
-    //console.log(recipes) //TODO: Fix: logs <empty string> when no recipes (reason for extra check of length)
-    const favoritedRecipes = recipes && recipes.length > 0 && recipes?.filter(recipe => recipe.favorite);
+    const favoritedRecipes = recipes ?? recipes?.filter(recipe => recipe.favorite);
 
     const handleFavorite = (recipeId, isFavorite) => {
         updateRecipe(recipeId, { favorite: !isFavorite });
