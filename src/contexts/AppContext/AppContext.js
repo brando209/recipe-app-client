@@ -13,7 +13,7 @@ export default function AppContextProvider({ children }) {
         footer: <Button>Close</Button>,
     });
     const [sidebar, setSidebar] = useState({ show: false });
-    const [navbar, setNavbar] = useState({ show: false });
+    const [navbar, setNavbar] = useState({ show: true });
 
     const showDialog = () => setDialog(prev => ({ ...prev, show: true }));
     const hideDialog = () => setDialog(prev => ({ ...prev, show: false }));
