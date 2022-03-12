@@ -49,6 +49,12 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
         >
             {({ isSubmitting, values, setFieldValue }) => (
                 <StyledNewRecipeForm>
+                    <StyledLoadingHeart
+                        type="submit"
+                        variant="secondary"
+                        isLoading={isSubmitting || isImporting} 
+                        defaultText="Submit" loadingText="Submitting..." 
+                    />
                     <Inputs.InputContainer name="title" label="Title">
                         <Field name="title" placeholder="Recipe Title" type="input" className="title-input" />
                     </Inputs.InputContainer>
@@ -170,10 +176,6 @@ const StyledNewRecipeForm = styled(Form)`
         width: 100%;
     }
 
-    >:last-child {
-        width: initial;
-    }
-
     .title-input, .description-input {
         max-width: 500px;
     }
@@ -200,7 +202,8 @@ const StyledNewRecipeForm = styled(Form)`
     }
 
     ${StyledLoadingHeart} {
-        margin: 0 auto;
+        margin: 0.25rem auto;
+        width: initial;
     }
 `
 const FormError = styled(ErrorMessage)`
