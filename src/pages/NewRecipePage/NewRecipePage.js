@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import styled from 'styled-components';
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router';
 import Page from '../Page/Page';
@@ -76,14 +77,16 @@ export default function NewRecipePage(props) {
 
     return (
         <Page>
-            <h1>New Recipe</h1>
-            <LoadingHeart 
-                variant="secondary" 
-                isLoading={importing}
-                defaultText="Import"
-                loadingText="Importing..."
-                onClick={handleImportClick} 
-            />
+            <StyledHeader>
+                <h1>New Recipe</h1>
+                <LoadingHeart 
+                    variant="outline-secondary" 
+                    isLoading={importing}
+                    defaultText="Import"
+                    loadingText="Importing..."
+                    onClick={handleImportClick} 
+                    />
+            </StyledHeader>
             <NewRecipeForm 
                 onSubmit={handleCreateRecipe} 
                 initialValues={importedRecipe || initialValues} 
@@ -93,3 +96,9 @@ export default function NewRecipePage(props) {
         </Page>
     );
 }
+
+const StyledHeader = styled.div`
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+`
