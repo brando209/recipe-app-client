@@ -52,7 +52,8 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
                     <StyledLoadingHeart
                         type="submit"
                         variant="secondary"
-                        isLoading={isSubmitting || isImporting} 
+                        isLoading={isSubmitting}
+                        disabled={isSubmitting || isImporting}
                         defaultText="Submit" loadingText="Submitting..." 
                     />
                     <Inputs.InputContainer name="title" label="Title">
@@ -143,7 +144,8 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
                     <StyledLoadingHeart
                         type="submit"
                         variant="secondary"
-                        isLoading={isSubmitting || isImporting} 
+                        isLoading={isSubmitting}
+                        disabled={isSubmitting || isImporting}
                         defaultText="Submit" loadingText="Submitting..." 
                     />
                 </StyledNewRecipeForm>
