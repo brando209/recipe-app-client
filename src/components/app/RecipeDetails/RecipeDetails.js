@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
-import { Row, Col, Button, Badge } from 'react-bootstrap';
+import { Button, Badge } from 'react-bootstrap';
 import { Heart, HeartFill, Trash, PencilSquare } from 'react-bootstrap-icons';
 import { useAppContext } from '../../../contexts/AppContext/AppContext';
 import List from '../../display/List/List';
