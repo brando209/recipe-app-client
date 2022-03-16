@@ -12,6 +12,7 @@ function deleteRecipe(recipeId, headers) {
     return axios.delete(`/api/recipes/${recipeId}`, { headers });
 }
 
-export default {
+const recipesApi = {
     createRecipe, updateRecipe, deleteRecipe
 }
+export default recipesApi;

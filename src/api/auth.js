@@ -4,4 +4,5 @@ function login(credentials) {
     return axios.post(`/api/auth/login`, credentials);
 }
 
-export default { login };
+const authApi = { login };
+export default authApi

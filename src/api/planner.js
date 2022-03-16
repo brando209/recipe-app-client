@@ -24,7 +24,9 @@ function deleteGroceryItem(itemId, headers) {
     return axios.delete(`/api/planner/grocery/${itemId}`, { headers })
 } 
 
-export default {
+const plannerApi = {
     createMealPlanItem, updateMealPlanItem, deleteMealPlanItem,
     createGroceryItem, updateGroceryItem, deleteGroceryItem
 }
+
+export default plannerApi;
