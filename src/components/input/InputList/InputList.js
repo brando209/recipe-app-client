@@ -2,7 +2,7 @@ import { FieldArray } from 'formik';
 import { Button } from 'react-bootstrap';
 import styled from 'styled-components';
 
-export default function InputList({ name, label, listItems, renderItem, initialItemValue, buttonPlacement="top left", buttonText="Add", buttonVariant="secondary" }) {
+export default function InputList({ name, label, listItems, renderItem, initialItemValue, buttonPlacement="top left", buttonText="Add", buttonVariant="secondary", renderButton = null }) {
     return (
         <FieldArray
             name={name}
@@ -12,14 +12,19 @@ export default function InputList({ name, label, listItems, renderItem, initialI
                         <label htmlFor={name}>{label}</label>{": "}
                     </span>}
                     <div className="add-btn-container">
-                        <Button
-                            type="button"
-                            size="sm"
-                            variant={buttonVariant}
-                            onClick={() => arrayHelpers.push(initialItemValue)}
-                        >
-                            {buttonText}
-                        </Button>
+                        {renderButton === false ? null :
+                            renderButton ?
+                                renderButton(() => arrayHelpers.push(initialItemValue)) 
+                            :
+                                <Button
+                                    type="button"
+                                    size="sm"
+                                    variant={buttonVariant}
+                                    onClick={() => arrayHelpers.push(initialItemValue)}
+                                >
+                                    {buttonText}
+                                </Button>
+                        }
                     </div>
                     <ListContainer>
                         {listItems.map((item, index) => (
