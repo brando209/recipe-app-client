@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function SettingsPage(props) {
     const navigate = useNavigate();
-    const { logout } = useAuth();
+    const { user, logout } = useAuth();
 
     const handleLogout = () => {
         logout();
@@ -15,8 +15,10 @@ export default function SettingsPage(props) {
     
     return (
         <Page>
-            <h1>Settings</h1>
-
+            <h1>Account</h1>
+            <h2>Details</h2>
+            <p>Username: {user?.userName}</p>
+            <h2>Settings</h2>
             <Button onClick={handleLogout} variant="secondary">Log Out</Button>
         </Page>
     );
