@@ -14,7 +14,7 @@ const today = new Date();
 
 function MealPlannerPage() {
     const auth = useAuth();
-    const { showNavbar, hideNavbar } = useAppContext();
+    const { showNavbar, hideNavbar, setDialog, showDialog, hideDialog } = useAppContext();
     const { data: recipes, loading } = useRecipeContext();
     const { value: plannedMeals, setValue: setPlannedMeals } = useResource(
         '/api/planner/meal',
@@ -46,7 +46,7 @@ function MealPlannerPage() {
                 plannedMeals: meals
             }
         })
-    }, [plannedMeals, recipes, setCalendar]);
+    }, [plannedMeals, recipes]);
 
     useEffect(() => {
         const recipeItemElements = document.querySelectorAll('p.recipe-item');
@@ -60,12 +60,14 @@ function MealPlannerPage() {
             document.querySelectorAll('.planned-recipes-container').forEach(container => {
                 container.style.pointerEvents = "none";
             });
+            hideNavbar();
         }
         const handleDragEnd = (e) => {
 			//Revert pointer-events on 'dragend'. (Set to "none" on 'dragstart')
 			document.querySelectorAll('.planned-recipes-container').forEach(container => {
 				container.style.pointerEvents = "revert";
 			});
+            showNavbar();
 			e.preventDefault();
         }
 
@@ -101,11 +103,9 @@ function MealPlannerPage() {
 
         const handleDrop = (e) => {
             trash.classList.remove("drag-on");
-            console.log("dropped", e.dataTransfer.getData("text/plain"))
             handleDeletePlannedRecipe(e.dataTransfer.getData("text/plain"));
             e.preventDefault();
         }
-
         trash.addEventListener('dragenter', handleDragEnter);
         trash.addEventListener('dragleave', handleDragLeave);
         trash.addEventListener('dragover', handleDragOver);
@@ -120,31 +120,63 @@ function MealPlannerPage() {
     }, []);
 
     const handleAddPlannedRecipe = useCallback(async (recipeId, date) => {
-        const newPlannedMeal = await plannerApi.createMealPlanItem({ recipeId, date }, { authorization: `BEARER ${auth.user?.token}` });
-        setPlannedMeals(prev => {
-            return [...prev, newPlannedMeal.data];
-        });
-    }, [setPlannedMeals, auth.user?.token]);
+        try {
+            const newPlannedMeal = await plannerApi.createMealPlanItem({ recipeId, date }, { authorization: `BEARER ${auth.user?.token}` });
+            setPlannedMeals(prev => {
+                return [...prev, newPlannedMeal.data];
+            });
+        } catch(err) {
+            if(err.response?.status === 403) return auth.logout();
+            setDialog({
+                title: "Error",
+                text: err.response?.data,
+                footer: <Button onClick={hideDialog}>Ok</Button>
+            });
+            showDialog();
+        }
+    }, [auth.user?.token]);
 
     const handleMovePlannedRecipe = useCallback(async (id, date) => {
-        setPlannedMeals(prev => {
-            const mealIndex = prev.findIndex(meal => meal.id === id);
-            const changedMeal = { ...prev[mealIndex], date: date };
-            const newPlannedMeals = [...prev];
-            newPlannedMeals[mealIndex] = changedMeal;
-            return newPlannedMeals;
-        });
-        await plannerApi.updateMealPlanItem(id, { date },  { authorization: `BEARER ${auth.user?.token}` });
-    }, [setPlannedMeals]);
+        try {
+            setPlannedMeals(prev => {
+                const mealIndex = prev.findIndex(meal => meal.id === id);
+                const changedMeal = { ...prev[mealIndex], date: date };
+                const newPlannedMeals = [...prev];
+                newPlannedMeals[mealIndex] = changedMeal;
+                return newPlannedMeals;
+            });
+            await plannerApi.updateMealPlanItem(id, { date },  { authorization: `BEARER ${auth.user?.token}` });
+        } catch(err) {
+            if(err.response?.status === 403) return auth.logout();
+            setDialog({
+                title: "Error",
+                text: err.response?.data,
+                footer: <Button onClick={hideDialog}>Ok</Button>
+            });
+            showDialog();
+        }
+        handleRecipePickupEnd();
+    }, []);
 
     const handleDeletePlannedRecipe = useCallback(async (id) => {
-        setPlannedMeals(prev => {
-            return prev.slice().filter(meal => {
-                return meal.id !== Number(id)
+        try {
+            setPlannedMeals(prev => {
+                return prev.slice().filter(meal => {
+                    return meal.id !== Number(id)
+                });
             });
-        });
-        await plannerApi.deleteMealPlanItem(id, { authorization: `BEARER ${auth.user?.token}` });
-    }, [setPlannedMeals]);
+            await plannerApi.deleteMealPlanItem(id, { authorization: `BEARER ${auth.user?.token}` });
+        } catch(err) {
+            if(err.response?.status === 403) return auth.logout();
+            setDialog({
+                title: "Error",
+                text: err.response?.data,
+                footer: <Button onClick={hideDialog}>Ok</Button>
+            });
+            showDialog();
+        }
+        handleRecipePickupEnd();
+    }, []);
 
     const handleChangeCalendarView = (newView) => {
         setCalendar(prev => {
@@ -158,15 +190,19 @@ function MealPlannerPage() {
         setCalendar(prev => ({ ...prev, view: "day", selectedDate: clickedDay }));
     }
 
+    const showTrashcan = () => document.querySelector('.recipe-trash-dropzone').classList.add('show');
+    const hideTrashcan = () => document.querySelector('.recipe-trash-dropzone').classList.remove('show');
+
     const handleRecipePickup = () => {
-        document.querySelector('.recipe-trash-dropzone').classList.add('show');
+        showTrashcan();
         hideNavbar();
     }
 
     const handleRecipePickupEnd = () => {
-        document.querySelector('.recipe-trash-dropzone').classList.remove('show');
+        hideTrashcan();
         showNavbar();
     }
+
 
     return (
         <StyledMealPlannerPage>

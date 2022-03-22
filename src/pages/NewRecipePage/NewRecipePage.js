@@ -44,7 +44,15 @@ export default function NewRecipePage(props) {
 
     const handleCreateRecipe = (recipeInfo, callback) => {
         createRecipe(recipeInfo, (recipe, err) => {
-            if (err) console.error(err);
+            if (err) {
+                setDialog({
+                    title: "Error",
+                    text: err.response?.data,
+                    footer: <Button onClick={hideDialog}>OK</Button>
+                });
+                showDialog();
+                return callback();
+            }
             callback();
             navigate('/');
         });

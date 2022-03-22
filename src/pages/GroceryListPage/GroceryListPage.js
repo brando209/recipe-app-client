@@ -1,11 +1,14 @@
 import Page from '../Page/Page';
 import GroceryListForm from '../../components/form/GroceryListForm/GroceryListForm';
 import { useAuth } from '../../contexts/AuthContext/AuthContext';
+import { useAppContext } from '../../contexts/AppContext/AppContext';
 import useResource from '../../hooks/useResource';
 import { plannerApi, authHeader } from '../../api';
+import Button from 'react-bootstrap/Button';
 
 function GroceryListPage() {
 	const auth = useAuth();
+	const { setDialog, showDialog, hideDialog } = useAppContext();
 	const { value: groceryItems, setValue: setGroceryItems, loading } = useResource(
 		'/api/planner/grocery',
 		{ headers:  authHeader(auth.user?.token)},
@@ -13,17 +16,31 @@ function GroceryListPage() {
 		[auth.user?.token]
 	);
 
-	const handleItemAdd = async (name) => {
+	const handleItemAdd = async (name, cb) => {
 		if(!name || name === "") return;
-		const newItem = await plannerApi.createGroceryItem({
-			name: name.trim()
-		}, authHeader(auth.user?.token));
-		setGroceryItems(prev => {
-			return [...prev, newItem.data];
-		})
+
+		try {
+			const newItem = await plannerApi.createGroceryItem({
+				name: name.trim()
+			}, authHeader(auth.user?.token));
+			setGroceryItems(prev => {
+				return [...prev, newItem.data];
+			});
+			cb();
+		} catch (err) {
+			if(err.response?.status === 401) {
+				setDialog({
+					title: "Restricted Access",
+					text: err.response.data,
+					footer: <Button onClick={hideDialog}>Ok</Button>
+				});
+				showDialog();
+			}
+			if(err.response?.status === 403) auth.logout();
+		}
 	}
 
-	const handleItemCheck = (itemId, complete) => {
+	const handleItemCheck = async (itemId, complete) => {
 		setGroceryItems(prev => {
 			const updatedItems = prev.slice();
 			const updatedIndex = prev.findIndex(item => item.id === itemId);
@@ -33,10 +50,14 @@ function GroceryListPage() {
 			return updatedItems;
 		});
 
-		plannerApi.updateGroceryItem(itemId, { complete: !complete }, authHeader(auth.user?.token));
+		try {
+			await plannerApi.updateGroceryItem(itemId, { complete: !complete }, authHeader(auth.user?.token));
+		} catch(err) {
+			auth.logout();
+		}
 	}
 
-	const handleItemEdit = (itemId, newName) => {
+	const handleItemEdit = async (itemId, newName) => {
 		if(!itemId && (!newName || newName === "")) return;
 		if(!newName || newName === "") return handleItemRemove(itemId);
 
@@ -48,15 +69,25 @@ function GroceryListPage() {
 			updatedItems[updatedIndex] = updatedItem;
 			return updatedItems;
 		});
-		plannerApi.updateGroceryItem(itemId, { name: newName }, authHeader(auth.user?.token));
+		
+		try {
+			await plannerApi.updateGroceryItem(itemId, { name: newName }, authHeader(auth.user?.token));
+		} catch(err) {
+			auth.logout();
+		}
 	}
 
-	const handleItemRemove = (itemId) => {
+	const handleItemRemove = async (itemId) => {
 		setGroceryItems(prev => {
 			return prev.slice().filter(item => item.id).filter(item => item.id !== itemId);
 		});
 		if(!itemId) return;
-		plannerApi.deleteGroceryItem(itemId, authHeader(auth.user?.token));
+
+		try {
+			await plannerApi.deleteGroceryItem(itemId, authHeader(auth.user?.token));
+		} catch(err) {
+			auth.logout();
+		}
 	}
 
 	return (
