@@ -6,7 +6,7 @@ export default function HomePage() {
     const { data: recipes, updateRecipe, loading, error } = useRecipeContext();
 
     const handleFavorite = (recipeId, isFavorite) => {
-        updateRecipe(recipeId, { favorite: !isFavorite }, () => console.log("toggled favorite"));
+        updateRecipe(recipeId, { favorite: !isFavorite });
     }
 
     return (
