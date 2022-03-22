@@ -31,13 +31,32 @@ export default function AuthContextProvider({ children }) {
         setLoading(false);
     }
 
-    const logout = () => {
+    const guestLogin = async function () {
+        try {
+            setLoading(true);
+            setValue(null);
+            setError(null);
+            const guest = await authApi.guestLogin();
+            setValue(guest.data);
+            setLocalAuthToken(guest.data.token);
+        } catch(err) {
+            setError(err);
+        }
+        setLoading(false);
+    }
+
+    const logout = async () => {
+        try{
+            if(value.type === "guest") await authApi.logout(value.token);
+        } catch(err) {
+            setError(err);
+        }
         setValue(null);
         removeLocalAuthToken();
     }
 
     return (
-        <authContext.Provider value={{ loading, error, user: value, login, logout }}>
+        <authContext.Provider value={{ loading, error, user: value, login, guestLogin, logout }}>
             {children}
         </authContext.Provider>
     )

@@ -13,12 +13,23 @@ export default function LoginPage(props) {
         callback();
     }
 
+    const handleGuestLogin = async (e) => {
+        e.preventDefault();
+        await auth.guestLogin();
+    }
+
     if(!auth.loading && auth.user) return <Navigate to="/" />
 
     return (
         <LoginPageContainer>
             <h1>Log In</h1>
-            <LoginForm onSubmit={handleLogin} error={auth.error?.response?.data}/>
+            {auth.loading ?
+                <p>Loading...</p> :
+                <>
+                    <LoginForm onSubmit={handleLogin} error={auth.error?.response?.data}/>
+                    <p>Don't have an account? <a href="" onClick={handleGuestLogin}>Click here</a> to login as a guest user!</p>
+                </>
+            }
         </LoginPageContainer>
     )
 }
