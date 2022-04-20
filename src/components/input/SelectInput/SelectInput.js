@@ -1,9 +1,8 @@
-import React from 'react';
-import Button from 'react-bootstrap/Button'
+import Button from '../Button/Button';
 
-export default function SelectInput({ children, options, placeholder, ...props }) {
+export default function SelectInput({ children, options, selected, placeholder, ...props }) {
     return (
-        <Button as="select" {...props} >
+        <Button as="select" defaultValue={selected} {...props} >
             { placeholder && <option value="">{placeholder}</option>}
             { options ? options.map(option => (<option key={option} value={option}>{option}</option>)) : children }
         </Button>

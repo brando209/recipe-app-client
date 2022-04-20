@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Button from 'react-bootstrap/Button';
+import Button from '../../../input/Button/Button';
 import Heart from '../../spinners/Heart/Heart';
 
 function LoadingHeart({ isLoading, defaultText, loadingText, ...props }) {
@@ -24,5 +24,7 @@ const StyledLoadingHeart = styled(Button)`
         display: flex;
         flex-direction: row;
         width: 150px;
+        margin: 0;
+        padding: 0;
     }
 `

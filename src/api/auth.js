@@ -13,5 +13,9 @@ function logout(authToken) {
     return axios.get('/api/auth/logout', { headers: authHeader(authToken) });
 }
 
-const authApi = { login, guestLogin, logout };
+function updateAccount(updates, authToken) {
+    return axios.patch('/api/user', updates, { headers: authHeader(authToken) });
+}
+
+const authApi = { login, guestLogin, logout, updateAccount };
 export default authApi

@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
-import { Button, Badge } from 'react-bootstrap';
+import { Badge } from 'react-bootstrap';
 import { Heart, HeartFill, Trash, PencilSquare } from 'react-bootstrap-icons';
+import Button from '../../input/Button/Button';
 import { useAppContext } from '../../../contexts/AppContext/AppContext';
 import List from '../../display/List/List';
 
@@ -19,7 +20,7 @@ export default function RecipeDetails({ recipe, onFavorite, onDelete }) {
             footer: (
                 <>
                     <Button variant="secondary" onClick={() => hideDialog()}>Cancel</Button>
-                    <Button variant="danger" onClick={() => onDelete(id, () => hideDialog())}>Delete</Button>
+                    <Button onClick={() => onDelete(id, () => hideDialog())}>Delete</Button>
                 </>
             )
         });
@@ -47,7 +48,7 @@ export default function RecipeDetails({ recipe, onFavorite, onDelete }) {
             </RecipeDetailsTop>
 
             <RecipeDetailsMiddle>
-                <img src={photo.path ? `/${photo.path}` : ""} alt="" />
+                <RecipeImage src={photo.path ? `/${photo.path}` : ""} alt="" />
                 <div>
                     <p>
                         <label>Serves:&nbsp;</label>
@@ -152,18 +153,6 @@ const RecipeDetailsMiddle = styled.div`
     justify-content: space-between;
     flex-wrap: wrap;
 
-    > img {
-        width: 100%;
-        min-height: 150px;
-        max-height: 12rem;
-        aspect-ratio: 1 / 1;
-        object-fit: cover;
-        object-position: center;
-        border-radius: 5px;
-        margin: 0.25rem;
-        border: 2px solid var(--color-red);
-    }
-
     > div {
         display: flex;
         flex-direction: row;
@@ -175,10 +164,10 @@ const RecipeDetailsMiddle = styled.div`
             flex: 1;
             margin: 0.25rem;
             padding: 0.125rem;
-            border: 2px solid var(--color-red);
+            border: 2px solid ${props => props.theme.main};
             border-radius: 5px;
             font-weight: 200;
-            background-color: var(--color-white);
+            background-color: ${props => props.theme.contrast};
 
             > label {
                 font-weight: 400;
@@ -193,6 +182,19 @@ const RecipeDetailsMiddle = styled.div`
         order: 3;
     }
 `
+
+const RecipeImage = styled.img`
+    width: 100%;
+    min-height: 150px;
+    max-height: 12rem;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 5px;
+    margin: 0.25rem;
+    border: 2px solid ${props => props.theme.main};
+`
+
 const RecipeDetailsBottom = styled.div`
 
 `

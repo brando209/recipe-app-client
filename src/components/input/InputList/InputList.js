@@ -1,8 +1,8 @@
 import { FieldArray } from 'formik';
-import { Button } from 'react-bootstrap';
+import Button from '../Button/Button';
 import styled from 'styled-components';
 
-export default function InputList({ name, label, listItems, renderItem, initialItemValue, buttonPlacement="top left", buttonText="Add", buttonVariant="secondary", renderButton = null }) {
+export default function InputList({ name, label, listItems, renderItem, initialItemValue, buttonPlacement="top left", buttonText="Add", buttonVariant="primary", renderButton = null }) {
     return (
         <FieldArray
             name={name}

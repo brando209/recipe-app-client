@@ -8,7 +8,7 @@ export default function TimeInput({ name }) {
     return (
         <StyledTimeInput>
             <Field name={`${name}.time`} type="number" min={1} />
-            <Field name={`${name}.unit`} as={SelectInput} options={timeUnitOptions} variant="secondary" />
+            <Field name={`${name}.unit`} as={SelectInput} options={timeUnitOptions} />
         </StyledTimeInput>
     )
 }

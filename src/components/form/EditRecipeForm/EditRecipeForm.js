@@ -213,7 +213,7 @@ const EditRecipeFormMiddle = styled.div`
         object-position: center;
         border-radius: 5px;
         margin: 0.25rem;
-        border: 2px solid var(--color-red);
+        border: 2px solid ${props => props.theme.main};
     }
 
     > div {
@@ -227,10 +227,10 @@ const EditRecipeFormMiddle = styled.div`
             flex: 1;
             margin: 0.25rem;
             padding: 0.25rem 0;
-            border: 2px solid var(--color-red);
+            border: 2px solid ${props => props.theme.main};
             border-radius: 5px;
             font-weight: 200;
-            background-color: var(--color-white);
+            background-color: ${props => props.theme.contrast};
 
             > label {
                 font-weight: 400;

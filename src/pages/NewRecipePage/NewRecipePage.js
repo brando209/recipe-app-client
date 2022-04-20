@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router';
 import Page from '../Page/Page';
+import Button from '../../components/input/Button/Button';
+import LoadingHeart from '../../components/display/buttons/LoadingHeart/LoadingHeart';
 import NewRecipeForm from '../../components/form/NewRecipeForm/NewRecipeForm';
 import { useRecipeContext } from '../../contexts/RecipeContext/RecipeContext';
 import { useAppContext } from '../../contexts/AppContext/AppContext';
 import { useAuth } from '../../contexts/AuthContext/AuthContext';
 import useResource from '../../hooks/useResource';
-import LoadingHeart from '../../components/display/buttons/LoadingHeart/LoadingHeart';
 
 const initialValues = {
     title: "",
@@ -76,7 +76,7 @@ export default function NewRecipePage(props) {
             footer: (
                 <>
                     <Button variant="secondary" onClick={() => hideDialog()}>Cancel</Button>
-                    <Button variant="success" type="submit" form="import-form">Import</Button>
+                    <Button type="submit" form="import-form">Import</Button>
                 </>
             )
         });
@@ -88,12 +88,11 @@ export default function NewRecipePage(props) {
             <StyledHeader>
                 <h1>New Recipe</h1>
                 <LoadingHeart 
-                    variant="outline-secondary" 
                     isLoading={importing}
                     defaultText="Import"
                     loadingText="Importing..."
                     onClick={handleImportClick} 
-                    />
+                />
             </StyledHeader>
             <NewRecipeForm 
                 onSubmit={handleCreateRecipe} 

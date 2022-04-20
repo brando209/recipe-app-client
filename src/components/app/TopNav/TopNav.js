@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { Button, Navbar, Nav } from 'react-bootstrap';
+import Button from '../../input/Button/Button';
+import { Navbar, Nav } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router';
 import { useAuth } from '../../../contexts/AuthContext/AuthContext';
 import { useRecipeContext } from '../../../contexts/RecipeContext/RecipeContext';
@@ -13,17 +14,17 @@ export default function TopNav({ onShowFilter }) {
     const { pathname } = useLocation();
     const navigate = useNavigate();
     const auth = useAuth();
+    const { theme } = useAppContext();
 
     const showSearchAndFilter = pathname === "/" || pathname === "/favorites";
 
     if (!auth.user) return null;
 
     return (
-        <StyledTopNav sticky="top">
+        <StyledTopNav theme={theme} sticky="top">
             <Nav>
                 <Nav.Item className="back-btn">
                     <Button
-                        variant="outline-secondary"
                         onClick={() => navigate(-1)}
                     >
                         Back
@@ -34,7 +35,6 @@ export default function TopNav({ onShowFilter }) {
 
                 <Nav.Item className={`${showSearchAndFilter ? "" : "hide"}`}>
                     <Button
-                        variant="secondary"
                         className="show-filters-btn"
                         onClick={() => showSidebar()}
                     >
@@ -55,8 +55,8 @@ export default function TopNav({ onShowFilter }) {
 
 const StyledTopNav = styled(Navbar)`
     padding: 0.5rem;
-    background: var(--color-red);
-    border-bottom: 1px solid #5c636a;
+    border-bottom: 1px solid ${props => props.theme.main};
+    background-color: ${props => props.theme.secondary};
 
     .navbar-nav {
         display: flex;

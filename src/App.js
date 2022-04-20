@@ -33,8 +33,8 @@ function PrivateRoute({ children }) {
 function App() {
 	return (
 		<div className="App">
-			<AppContextProvider>
-				<AuthContextProvider>
+			<AuthContextProvider>
+				<AppContextProvider>
 					<RecipeContextProvider>
 						<FilterControlSidebar />
 						<Dialog />
@@ -56,8 +56,8 @@ function App() {
 							<BottomNav />
 						</Router>
 					</RecipeContextProvider>
-				</AuthContextProvider>
-			</AppContextProvider>
+				</AppContextProvider>
+			</AuthContextProvider>
 		</div>
 	);
 }

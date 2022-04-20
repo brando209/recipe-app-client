@@ -1,12 +1,14 @@
 import React from 'react';
-import { Row, Button } from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
 import { Formik, Form } from 'formik';
+import Button from '../../input/Button/Button';
 
 import AutocompleteList from '../../input/AutocompleteList/AutocompleteList';
 import './FilterRecipesForm.css';
 
 function FilterRecipesForm({ initialFilter, onSubmit, ingredients, categories }) {
     const handleClearFilters = () => {
+        console.log("clearing filters");
         onSubmit({
             ingredients: [],
             categories: []

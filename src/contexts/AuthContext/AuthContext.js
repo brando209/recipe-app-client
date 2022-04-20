@@ -55,8 +55,13 @@ export default function AuthContextProvider({ children }) {
         removeLocalAuthToken();
     }
 
+    const updateTheme = (name) => {
+        setValue(prev => ({...prev, theme: name }));
+        authApi.updateAccount({ theme: name }, value.token);
+    }
+
     return (
-        <authContext.Provider value={{ loading, error, user: value, login, guestLogin, logout }}>
+        <authContext.Provider value={{ loading, error, user: value, login, guestLogin, logout, updateTheme }}>
             {children}
         </authContext.Provider>
     )

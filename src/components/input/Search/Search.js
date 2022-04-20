@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
-import { Button, Form, FormControl } from 'react-bootstrap';
+import { Form, FormControl } from 'react-bootstrap';
 import { Search as SearchIcon } from 'react-bootstrap-icons';
 import styled from 'styled-components';
+import Button from '../Button/Button';
 
 function Search({ onSubmit, initialValue }) {
     const inputRef = useRef(null);
@@ -46,8 +47,8 @@ function Search({ onSubmit, initialValue }) {
                 onChange={handleInputChange}
                 ref={inputRef}
             />
-            <Button className={`clear-btn ${showClearBtn ? "show" : ""}`} variant="outline-secondary" onClick={handleClear}>x</Button>
-            <Button variant="secondary" type="submit" className="ms-2"><SearchIcon width={10} height={10} /></Button>
+            <Button className={`clear-btn ${showClearBtn ? "show" : ""}`} onClick={handleClear}>x</Button>
+            <Button type="submit" className="search-button"><SearchIcon width={15} height={15} /></Button>
         </StyledSearch>
     )
 }
@@ -57,20 +58,29 @@ const StyledSearch = styled(Form)`
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: right;
+    align-items: center;   
 
     .search-bar {
-        max-width: 300px;   
+        max-width: 300px;
+        max-height: 2.2rem; 
     }
 
     .clear-btn {
         display: none;
-        background: white;
+        border-left: none;
+
+        background: ${props => props.theme.contrast};
+        border: 1px solid ${props => props.theme.accent};
+        color: ${props => props.theme.main}
     }
 
     .clear-btn.show {
         display: inline;
     }
 
+    .search-button {
+        margin-left: 10px;
+    }
 `
 
 export default Search;

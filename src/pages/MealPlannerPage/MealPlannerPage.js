@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
-import { Button, ButtonGroup } from "react-bootstrap";
+import Button from '../../components/input/Button/Button';
+import ButtonGroup from '../../components/input/ButtonGroup/ButtonGroup';
 import { Trash } from "react-bootstrap-icons";
 import { useRecipeContext } from "../../contexts/RecipeContext/RecipeContext";
 import { useAppContext } from "../../contexts/AppContext/AppContext";
@@ -203,16 +204,15 @@ function MealPlannerPage() {
         showNavbar();
     }
 
-
     return (
         <StyledMealPlannerPage>
             <h1>Meal Planner</h1>
             <SelectViewContainer>
-                <Button type="button" variant="outline-secondary" onClick={() => setShowMealOptions(prev => !prev)}>Add Meal</Button>
+                <Button type="button"onClick={() => setShowMealOptions(prev => !prev)}>Add Meal</Button>
                 <ButtonGroup>
-                    <Button variant="outline-secondary" active={calendar.view === 'month'} id="month" onClick={e => handleChangeCalendarView(e.target.id)}>Month</Button>
-                    <Button variant="outline-secondary" active={calendar.view === 'week'} id="week" onClick={e => handleChangeCalendarView(e.target.id)}>Week</Button>
-                    <Button variant="outline-secondary" active={calendar.view === 'day'} id="day" onClick={e => handleChangeCalendarView(e.target.id)}>Day</Button>
+                    <Button active={calendar.view === 'month'} id="month" onClick={e => handleChangeCalendarView(e.target.id)}>Month</Button>
+                    <Button active={calendar.view === 'week'} id="week" onClick={e => handleChangeCalendarView(e.target.id)}>Week</Button>
+                    <Button active={calendar.view === 'day'} id="day" onClick={e => handleChangeCalendarView(e.target.id)}>Day</Button>
                 </ButtonGroup>
             </SelectViewContainer>
             <RecipeSearchContainer show={showMealOptions} >

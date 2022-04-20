@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Formik, Form, Field } from 'formik';
 import InputList from '../../input/InputList/InputList';
 import { XSquare } from 'react-bootstrap-icons';
-import { Button } from 'react-bootstrap';
+import Button from '../../input/Button/Button';
 
 function GroceryListForm({
     groceryItems,
@@ -73,7 +73,7 @@ function GroceryListForm({
 
     const handleItemRemove = async (itemId) => {
         onItemRemove && await onItemRemove(itemId);
-        buttonRef.current.disabled = false;
+        if(buttonRef.current) buttonRef.current.disabled = false;
     }
 
     const handleEditing = (itemId, originalValue) => {
@@ -104,7 +104,7 @@ function GroceryListForm({
                     )}
                     buttonPlacement="bottom center"
                     renderButton={addNewItem => (
-                        <Button ref={buttonRef} variant="outline-secondary" type="button" onClick={() => handleNewItem(addNewItem)}>Add Grocery Item</Button>
+                        <Button ref={buttonRef} variant="secondary" type="button" onClick={() => handleNewItem(addNewItem)}>Add Grocery Item</Button>
                     )}
                 />
             </Form>

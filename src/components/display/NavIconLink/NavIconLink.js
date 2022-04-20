@@ -1,12 +1,14 @@
 import Nav from 'react-bootstrap/Nav';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import { useAppContext } from '../../../contexts/AppContext/AppContext';
 
 export default function NavIconLink({ to, text = "", IconComponent, IconFillComponent, textOnHover=false, ...props }) {
+    const { theme } = useAppContext();
     const { pathname } = useLocation();
 
     return (
-        <StyledNavIconLink as={Link} to={to} $textOnHover={textOnHover} {...props}>
+        <StyledNavIconLink as={Link} to={to} $textOnHover={textOnHover} theme={theme} {...props}>
             {pathname === to ?
                 <IconFillComponent size={25} /> :
                 <IconComponent size={25} />
@@ -24,7 +26,7 @@ const StyledNavIconLink = styled(Nav.Item)`
     align-items: center;
     scroll-snap-align: start;
     min-width: 25%;
-    color: #5c636a;
+    color: ${props => props.theme.main};
     text-decoration: none;
 
     .text {
@@ -34,7 +36,7 @@ const StyledNavIconLink = styled(Nav.Item)`
     }
 
     :hover {
-        color: #5c636a;
+        color: ${props => props.theme.accent};
         cursor: pointer;
 
         .text {

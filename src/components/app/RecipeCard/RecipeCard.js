@@ -46,9 +46,9 @@ const StyledRecipeCard = styled(Card)`
     max-width: 30rem;
     margin: 0;
     margin-bottom: 0.5rem;
-    background: var(--color-white);
+    background: ${props => props.theme.contrast};
     overflow: hidden;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
 
     @media (min-width: 768px) {
         width: 100%;

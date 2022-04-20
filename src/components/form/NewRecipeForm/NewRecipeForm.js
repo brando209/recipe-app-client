@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { useAppContext } from '../../../contexts/AppContext/AppContext';
 import * as Inputs from '../../input';
 import recipeSchema from '../../../utility/validationSchema/recipeSchema';
 
@@ -10,6 +11,7 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
     //This state is used when the user selects an image file from device
     const [selectedFile, setSelectedFile] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
+    const { theme } = useAppContext();
 
     //When a file is selected, convert file to dataurl for display
     useEffect(() => {
@@ -81,7 +83,7 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
                     </Inputs.InputContainer>
                     <FormError name="serves" component="div" className="form-error-message" />
 
-                    {values.photo && <StyledImage src={values.photo && typeof values.photo === "string" ? values.photo : selectedImage} alt="" />}
+                    {values.photo && <StyledImage src={values.photo && typeof values.photo === "string" ? values.photo : selectedImage} alt="" theme={theme} />}
 
                     <Inputs.InputContainer name="photo" label="Image">
                         <Field
@@ -154,7 +156,8 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
     )
 }
 
-const StyledLoadingHeart = styled(LoadingHeart)``
+const StyledLoadingHeart = styled(LoadingHeart)``;
+
 const StyledImage = styled.img`
     width: 100%;
     min-height: 150px;
@@ -163,7 +166,7 @@ const StyledImage = styled.img`
     object-fit: cover;
     object-position: center;
     border-radius: 5px;
-    border: 2px solid var(--color-red);
+    border: 2px solid ${(props) => props.theme[1]};
     margin: 0 auto;
 `
 

@@ -7,20 +7,20 @@ import { useAppContext } from '../../../contexts/AppContext/AppContext';
 
 export default function BottomNav(props) {
     const auth = useAuth();
-    const { navbar } = useAppContext();
+    const { navbar, theme } = useAppContext();
 
     if(!auth.user) return null;
 
     return (
-        <StyledBottomNav fixed="bottom" $show={navbar.show}>
+        <StyledBottomNav fixed="bottom" theme={theme} $show={navbar.show}>
             <NavLinks />
         </StyledBottomNav>
     )
 }
 
 const StyledBottomNav = styled(Navbar)`
-    background-color: var(--color-red);
-    border-top: 1px solid #5c636a;
+    background-color: ${props => props.theme.secondary};
+    border-top: 1px solid ${props => props.theme.main};
 
     display: ${({ $show }) => $show ? "initial" : "none" };
 

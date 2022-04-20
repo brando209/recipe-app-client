@@ -50,10 +50,10 @@ const StyledIngredientInput =styled.div`
     flex-wrap: wrap;
     gap: 5px;
     margin: 0.25rem auto;
-    border: 2px solid var(--color-red);
+    border: 2px solid ${props => props.theme.main};
     border-radius: 5px;
     padding: 0.5rem;
-    background-color: var(--color-white);    
+    background-color: ${props => props.theme.accent};    
     max-width: 450px;
     width: 100%;
 `
