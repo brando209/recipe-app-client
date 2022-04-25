@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { useAppContext } from '../../../contexts/AppContext/AppContext';
 import * as Inputs from '../../input';
 import recipeSchema from '../../../utility/validationSchema/recipeSchema';
 
@@ -11,7 +10,6 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
     //This state is used when the user selects an image file from device
     const [selectedFile, setSelectedFile] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
-    const { theme } = useAppContext();
 
     //When a file is selected, convert file to dataurl for display
     useEffect(() => {
@@ -35,8 +33,9 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
                 formData.append("title", values.title);
                 formData.append("description", values.description);
                 formData.append("serves", values.serves);
-                formData.append("prep", JSON.stringify(values.prep));
-                formData.append("cook", JSON.stringify(values.cook));
+                formData.append("prepTime", JSON.stringify(values.prepTime));
+                formData.append("cookTime", JSON.stringify(values.cookTime));
+                formData.append("totalTime", JSON.stringify(values.cookTime));
                 formData.append("ingredients", JSON.stringify(values.ingredients));
                 formData.append("instructions", JSON.stringify(values.instructions));
                 formData.append("comments", JSON.stringify(values.comments));
@@ -68,22 +67,27 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
                     </Inputs.InputContainer>
                     <FormError name="description" component="div" className="form-error-message" />
 
-                    <Inputs.InputContainer name="prep" label="Prep">
-                        <Inputs.TimeInput name="prep" />
+                    <Inputs.InputContainer name="prepTime" label="Prep Time">
+                        <Field as={Inputs.TimeInput} name="prepTime" />
                     </Inputs.InputContainer>
-                    <FormError name="prep.time" component="div" className="form-error-message" />
+                    <FormError name="prepTime" component="div" className="form-error-message" />
 
-                    <Inputs.InputContainer name="cook" label="Cook">
-                        <Inputs.TimeInput name="cook" />
+                    <Inputs.InputContainer name="cookTime" label="Cook Time">
+                        <Field as={Inputs.TimeInput} name="cookTime" />
                     </Inputs.InputContainer>
-                    <FormError name="cook.time" component="div" className="form-error-message" />
+                    <FormError name="cookTime" component="div" className="form-error-message" />
+
+                    <Inputs.InputContainer name="totalTime" label="Total Time">
+                        <Field as={Inputs.TimeInput} name="totalTime" />
+                    </Inputs.InputContainer>
+                    <FormError name="totalTime" component="div" className="form-error-message" />
 
                     <Inputs.InputContainer name="serves" label="Serves">
                         <Field name="serves" placeholder="Serves" type="number" min={1} className="serving-input" />
                     </Inputs.InputContainer>
                     <FormError name="serves" component="div" className="form-error-message" />
 
-                    {values.photo && <StyledImage src={values.photo && typeof values.photo === "string" ? values.photo : selectedImage} alt="" theme={theme} />}
+                    {values.photo && <StyledImage src={values.photo && typeof values.photo === "string" ? values.photo : selectedImage} alt="" />}
 
                     <Inputs.InputContainer name="photo" label="Image">
                         <Field
@@ -166,7 +170,7 @@ const StyledImage = styled.img`
     object-fit: cover;
     object-position: center;
     border-radius: 5px;
-    border: 2px solid ${(props) => props.theme[1]};
+    border: 2px solid ${(props) => props.theme.main};
     margin: 0 auto;
 `
 

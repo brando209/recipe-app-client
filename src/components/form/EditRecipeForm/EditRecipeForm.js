@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 import { Save, XSquare } from 'react-bootstrap-icons';
 
 import { Formik, Form, Field } from 'formik';
-import { SelectInput, InputList, IngredientInput, TextareaListInput, CategoryInput } from '../../input';
+import { TimeInput, InputList, IngredientInput, TextareaListInput, CategoryInput } from '../../input';
 
 export default function EditRecipeForm({ recipe, onEdit }) {
     const navigate = useNavigate();
@@ -77,17 +77,16 @@ export default function EditRecipeForm({ recipe, onEdit }) {
                             </p>
                             <p>
                                 <label>Prep&nbsp;Time:&nbsp;</label>
-                                <Field name="prep.time" type="number" min={1} />
-                                <Field name="prep.unit" as={SelectInput} options={['min', 'hr']} variant="secondary" />
+                                <Field as={TimeInput} name="prepTime" />
                             </p>
                             <p>
                                 <label>Cook&nbsp;Time:&nbsp;</label>
-                                <Field name="cook.time" type="number" min={1} />
-                                <Field name="cook.unit" as={SelectInput} options={['min', 'hr']} variant="secondary" />
+                                <Field as={TimeInput} name="cookTime" />
                             </p>
                             <p>
                                 <label>Total&nbsp;Time:&nbsp;</label>
-                                {(values.prep.time + values.cook.time)}&nbsp;{values.cook.unit}</p>
+                                <Field as={TimeInput} name="totalTime" />
+                            </p>
                         </div>
                         <Field name="description" placeholder="Recipe Description" as="textarea" rows="4" />
                     </EditRecipeFormMiddle>
@@ -226,7 +225,7 @@ const EditRecipeFormMiddle = styled.div`
         > p {
             flex: 1;
             margin: 0.25rem;
-            padding: 0.25rem 0;
+            padding: 0.25rem;
             border: 2px solid ${props => props.theme.main};
             border-radius: 5px;
             font-weight: 200;

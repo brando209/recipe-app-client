@@ -2,10 +2,11 @@ import styled from 'styled-components';
 import Card from 'react-bootstrap/Card';
 import { Heart, HeartFill } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router';
+import { formatDuration } from '../utils';
 
 export default function RecipeCard(props) {
     const navigate = useNavigate();
-    const { title, description, serves, prep, cook, favorite, id, photo } = props;
+    const { title, description, serves, prepTime, cookTime, favorite, id, photo } = props;
 
     const handleFavoriteClick = (e) => {
         e.stopPropagation();
@@ -26,8 +27,8 @@ export default function RecipeCard(props) {
                         </span>
                     </Card.Title>
                     <Card.Subtitle className="recipe-info">Serves: {serves}</Card.Subtitle>
-                    <Card.Subtitle className="recipe-info">Prep: {prep.time + " " + prep.unit}</Card.Subtitle>
-                    <Card.Subtitle className="recipe-info">Cook: {cook.time + " " + cook.unit}</Card.Subtitle>
+                    <Card.Subtitle className="recipe-info">Prep: {formatDuration(prepTime)}</Card.Subtitle>
+                    <Card.Subtitle className="recipe-info">Cook: {formatDuration(cookTime)}</Card.Subtitle>
                     <Card.Text className="recipe-card-text">
                         {description}
                     </Card.Text>

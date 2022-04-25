@@ -5,11 +5,12 @@ import { Heart, HeartFill, Trash, PencilSquare } from 'react-bootstrap-icons';
 import Button from '../../input/Button/Button';
 import { useAppContext } from '../../../contexts/AppContext/AppContext';
 import List from '../../display/List/List';
+import { formatDuration } from '../utils';
 
 export default function RecipeDetails({ recipe, onFavorite, onDelete }) {
     const navigate = useNavigate();
     const { setDialog, showDialog, hideDialog } = useAppContext();
-    const { id, title, description, ingredients, instructions, comments, categories, serves, prep, cook, photo, favorite } = recipe;
+    const { id, title, description, ingredients, instructions, comments, categories, serves, prepTime, cookTime, totalTime, photo, favorite } = recipe;
     
     const handleFavoriteClick = () => onFavorite(id, favorite);
 
@@ -56,15 +57,15 @@ export default function RecipeDetails({ recipe, onFavorite, onDelete }) {
                     </p>
                     <p>
                         <label>Prep&nbsp;Time:&nbsp;</label>
-                        {prep.time}&nbsp;{prep.unit}
+                        {formatDuration(prepTime)}
                     </p>
                     <p>
                         <label>Cook&nbsp;Time:&nbsp;</label>
-                        {cook.time}&nbsp;{cook.unit}
+                        {formatDuration(cookTime)}
                     </p>
                     <p>
                         <label>Total&nbsp;Time:&nbsp;</label>
-                        {(prep.time + cook.time)}&nbsp;{cook.unit}</p>
+                        {formatDuration(totalTime)}</p>
                 </div>
                 <p>{description}</p>
             </RecipeDetailsMiddle>

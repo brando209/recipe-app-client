@@ -1,28 +1,42 @@
 import styled from 'styled-components';
-import { Field } from 'formik';
-import { SelectInput } from '..';
+import { FieldArray, Field } from 'formik';
 
-const timeUnitOptions = ['min', 'hr'];
-
-export default function TimeInput({ name }) {
+export default function TimeInput({ name, ...props }) {
     return (
-        <StyledTimeInput>
-            <Field name={`${name}.time`} type="number" min={1} />
-            <Field name={`${name}.unit`} as={SelectInput} options={timeUnitOptions} />
-        </StyledTimeInput>
+        <FieldArray
+            name={name}
+            render={array => (
+                <StyledTimeInput>
+                    <StyledField>
+                        <label>Days:</label>
+                        <Field type="number" {...props} value={props.value.days} name={`${name}.days`} min="0" max="30" step="1" placeholder="Days" />
+                    </StyledField>
+                    <StyledField>
+                        <label>Hours:</label>
+                        <Field type="number" {...props} value={props.value.hours} name={`${name}.hours`} min="0" max="24" step="1" placeholder="Hours" />
+                    </StyledField>
+                    <StyledField>
+                        <label>Minutes:</label>
+                        <Field type="number" {...props} value={props.value.minutes} name={`${name}.minutes`} min="0" max="60" step="1" placeholder="Minutes" />
+                    </StyledField>
+                </StyledTimeInput>
+            )}
+        />
     )
 }
 
+const StyledField = styled.div`
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    >input {
+        width: 4rem;
+        margin-left: 0.5rem;
+    };
+`
+
 const StyledTimeInput = styled.div`
     display: flex;
-    flex-wrap: wrap;
-    >input {
-        margin-right: 0.5rem;
-    }
-
-    > input, > select {
-        min-width: 100px;
-        max-width: 175px;
-        flex: 1;
-    }
+    gap: 0.75rem;
 `

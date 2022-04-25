@@ -14,14 +14,9 @@ const initialValues = {
     title: "",
     description: "",
     serves: "",
-    prep: {
-        time: "",
-        unit: "min"
-    },
-    cook: {
-        time: "",
-        unit: "min"
-    },
+    prepTime: { days: 0, hours: 0, minutes: 0},
+    cookTime: { days: 0, hours: 0, minutes: 0},
+    totalTime: { days: 0, hours: 0, minutes: 0},
     ingredients: [],
     instructions: [],
     comments: [],
