@@ -35,7 +35,7 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
                 formData.append("serves", values.serves ?? 1);
                 formData.append("prepTime", JSON.stringify(values.prepTime));
                 formData.append("cookTime", JSON.stringify(values.cookTime));
-                formData.append("totalTime", JSON.stringify(values.cookTime));
+                formData.append("totalTime", JSON.stringify(values.totalTime));
                 formData.append("ingredients", JSON.stringify(values.ingredients));
                 formData.append("instructions", JSON.stringify(values.instructions));
                 formData.append("comments", JSON.stringify(values.comments));
