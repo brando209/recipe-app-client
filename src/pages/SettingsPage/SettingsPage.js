@@ -40,7 +40,6 @@ export default function SettingsPage(props) {
         logout();
         navigate('/login');
     }
-    console.log(user.theme);
     
     return (
         <Page>
