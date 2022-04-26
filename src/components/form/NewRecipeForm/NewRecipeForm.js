@@ -32,7 +32,7 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
                 const formData = new FormData();
                 formData.append("title", values.title);
                 formData.append("description", values.description);
-                formData.append("serves", values.serves);
+                formData.append("serves", values.serves ?? 1);
                 formData.append("prepTime", JSON.stringify(values.prepTime));
                 formData.append("cookTime", JSON.stringify(values.cookTime));
                 formData.append("totalTime", JSON.stringify(values.cookTime));
@@ -40,7 +40,7 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
                 formData.append("instructions", JSON.stringify(values.instructions));
                 formData.append("comments", JSON.stringify(values.comments));
                 formData.append("categories", JSON.stringify(values.categories));
-                formData.append("photo", values.photo || "");
+                formData.append("photo", (values.photo?.url ?? values.photo) || "");
                 setSubmitting(true);
                 onSubmit(formData, () => {
                     setSubmitting(false);
@@ -68,17 +68,17 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
                     <FormError name="description" component="div" className="form-error-message" />
 
                     <Inputs.InputContainer name="prepTime" label="Prep Time">
-                        <Field as={Inputs.TimeInput} name="prepTime" />
+                        <Field as={Inputs.TimeInput} name="prepTime" id="time-input"/>
                     </Inputs.InputContainer>
                     <FormError name="prepTime" component="div" className="form-error-message" />
 
                     <Inputs.InputContainer name="cookTime" label="Cook Time">
-                        <Field as={Inputs.TimeInput} name="cookTime" />
+                        <Field as={Inputs.TimeInput} name="cookTime" id="time-input" />
                     </Inputs.InputContainer>
                     <FormError name="cookTime" component="div" className="form-error-message" />
 
                     <Inputs.InputContainer name="totalTime" label="Total Time">
-                        <Field as={Inputs.TimeInput} name="totalTime" />
+                        <Field as={Inputs.TimeInput} name="totalTime" id="time-input" />
                     </Inputs.InputContainer>
                     <FormError name="totalTime" component="div" className="form-error-message" />
 
@@ -87,7 +87,7 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
                     </Inputs.InputContainer>
                     <FormError name="serves" component="div" className="form-error-message" />
 
-                    {values.photo && <StyledImage src={values.photo && typeof values.photo === "string" ? values.photo : selectedImage} alt="" />}
+                    {values.photo && <StyledImage src={values.photo && typeof values.photo === "string" ? values.photo : (values.photo?.url && typeof values.photo?.url === "string" ? values.photo.url : selectedImage)} alt="" />}
 
                     <Inputs.InputContainer name="photo" label="Image">
                         <Field
@@ -194,6 +194,10 @@ const StyledNewRecipeForm = styled(Form)`
 
     @media (min-width: 428px) {
         width: 95%; 
+
+        #time-input {
+            justify-content: flex-start;
+        }
 
         ${StyledImage} {
             margin: 0;

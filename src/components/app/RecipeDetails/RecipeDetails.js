@@ -5,7 +5,7 @@ import { Heart, HeartFill, Trash, PencilSquare } from 'react-bootstrap-icons';
 import Button from '../../input/Button/Button';
 import { useAppContext } from '../../../contexts/AppContext/AppContext';
 import List from '../../display/List/List';
-import { formatDuration } from '../utils';
+import { formatDuration, toMinutes } from '../utils';
 
 export default function RecipeDetails({ recipe, onFavorite, onDelete }) {
     const navigate = useNavigate();
@@ -55,17 +55,24 @@ export default function RecipeDetails({ recipe, onFavorite, onDelete }) {
                         <label>Serves:&nbsp;</label>
                         {serves}
                     </p>
-                    <p>
-                        <label>Prep&nbsp;Time:&nbsp;</label>
-                        {formatDuration(prepTime)}
-                    </p>
-                    <p>
-                        <label>Cook&nbsp;Time:&nbsp;</label>
-                        {formatDuration(cookTime)}
-                    </p>
-                    <p>
-                        <label>Total&nbsp;Time:&nbsp;</label>
-                        {formatDuration(totalTime)}</p>
+                    {toMinutes(prepTime) > 0 &&
+                        <p>
+                            <label>Prep&nbsp;Time:&nbsp;</label>
+                            {formatDuration(prepTime)}
+                        </p>
+                    }
+                    {toMinutes(cookTime) > 0 &&
+                        <p>
+                            <label>Cook&nbsp;Time:&nbsp;</label>
+                            {formatDuration(cookTime)}
+                        </p>
+                    }
+                    {toMinutes(totalTime) > 0 &&
+                        <p>
+                            <label>Total&nbsp;Time:&nbsp;</label>
+                            {formatDuration(totalTime)}
+                        </p>
+                    }
                 </div>
                 <p>{description}</p>
             </RecipeDetailsMiddle>

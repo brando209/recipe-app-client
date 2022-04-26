@@ -2,16 +2,19 @@ import styled from 'styled-components';
 import Card from 'react-bootstrap/Card';
 import { Heart, HeartFill } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router';
-import { formatDuration } from '../utils';
+import { formatDuration, toMinutes } from '../utils';
 
 export default function RecipeCard(props) {
     const navigate = useNavigate();
-    const { title, description, serves, prepTime, cookTime, favorite, id, photo } = props;
+    const { title, description, serves, prepTime, cookTime, totalTime, favorite, id, photo } = props;
 
     const handleFavoriteClick = (e) => {
         e.stopPropagation();
         props.onFavorite(id, favorite);
     }
+
+    //Assume, for now, that if there is no prep or cook time then only display the total time
+    const showTotal = toMinutes(prepTime) === 0 && toMinutes(cookTime) === 0;
 
     return (
         <StyledRecipeCard>
@@ -27,8 +30,15 @@ export default function RecipeCard(props) {
                         </span>
                     </Card.Title>
                     <Card.Subtitle className="recipe-info">Serves: {serves}</Card.Subtitle>
-                    <Card.Subtitle className="recipe-info">Prep: {formatDuration(prepTime)}</Card.Subtitle>
-                    <Card.Subtitle className="recipe-info">Cook: {formatDuration(cookTime)}</Card.Subtitle>
+                    {toMinutes(prepTime) > 0 &&
+                        <Card.Subtitle className="recipe-info">Prep: {formatDuration(prepTime)}</Card.Subtitle>
+                    }
+                    {toMinutes(cookTime) > 0 &&
+                        <Card.Subtitle className="recipe-info">Cook: {formatDuration(cookTime)}</Card.Subtitle>
+                    }
+                    {showTotal &&
+                        <Card.Subtitle className="recipe-info">Total: {formatDuration(totalTime)}</Card.Subtitle>
+                    }
                     <Card.Text className="recipe-card-text">
                         {description}
                     </Card.Text>
@@ -89,6 +99,7 @@ const CardBodyLeft = styled.div`
 
     .recipe-card-text {
         position: absolute;
+        bottom: 0;
         width: 90%;
         margin: 1rem auto;
         font-size: small;

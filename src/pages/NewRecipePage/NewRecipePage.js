@@ -13,7 +13,7 @@ import useResource from '../../hooks/useResource';
 const initialValues = {
     title: "",
     description: "",
-    serves: "",
+    serves: 0,
     prepTime: { days: 0, hours: 0, minutes: 0},
     cookTime: { days: 0, hours: 0, minutes: 0},
     totalTime: { days: 0, hours: 0, minutes: 0},
@@ -91,7 +91,7 @@ export default function NewRecipePage(props) {
             </StyledHeader>
             <NewRecipeForm 
                 onSubmit={handleCreateRecipe} 
-                initialValues={importedRecipe || initialValues} 
+                initialValues={{ ...initialValues, ...importedRecipe }} 
                 isImporting={importing} 
                 error={error} 
             />
