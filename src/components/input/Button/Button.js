@@ -1,8 +1,10 @@
+import { forwardRef } from 'react';
 import styled from 'styled-components';
 
-const Button = ({ children, variant="primary", active=false, type="button", ...props }) => {
-    return <StyledButton variant={variant} active={active} type={type} {...props}>{children}</StyledButton>
-}
+const Button = forwardRef((props, ref) => {
+    const { children, variant="primary", active=false, type="button", ...otherProps } = props;
+    return <StyledButton ref={ref} variant={variant} active={active} type={type} {...otherProps}>{children}</StyledButton>
+});
 
 const getColor = (theme, active, variant) => {
     if(active) return variant === "secondary" ? theme.contrast : theme.main;
