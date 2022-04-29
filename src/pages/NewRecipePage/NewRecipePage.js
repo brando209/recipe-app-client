@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
 import Page from '../Page/Page';
@@ -28,7 +28,7 @@ export default function NewRecipePage(props) {
     const auth = useAuth();
     const [importUrl, setImportUrl] = useState(null);
     const { loading: importing, error, value: importedRecipe } = useResource(
-        importUrl,
+        importUrl || "",
         { headers: { authorization: `BEARER ${auth.user?.token}` } },
         true,
         [importUrl]
@@ -37,15 +37,23 @@ export default function NewRecipePage(props) {
     const { createRecipe } = useRecipeContext();
     const navigate = useNavigate();
 
+    const showErrorDialog = useCallback((err) => {
+        setDialog({
+            title: "Error",
+            text: err?.response?.data,
+            footer: <Button onClick={hideDialog}>OK</Button>
+        });
+        showDialog();
+    }, [setDialog, showDialog, hideDialog]);
+
+    useEffect(() => {
+        if(error) showErrorDialog(error);
+    }, [error, showErrorDialog]);
+
     const handleCreateRecipe = (recipeInfo, callback) => {
         createRecipe(recipeInfo, (recipe, err) => {
             if (err) {
-                setDialog({
-                    title: "Error",
-                    text: err.response?.data,
-                    footer: <Button onClick={hideDialog}>OK</Button>
-                });
-                showDialog();
+                showErrorDialog(err)
                 return callback();
             }
             callback();
