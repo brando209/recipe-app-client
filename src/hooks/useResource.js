@@ -7,7 +7,7 @@ const DEFAULT_OPTIONS = {
 
 export default function useResource(path, options = {}, isProtected = false, dependencies = []) {
     return useAsync(() => {
-        if(!path) return Promise.reject("Path not provided")
+        if(!path) return Promise.reject(null);
         const token = options.headers?.authorization?.split(" ")[1];
         if(isProtected && (token === null || token === "null" || token === undefined || token === "undefined")) {
             return Promise.reject("No valid auth token");
