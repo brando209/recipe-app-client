@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from 'react';
+import { createContext, useContext, useMemo, useCallback } from 'react';
 import useResource from '../../hooks/useResource';
 import authApi from '../../api/auth';
 import { getLocalAuthToken, setLocalAuthToken, removeLocalAuthToken } from '../../utility/localStorage/authStorage';
@@ -17,7 +17,7 @@ export default function AuthContextProvider({ children }) {
         [currentToken]
     );
 
-    const login = async (credentials) => {
+    const login = useCallback(async (credentials) => {
         try {
             setLoading(true);
             setValue(null);
@@ -29,9 +29,9 @@ export default function AuthContextProvider({ children }) {
             setError(err);
         }
         setLoading(false);
-    }
+    }, [setLoading, setValue, setError]);
 
-    const guestLogin = async function () {
+    const guestLogin = useCallback(async function () {
         try {
             setLoading(true);
             setValue(null);
@@ -43,9 +43,9 @@ export default function AuthContextProvider({ children }) {
             setError(err);
         }
         setLoading(false);
-    }
+    }, [setLoading, setValue, setError]);
 
-    const logout = async () => {
+    const logout = useCallback(async () => {
         try{
             if(value.type === "guest") await authApi.logout(value.token);
         } catch(err) {
@@ -53,15 +53,20 @@ export default function AuthContextProvider({ children }) {
         }
         setValue(null);
         removeLocalAuthToken();
-    }
+    }, [value, setValue, setError]);
 
-    const updateTheme = (name) => {
+    const updateTheme = useCallback((name) => {
+        console.log("Redefining 'updateTheme'");
         setValue(prev => ({...prev, theme: name }));
         authApi.updateAccount({ theme: name }, value.token);
-    }
+    }, [value, setValue]);
+
+    const contextValue = useMemo(() => ({ 
+        loading, error, user: value, login, guestLogin, logout, updateTheme 
+    }), [loading, error, value, login, guestLogin, logout, updateTheme]);
 
     return (
-        <authContext.Provider value={{ loading, error, user: value, login, guestLogin, logout, updateTheme }}>
+        <authContext.Provider value={contextValue}>
             {children}
         </authContext.Provider>
     )

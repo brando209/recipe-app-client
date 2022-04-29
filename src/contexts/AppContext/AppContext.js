@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { useAuth } from '../AuthContext/AuthContext';
 import Button from '../../components/input/Button/Button';
@@ -37,9 +37,9 @@ const useTheme = (initialTheme) => {
 
     useEffect(() => {
         setTheme(themes[auth.user?.theme] || themes[initialTheme]);
-    }, [auth.user?.theme]);
+    }, [auth, setTheme, initialTheme]);
 
-    const updateTheme = (name) => {
+    const updateTheme = useCallback((name) => {
         switch(name) {
             case 'red':
                 setTheme(themes.red);
@@ -59,7 +59,7 @@ const useTheme = (initialTheme) => {
                 auth.updateTheme('light');
                 break;
         }
-    }
+    }, [auth, setTheme]);
 
     return [theme, updateTheme];
 }
@@ -78,22 +78,29 @@ export default function AppContextProvider({ children }) {
     const [navbar, setNavbar] = useState({ show: true });
     const [theme, updateTheme] = useTheme('light');
 
-    const showDialog = () => setDialog(prev => ({ ...prev, show: true }));
-    const hideDialog = () => setDialog(prev => ({ ...prev, show: false }));
+    const showDialog = useCallback(() => setDialog(prev => ({ ...prev, show: true })), []);
+    const hideDialog = useCallback(() => setDialog(prev => ({ ...prev, show: false })), []);
 
-    const showSidebar = () => setSidebar(prev => ({ ...prev, show: true }));
-    const hideSidebar = () => setSidebar(prev => ({ ...prev, show: false }));
+    const showSidebar = useCallback(() => setSidebar(prev => ({ ...prev, show: true })), []);
+    const hideSidebar = useCallback(() => setSidebar(prev => ({ ...prev, show: false })), []);
 
-    const showNavbar = () => setNavbar(prev => ({ ...prev, show: true }));
-    const hideNavbar = () => setNavbar(prev => ({ ...prev, show: false }));
+    const showNavbar = useCallback(() => setNavbar(prev => ({ ...prev, show: true })), []);
+    const hideNavbar = useCallback(() => setNavbar(prev => ({ ...prev, show: false })), []);
+
+    const contextValue = useMemo(() => ({ 
+        dialog, setDialog, showDialog, hideDialog,
+        sidebar, showSidebar, hideSidebar,
+        navbar, showNavbar, hideNavbar,
+        theme, updateTheme
+    }), [
+        dialog, setDialog, showDialog, hideDialog, 
+        sidebar, showSidebar, hideSidebar, 
+        navbar, showNavbar, hideNavbar, 
+        theme, updateTheme
+    ]);
 
     return (
-        <appContext.Provider value={{ 
-            dialog, setDialog, showDialog, hideDialog,
-            sidebar, showSidebar, hideSidebar,
-            navbar, showNavbar, hideNavbar,
-            theme, updateTheme
-        }}>
+        <appContext.Provider value={contextValue}>
             <ThemeProvider theme={theme}>
                 {children}
             </ThemeProvider>
