@@ -5,6 +5,8 @@ export default function useAsync(callback, dependencies = []) {
   const [error, setError] = useState(null);
   const [value, setValue] = useState(null);
 
+  //TODO: Create custom hook which accepts dependencies array for useCallback which avoids exhaustive-deps warning
+  /* eslint-disable react-hooks/exhaustive-deps */
   const callbackMemoized = useCallback(() => {
     setLoading(true);
     setError(null);
