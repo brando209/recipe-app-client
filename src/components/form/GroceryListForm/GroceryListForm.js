@@ -16,18 +16,18 @@ function GroceryListForm({
     const inputRef = useRef(null);
     const buttonRef = useRef(null);
 
-    const handleFieldBlur = useCallback((e) => {
+    const handleFieldBlur = useCallback(async (e) => {
+        const id = e.target.id;
+        const value = e.target.value;
         if(editing.id) {
-            onItemEdit && e.target.value !== editing.original && onItemEdit(Number(e.target.id), e.target.value)
+            onItemEdit && value !== editing.original && await onItemEdit(Number(id), value)
             setEditing({ id: null, original: null });
             return;
         }
-        if(e.target.value.trim() === "") return;
-        onItemAdd && onItemAdd(e.target.value, () => {
-            buttonRef.current.disabled = false;
-            buttonRef.current.click();
-            inputRef.current.focus();
-        });
+        if(value.trim() === "") return;
+
+        onItemAdd && await onItemAdd(value);
+
     }, [editing, onItemAdd, onItemEdit]);
 
     const handleSubmit = useCallback(async values => {
@@ -50,25 +50,24 @@ function GroceryListForm({
             buttonRef.current.click();
             inputRef.current.focus();
         });
-    }, [editing.id, editing.original, onItemAdd, onItemEdit]);
+    }, [editing, onItemAdd, onItemEdit, handleFieldBlur]);
 
-    //TODO: useCallack instead of ref and useEffect
     useEffect(() => {
         if(inputRef.current) {
             inputRef.current.addEventListener('blur', handleFieldBlur);
             inputRef.current.focus();
+            return () => inputRef.current && inputRef.current.removeEventListener('blur', handleFieldBlur);
         }
-        return () => inputRef.current && inputRef.current.removeEventListener('blur', handleFieldBlur);
-    }, [inputRef.current]);
+    }, [editing, handleFieldBlur]);
     
-    const handleNewItem = (addNewItem) => {
+    const handleNewItem = async (addNewItem) => {
         if(!inputRef.current) {
             addNewItem();
             setTimeout(() => inputRef.current?.focus(), 50);
+            setEditing({ id: null, original: null });
             return;
         }
-
-        onItemAdd && onItemAdd(inputRef.current.value);
+        onItemAdd && await onItemAdd(inputRef.current.value);
     }
 
     const handleItemRemove = async (itemId) => {
@@ -79,7 +78,7 @@ function GroceryListForm({
     const handleEditing = (itemId, originalValue) => {
         setEditing({ id: itemId, original: originalValue });
     }
-    
+
     return (
         <Formik
             initialValues={{ items: groceryItems || [] }}
@@ -90,11 +89,11 @@ function GroceryListForm({
                 <InputList
                     name="items"
                     listItems={values.items}
-                    initialItemValue={{ complete: false, name: "" }}
+                    initialItemValue={{ complete: false, name: "", id: null }}
                     renderItem={(item, index, arrayHelpers) => (
                         <GroceryListItem key={item.id || `new-${index}`} id={item.id}>
                             <Field name={`items.${index}.complete`} type="checkbox" onClick={e => onItemCheck(item.id, item.complete)} disabled={!item.id} />
-                            {item.id && editing.id !== item.id ?
+                            {editing.id !== item.id ?
                                 <div onClick={() => handleEditing(item.id, item.name)}>{item.name}</div>
                                 :
                                 <Field innerRef={input => { inputRef.current = input; }} id={item.id} name={`items.${index}.name`} type="input" placeholder={`Item #${index + 1}`} />
@@ -104,7 +103,7 @@ function GroceryListForm({
                     )}
                     buttonPlacement="bottom center"
                     renderButton={addNewItem => (
-                        <Button ref={buttonRef} variant="secondary" type="button" onClick={() => handleNewItem(addNewItem)}>Add Grocery Item</Button>
+                        <Button ref={button => buttonRef.current = button} variant="secondary" type="button" onClick={() => handleNewItem(addNewItem)}>Add Grocery Item</Button>
                     )}
                 />
             </Form>

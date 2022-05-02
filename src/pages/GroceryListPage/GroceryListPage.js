@@ -16,7 +16,7 @@ function GroceryListPage() {
 		[auth.user?.token]
 	);
 
-	const handleItemAdd = async (name, cb) => {
+	const handleItemAdd = async (name, cb = () => {}) => {
 		if(!name || name === "") return;
 
 		try {
