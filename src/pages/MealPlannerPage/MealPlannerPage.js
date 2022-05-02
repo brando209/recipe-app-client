@@ -30,6 +30,75 @@ function MealPlannerPage() {
         plannedMeals: []
     });
 
+    const handleRecipePickup = useCallback(() => {
+        document.querySelector('.recipe-trash-dropzone').classList.add('show');
+        hideNavbar();
+    }, [hideNavbar]);
+
+    const handleRecipePickupEnd = useCallback(() => {
+        document.querySelector('.recipe-trash-dropzone').classList.remove('show');
+        showNavbar();
+    }, [showNavbar]);
+
+    const handleAddPlannedRecipe = useCallback(async (recipeId, date) => {
+        try {
+            const newPlannedMeal = await plannerApi.createMealPlanItem({ recipeId, date }, { authorization: `BEARER ${auth.user?.token}` });
+            setPlannedMeals(prev => {
+                return [...prev, newPlannedMeal.data];
+            });
+        } catch(err) {
+            if(err.response?.status === 403) return auth.logout();
+            setDialog({
+                title: "Error",
+                text: err.response?.data,
+                footer: <Button onClick={hideDialog}>Ok</Button>
+            });
+            showDialog();
+        }
+    }, [auth, setPlannedMeals, setDialog, showDialog, hideDialog]);
+
+    const handleMovePlannedRecipe = useCallback(async (id, date) => {
+        try {
+            setPlannedMeals(prev => {
+                const mealIndex = prev.findIndex(meal => meal.id === id);
+                const changedMeal = { ...prev[mealIndex], date: date };
+                const newPlannedMeals = [...prev];
+                newPlannedMeals[mealIndex] = changedMeal;
+                return newPlannedMeals;
+            });
+            await plannerApi.updateMealPlanItem(id, { date },  { authorization: `BEARER ${auth.user?.token}` });
+        } catch(err) {
+            if(err.response?.status === 403) return auth.logout();
+            setDialog({
+                title: "Error",
+                text: err.response?.data,
+                footer: <Button onClick={hideDialog}>Ok</Button>
+            });
+            showDialog();
+        }
+        handleRecipePickupEnd();
+    }, [auth, setPlannedMeals, setDialog, showDialog, hideDialog, handleRecipePickupEnd]);
+
+    const handleDeletePlannedRecipe = useCallback(async (id) => {
+        try {
+            setPlannedMeals(prev => {
+                return prev.slice().filter(meal => {
+                    return meal.id !== Number(id)
+                });
+            });
+            await plannerApi.deleteMealPlanItem(id, { authorization: `BEARER ${auth.user?.token}` });
+        } catch(err) {
+            if(err.response?.status === 403) return auth.logout();
+            setDialog({
+                title: "Error",
+                text: err.response?.data,
+                footer: <Button onClick={hideDialog}>Ok</Button>
+            });
+            showDialog();
+        }
+        handleRecipePickupEnd();
+    }, [auth, setPlannedMeals, setDialog, showDialog, hideDialog, handleRecipePickupEnd]);
+
     useEffect(() => {
         setCalendar(prev => {
             const meals = plannedMeals?.map(meal => {
@@ -118,66 +187,7 @@ function MealPlannerPage() {
             trash.removeEventListener('dragover', handleDragOver);
             trash.removeEventListener('drop', handleDrop);
         }
-    }, []);
-
-    const handleAddPlannedRecipe = useCallback(async (recipeId, date) => {
-        try {
-            const newPlannedMeal = await plannerApi.createMealPlanItem({ recipeId, date }, { authorization: `BEARER ${auth.user?.token}` });
-            setPlannedMeals(prev => {
-                return [...prev, newPlannedMeal.data];
-            });
-        } catch(err) {
-            if(err.response?.status === 403) return auth.logout();
-            setDialog({
-                title: "Error",
-                text: err.response?.data,
-                footer: <Button onClick={hideDialog}>Ok</Button>
-            });
-            showDialog();
-        }
-    }, [auth.user?.token]);
-
-    const handleMovePlannedRecipe = useCallback(async (id, date) => {
-        try {
-            setPlannedMeals(prev => {
-                const mealIndex = prev.findIndex(meal => meal.id === id);
-                const changedMeal = { ...prev[mealIndex], date: date };
-                const newPlannedMeals = [...prev];
-                newPlannedMeals[mealIndex] = changedMeal;
-                return newPlannedMeals;
-            });
-            await plannerApi.updateMealPlanItem(id, { date },  { authorization: `BEARER ${auth.user?.token}` });
-        } catch(err) {
-            if(err.response?.status === 403) return auth.logout();
-            setDialog({
-                title: "Error",
-                text: err.response?.data,
-                footer: <Button onClick={hideDialog}>Ok</Button>
-            });
-            showDialog();
-        }
-        handleRecipePickupEnd();
-    }, []);
-
-    const handleDeletePlannedRecipe = useCallback(async (id) => {
-        try {
-            setPlannedMeals(prev => {
-                return prev.slice().filter(meal => {
-                    return meal.id !== Number(id)
-                });
-            });
-            await plannerApi.deleteMealPlanItem(id, { authorization: `BEARER ${auth.user?.token}` });
-        } catch(err) {
-            if(err.response?.status === 403) return auth.logout();
-            setDialog({
-                title: "Error",
-                text: err.response?.data,
-                footer: <Button onClick={hideDialog}>Ok</Button>
-            });
-            showDialog();
-        }
-        handleRecipePickupEnd();
-    }, []);
+    }, [handleDeletePlannedRecipe]);
 
     const handleChangeCalendarView = (newView) => {
         setCalendar(prev => {
@@ -189,19 +199,6 @@ function MealPlannerPage() {
     const handleDayClick = ({ date }) => {
         const clickedDay = new Date(date);
         setCalendar(prev => ({ ...prev, view: "day", selectedDate: clickedDay }));
-    }
-
-    const showTrashcan = () => document.querySelector('.recipe-trash-dropzone').classList.add('show');
-    const hideTrashcan = () => document.querySelector('.recipe-trash-dropzone').classList.remove('show');
-
-    const handleRecipePickup = () => {
-        showTrashcan();
-        hideNavbar();
-    }
-
-    const handleRecipePickupEnd = () => {
-        hideTrashcan();
-        showNavbar();
     }
 
     return (

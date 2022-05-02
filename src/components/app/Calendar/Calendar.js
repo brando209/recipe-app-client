@@ -184,7 +184,7 @@ function Calendar({
 				element.removeEventListener('dragend', handleDragEnd);
 			});
 		}
-	}, [monthData.dates, events]);
+	}, [monthData.dates, events, onEventPickup, onEventPickupEnd]);
 
 	const showNext = useCallback(() => {
 		const showNextMonth = () => {
