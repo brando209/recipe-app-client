@@ -27,12 +27,24 @@ export default function LoginPage(props) {
                 <p>Loading...</p> :
                 <>
                     <LoginForm onSubmit={handleLogin} error={auth.error?.response?.data}/>
-                    <p>Don't have an account? <a href="" onClick={handleGuestLogin}>Click here</a> to login as a guest user!</p>
+                    <p>Don't have an account? <LinkButton onClick={handleGuestLogin}>Click here</LinkButton> to login as a guest user!</p>
                 </>
             }
         </LoginPageContainer>
     )
 }
+
+const LinkButton = styled.button`
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+    color: blue;
+
+    :hover, :active {
+        color: darkblue;
+    }
+`
 
 const LoginPageContainer = styled(Page)`
     padding: 2rem;
