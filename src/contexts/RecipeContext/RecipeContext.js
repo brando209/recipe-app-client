@@ -21,28 +21,36 @@ export default function RecipeContextProvider({ children }) {
 
     const applyFilter = (filter) => {
         const { ingredients, categories, search } = filter;
+        const isFiltering = ingredients.length > 0 || categories.length > 0;
+        //Attach a score variable to each recipe
+        let result = value?.map(val => ({ ...val, _score: 0 }));
 
-        let result = value;
-
-        //Filter by ingredients, result will include recipes that have all ingredients
-        if(ingredients) {
-            for(let ingredient of ingredients) {
-                result = result?.filter(recipe => {
-                    const index = recipe.ingredients.findIndex(ing => ing.id === ingredient.id)
-                    return index > -1;
-                });
-            }
+        //Filter by ingredients. For every inredient in filter, add 1 to recipe score if recipe contains this ingredient
+        for(let ingredient of ingredients) {
+            const ingredientName = ingredient.name.toLowerCase();
+            result = result?.map(recipe => {
+                for(let ing of recipe.ingredients) {
+                    if(ing.name.toLowerCase().includes(ingredientName)) recipe._score += 2;
+                }
+                if(recipe.title.toLowerCase().includes(ingredientName)) recipe._score += 3;
+                if(recipe.description.toLowerCase().includes(ingredientName)) recipe._score += 2;
+                return recipe;
+            });
         }
 
-        //Filter by categories, result will include recipes that have all categories
-        if(categories) {
-            for(let category of categories) {
-                result = result?.filter(recipe => {
-                    const index = recipe.categories.findIndex(cat => cat.id === category.id)
-                    return index > -1;
-                });
-            }
-        }
+        //Filter by categories, For every category in filter, add 1 to recipe score if recipe contains this category
+        for(let category of categories) {
+            const categoryName = category.name.toLowerCase();
+            result = result?.map(recipe => {
+                for(let cat of recipe.categories) {
+                    if(cat.name.toLowerCase().includes(categoryName)) recipe._score += 3;
+                }
+                if(recipe.title.toLowerCase().includes(categoryName)) recipe._score += 5;
+                if(recipe.description.toLowerCase().includes(categoryName)) recipe._score += 4;
+
+                return recipe;
+            });
+        }        
 
         //Filter out recipes that do not contain the search text
         if(search) {
@@ -55,6 +63,12 @@ export default function RecipeContextProvider({ children }) {
                 || recipe.comments?.join(" ").toLowerCase().includes(searchText)
                 || recipe.categories.map(cat => cat.name).join(" ").toLowerCase().includes(searchText)
             ));
+        }
+
+        //Filter out recipes which still have a score of 0
+        if(isFiltering) {
+            result = result?.filter(recipe => recipe._score > 0);
+            result = result?.sort((a, b) => b._score - a._score);
         }
 
         return result;
