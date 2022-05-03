@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import RecipeCard from "../RecipeCard/RecipeCard";
 
 function RecipeCards({ recipes, onFavorite }) {
-    if(recipes.length === 0) return (
+    if(!recipes || recipes.length === 0) return (
         <>
             <p>You currently have no saved recipes.</p>
             <p><Link to="/new">Click here</Link> to add a new recipe.</p>
@@ -12,7 +12,7 @@ function RecipeCards({ recipes, onFavorite }) {
 
     return (
         <RecipeCardContainer>
-            {recipes.map(recipe => (
+            {recipes?.map(recipe => (
                 <RecipeCard key={recipe.id} {...recipe} onFavorite={onFavorite} />
             ))}
         </RecipeCardContainer>
