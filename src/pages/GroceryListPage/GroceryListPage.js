@@ -1,10 +1,11 @@
+import { useCallback } from 'react';
+import Button from '../../components/input/Button/Button';
 import Page from '../Page/Page';
 import GroceryListForm from '../../components/form/GroceryListForm/GroceryListForm';
 import { useAuth } from '../../contexts/AuthContext/AuthContext';
 import { useAppContext } from '../../contexts/AppContext/AppContext';
 import useResource from '../../hooks/useResource';
 import { plannerApi, authHeader } from '../../api';
-import Button from 'react-bootstrap/Button';
 
 function GroceryListPage() {
 	const auth = useAuth();
@@ -16,7 +17,7 @@ function GroceryListPage() {
 		[auth.user?.token]
 	);
 
-	const handleItemAdd = async (name, cb = () => {}) => {
+	const handleItemAdd = useCallback(async (name, cb = () => {}) => {
 		if(!name || name === "") return;
 
 		try {
@@ -38,26 +39,22 @@ function GroceryListPage() {
 			}
 			if(err.response?.status === 403) auth.logout();
 		}
-	}
+	}, [auth, setGroceryItems, setDialog, showDialog, hideDialog]);
 
-	const handleItemCheck = async (itemId, complete) => {
+	const handleItemRemove = useCallback(async (itemId) => {
 		setGroceryItems(prev => {
-			const updatedItems = prev.slice();
-			const updatedIndex = prev.findIndex(item => item.id === itemId);
-			const updatedItem = { ...prev[updatedIndex] };
-			updatedItem.complete = !updatedItem.complete;
-			updatedItems[updatedIndex] = updatedItem;
-			return updatedItems;
+			return prev.slice().filter(item => item.id).filter(item => item.id !== itemId);
 		});
+		if(!itemId) return;
 
 		try {
-			await plannerApi.updateGroceryItem(itemId, { complete: !complete }, authHeader(auth.user?.token));
+			await plannerApi.deleteGroceryItem(itemId, authHeader(auth.user?.token));
 		} catch(err) {
 			auth.logout();
 		}
-	}
+	}, [auth, setGroceryItems]);
 
-	const handleItemEdit = async (itemId, newName) => {
+	const handleItemEdit = useCallback(async (itemId, newName) => {
 		if(!itemId && (!newName || newName === "")) return;
 		if(!newName || newName === "") return handleItemRemove(itemId);
 
@@ -75,16 +72,20 @@ function GroceryListPage() {
 		} catch(err) {
 			auth.logout();
 		}
-	}
+	}, [auth, setGroceryItems, handleItemRemove]);
 
-	const handleItemRemove = async (itemId) => {
+	const handleItemCheck = async (itemId, complete) => {
 		setGroceryItems(prev => {
-			return prev.slice().filter(item => item.id).filter(item => item.id !== itemId);
+			const updatedItems = prev.slice();
+			const updatedIndex = prev.findIndex(item => item.id === itemId);
+			const updatedItem = { ...prev[updatedIndex] };
+			updatedItem.complete = !updatedItem.complete;
+			updatedItems[updatedIndex] = updatedItem;
+			return updatedItems;
 		});
-		if(!itemId) return;
 
 		try {
-			await plannerApi.deleteGroceryItem(itemId, authHeader(auth.user?.token));
+			await plannerApi.updateGroceryItem(itemId, { complete: !complete }, authHeader(auth.user?.token));
 		} catch(err) {
 			auth.logout();
 		}

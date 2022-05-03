@@ -26,7 +26,10 @@ function GroceryListForm({
         }
         if(value.trim() === "") return;
 
-        onItemAdd && await onItemAdd(value);
+        onItemAdd && await onItemAdd(value,  () => {
+            buttonRef.current.disabled = false;
+            buttonRef.current.click();
+        });
 
     }, [editing, onItemAdd, onItemEdit]);
 
@@ -48,7 +51,6 @@ function GroceryListForm({
         onItemAdd && await onItemAdd(newItem.name, () => {
             buttonRef.current.disabled = false;
             buttonRef.current.click();
-            inputRef.current.focus();
         });
     }, [editing, onItemAdd, onItemEdit, handleFieldBlur]);
 
@@ -67,7 +69,6 @@ function GroceryListForm({
             setEditing({ id: null, original: null });
             return;
         }
-        onItemAdd && await onItemAdd(inputRef.current.value);
     }
 
     const handleItemRemove = async (itemId) => {
