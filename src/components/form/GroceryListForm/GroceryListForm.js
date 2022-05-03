@@ -126,10 +126,6 @@ const GroceryListItem = styled.div`
         text-align: left;
     }
 
-    > input {
-        width: 100%;
-    }
-
     > input:first-child {
         flex: 1;
         height: 2rem;
