@@ -155,9 +155,10 @@ function Calendar({
 			dataTransfer.setData("text/plain", eventId);
 			//Turn off pointer-events for each event container.
 			//This prevents triggering 'onleave' when entering child components.
-			document.querySelectorAll(".events-container").forEach(element => {
+			//NOTE: DOM manipulation is within setTimeout due to drag issue in Chrome
+			setTimeout(() => document.querySelectorAll(".events-container").forEach(element => {
 				element.style.pointerEvents = "none";
-			});
+			}), 0);
 
 			onEventPickup && onEventPickup();
 		}
