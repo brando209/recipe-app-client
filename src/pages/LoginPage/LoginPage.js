@@ -47,8 +47,15 @@ const LinkButton = styled.button`
 `
 
 const LoginPageContainer = styled(Page)`
+    max-width: 800px;
     padding: 2rem;
+
     > h1 {
         margin-top: 4rem;
     }
+
+    @media (min-width: 768px) {
+        width: 90%;
+    }
+
 `
