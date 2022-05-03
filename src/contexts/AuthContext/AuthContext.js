@@ -56,7 +56,6 @@ export default function AuthContextProvider({ children }) {
     }, [value, setValue, setError]);
 
     const updateTheme = useCallback((name) => {
-        console.log("Redefining 'updateTheme'");
         setValue(prev => ({...prev, theme: name }));
         authApi.updateAccount({ theme: name }, value.token);
     }, [value, setValue]);
