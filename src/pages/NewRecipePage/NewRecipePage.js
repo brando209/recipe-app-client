@@ -90,7 +90,8 @@ export default function NewRecipePage(props) {
         <Page>
             <StyledHeader>
                 <h1>New Recipe</h1>
-                <LoadingHeart 
+                <LoadingHeart
+                    id="import-btn"
                     isLoading={importing}
                     defaultText="Import"
                     loadingText="Importing..."
@@ -110,5 +111,10 @@ export default function NewRecipePage(props) {
 const StyledHeader = styled.div`
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 2rem;
+
+    & #import-btn {
+        max-height: 2.25rem;
+    }
 `

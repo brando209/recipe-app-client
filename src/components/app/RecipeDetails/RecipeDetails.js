@@ -6,6 +6,7 @@ import Button from '../../input/Button/Button';
 import { useAppContext } from '../../../contexts/AppContext/AppContext';
 import List from '../../display/List/List';
 import { formatDuration, toMinutes } from '../utils';
+import IngredientDisplay from '../IngredientDisplay/IngredientDisplay';
 
 export default function RecipeDetails({ recipe, onFavorite, onDelete }) {
     const navigate = useNavigate();
@@ -93,7 +94,7 @@ export default function RecipeDetails({ recipe, onFavorite, onDelete }) {
                     type="ul"
                     heading="Ingredients"
                     listItems={ingredients}
-                    renderItem={(ingredient) => `${ingredient.quantity ? ingredient.quantity : ""} ${ingredient.unit ? ingredient.unit : ""} ${ingredient.name}${(ingredient.size ? ", " + ingredient.size : "")} ${ingredient.comment ? "(" + ingredient.comment + ")" : ""}`}
+                    renderItem={(ingredient) => <IngredientDisplay ingredient={ingredient} />}
                 />
 
                 <List
@@ -204,5 +205,8 @@ const RecipeImage = styled.img`
 `
 
 const RecipeDetailsBottom = styled.div`
+    & ol > li::marker {
+        font-weight: 700;
+    }
 
 `

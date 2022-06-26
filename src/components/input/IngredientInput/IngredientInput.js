@@ -11,7 +11,7 @@ export default function IngredientInput({ index, arrayHelpers }) {
                     name={`ingredients.${index}.name`} type="input" placeholder={`Ingredient #${index + 1}`}
                 />
                 <Field
-                    name={`ingredients.${index}.quantity`} type="number" placeholder="Amount" min={0} step={0.01}
+                    name={`ingredients.${index}.quantity`} type="number" placeholder="Amount" min={0} step={0.001}
                 />
             </IngredientInputLeft>
             <IngredientInputMiddle>
