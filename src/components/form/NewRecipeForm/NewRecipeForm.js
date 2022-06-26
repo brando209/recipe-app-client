@@ -20,9 +20,15 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
         fileReader.addEventListener("load", handleShowImage, false);
 
         if (selectedFile) fileReader.readAsDataURL(selectedFile);
+        else setSelectedImage(null);
 
         return () => fileReader.removeEventListener("load", handleShowImage);
     }, [selectedFile]);
+
+    const handleRemoveImage = (setFieldValue) => {
+        setFieldValue('photo', null);
+        setSelectedFile(null);
+    }
 
     return (
         <Formik
@@ -87,7 +93,10 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
                     </Inputs.InputContainer>
                     <FormError name="serves" component="div" className="form-error-message" />
 
-                    {values.photo && <StyledImage src={values.photo && typeof values.photo === "string" ? values.photo : (values.photo?.url && typeof values.photo?.url === "string" ? values.photo.url : selectedImage)} alt="" />}
+                    {values.photo && <ImageContainer>
+                        <span onClick={() => handleRemoveImage(setFieldValue)}>&times;</span>
+                        {<StyledImage src={values.photo && typeof values.photo === "string" ? values.photo : (values.photo?.url && typeof values.photo?.url === "string" ? values.photo.url : selectedImage)} alt="" />}
+                    </ImageContainer>}
 
                     <Inputs.InputContainer name="photo" label="Image">
                         <Field
@@ -161,6 +170,20 @@ export default function NewRecipeForm({ onSubmit, initialValues, isImporting }) 
 }
 
 const StyledLoadingHeart = styled(LoadingHeart)``;
+
+const ImageContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    span {
+        color: red;
+        position: absolute;
+        right: 10px;
+    }
+    span:hover {
+        cursor: pointer;
+    }
+`
 
 const StyledImage = styled.img`
     width: 100%;
