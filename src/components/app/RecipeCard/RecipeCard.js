@@ -44,7 +44,7 @@ export default function RecipeCard(props) {
                     </Card.Text>
                 </CardBodyLeft>
                 <CardBodyRight>
-                    <Card.Img className="recipe-card-img" src={photo.path ? `http://localhost:3005/${photo.path}` : ""} alt="" />
+                    <Card.Img className="recipe-card-img" src={photo.path ? `/${photo.path}` : ""} alt="" />
                 </CardBodyRight>
             </CardBody>
         </StyledRecipeCard>
